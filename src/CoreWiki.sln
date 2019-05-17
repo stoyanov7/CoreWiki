@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWiki.Web", "CoreWiki.Web\CoreWiki.Web.csproj", "{13A46A77-5D4C-4F82-B1D8-B22636EABD24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Web", "CoreWiki.Web\CoreWiki.Web.csproj", "{13A46A77-5D4C-4F82-B1D8-B22636EABD24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWiki.Models", "CoreWiki.Models\CoreWiki.Models.csproj", "{B4C4A3F9-501A-4911-8FC2-AD3707113E8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWiki.Data", "CoreWiki.Data\CoreWiki.Data.csproj", "{1E5228D2-6EAD-46E0-ABC0-51C66E678D85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{13A46A77-5D4C-4F82-B1D8-B22636EABD24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13A46A77-5D4C-4F82-B1D8-B22636EABD24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13A46A77-5D4C-4F82-B1D8-B22636EABD24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4C4A3F9-501A-4911-8FC2-AD3707113E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4C4A3F9-501A-4911-8FC2-AD3707113E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4C4A3F9-501A-4911-8FC2-AD3707113E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4C4A3F9-501A-4911-8FC2-AD3707113E8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E5228D2-6EAD-46E0-ABC0-51C66E678D85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E5228D2-6EAD-46E0-ABC0-51C66E678D85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E5228D2-6EAD-46E0-ABC0-51C66E678D85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E5228D2-6EAD-46E0-ABC0-51C66E678D85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
