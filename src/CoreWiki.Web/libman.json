@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "simplemde@1.11.2",
+      "destination": "wwwroot/lib/simplemde",
+      "files": [
+        "simplemde.min.css",
+        "simplemde.min.js"
+      ]
+    }
+  ]
+}
