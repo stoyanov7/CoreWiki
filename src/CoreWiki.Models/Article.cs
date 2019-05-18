@@ -13,8 +13,11 @@
         [Required]
         public string Topic { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
+        [DataType(DataType.Date)]
+        [Display(Name = "Published on")]
         public DateTime PublishedOn { get; set; } 
 
         
