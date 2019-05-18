@@ -5,18 +5,16 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
-
-<h4>Article</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
+        <h2>Edit</h2>
+        <hr />
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Article.Id" />
+            <input type="hidden" asp-for="Article.Id"/>
             <div class="form-group">
                 <label asp-for="Article.Topic" class="control-label"></label>
-                <input asp-for="Article.Topic" class="form-control" />
+                <input asp-for="Article.Topic" class="form-control"/>
                 <span asp-validation-for="Article.Topic" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -26,11 +24,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Article.PublishedOn" class="control-label"></label>
-                <input asp-for="Article.PublishedOn" class="form-control" />
+                <input asp-for="Article.PublishedOn" class="form-control"/>
                 <span asp-validation-for="Article.PublishedOn" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default"/>
             </div>
         </form>
     </div>
@@ -40,6 +38,15 @@
     <a asp-page="./Index">Back to List</a>
 </div>
 
+@section Styles {
+    <link href="~/lib/simplemde/simplemde.min.css" rel="stylesheet" />
+}
+
 @section Scripts {
+    <script src="~/lib/simplemde/simplemde.min.js"></script>
+    <script>
+        var simplemde = new SimpleMDE();
+    </script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
