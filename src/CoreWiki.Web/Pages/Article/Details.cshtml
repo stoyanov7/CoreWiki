@@ -5,32 +5,8 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Article</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Article.Topic)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Article.Topic)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Article.Content)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Article.Content)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Article.PublishedOn)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Article.PublishedOn)
-        </dd>
-    </dl>
-</div>
+<h2>@Model.Article.Topic</h2>
+<markdown>@Model.Article.Content</markdown>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Article.Id">Edit</a> |
     <a asp-page="./Index">Back to List</a>
