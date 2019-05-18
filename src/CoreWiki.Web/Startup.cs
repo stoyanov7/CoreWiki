@@ -8,6 +8,7 @@ namespace CoreWiki.Web
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Westwind.AspNetCore.Markdown;
 
     public class Startup
     {
@@ -29,6 +30,8 @@ namespace CoreWiki.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddMarkdown();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -47,6 +50,8 @@ namespace CoreWiki.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseMarkdown();
 
             app.UseMvc();
         }
