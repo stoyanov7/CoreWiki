@@ -39,6 +39,15 @@
     <a asp-page="Index">Back to List</a>
 </div>
 
+@section Styles {
+    <link href="~/lib/simplemde/simplemde.min.css" rel="stylesheet" />
+}
+
 @section Scripts {
+    <script src="~/lib/simplemde/simplemde.min.js"></script>
+    <script>
+        var simplemde = new SimpleMDE();
+    </script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
