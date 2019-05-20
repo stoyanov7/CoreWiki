@@ -18,16 +18,16 @@
 
         public Article Article { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string topic)
         {
-            if (id == null)
+            if (topic == null)
             {
                 return this.NotFound();
             }
 
             this.Article = await this.context
                 .Articles
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Topic == topic);
 
             if (this.Article == null)
             {

@@ -19,46 +19,46 @@
         [BindProperty]
         public Article Article { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string topic)
         {
-            if (id == null)
+            if (topic == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            Article = await this.context
+            this.Article = await this.context
                 .Articles
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Topic == topic);
 
-            if (Article == null)
+            if (this.Article == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return Page();
+            return this.Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        public async Task<IActionResult> OnPostAsync(string topic)
         {
-            if (id == null)
+            if (topic == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            Article = await this.context
+            this.Article = await this.context
                 .Articles
-                .FindAsync(id);
+                .FindAsync(topic);
 
-            if (Article != null)
+            if (this.Article != null)
             {
                 this.context
                     .Articles
-                    .Remove(Article);
+                    .Remove(this.Article);
 
                 await this.context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return this.RedirectToPage("./Index");
         }
     }
 }

@@ -20,34 +20,34 @@
         [BindProperty]
         public Article Article { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(string topic)
         {
-            if (id == null)
+            if (topic == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            Article = await this.context
+            this.Article = await this.context
                 .Articles
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Topic == topic);
 
-            if (Article == null)
+            if (this.Article == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return Page();
+            return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return Page();
+                return this.Page();
             }
 
             this.context
-                .Attach(Article)
+                .Attach(this.Article)
                 .State = EntityState.Modified;
 
             try
@@ -56,9 +56,9 @@
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ArticleExists(Article.Id))
+                if (!this.ArticleExists(this.Article.Topic))
                 {
-                    return NotFound();
+                    return this.NotFound();
                 }
                 else
                 {
@@ -66,12 +66,12 @@
                 }
             }
 
-            return RedirectToPage("./Index");
+            return this.RedirectToPage("./Index");
         }
 
-        private bool ArticleExists(int id)
+        private bool ArticleExists(string topic)
              => this.context
                  .Articles
-                 .Any(e => e.Id == id);
+                 .Any(e => e.Topic == topic);
     }
 }
