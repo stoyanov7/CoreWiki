@@ -5,14 +5,17 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Data;
     using Models;
+    using NodaTime;
 
     public class CreateModel : PageModel
     {
         private readonly CoreWikiContext context;
+        private readonly IClock clock;
 
-        public CreateModel(CoreWikiContext context)
+        public CreateModel(CoreWikiContext context, IClock clock)
         {
             this.context = context;
+            this.clock = clock;
         }
 
         public IActionResult OnGet() => this.Page();
@@ -26,6 +29,8 @@
             {
                 return this.Page();
             }
+
+            this.Article.Published = this.clock.GetCurrentInstant();
 
             this.context
                 .Articles

@@ -7,14 +7,17 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using NodaTime;
 
     public class EditModel : PageModel
     {
         private readonly CoreWikiContext context;
+        private readonly IClock clock;
 
-        public EditModel(CoreWikiContext context)
+        public EditModel(CoreWikiContext context, IClock clock)
         {
             this.context = context;
+            this.clock = clock;
         }
 
         [BindProperty]
@@ -49,6 +52,8 @@
             this.context
                 .Attach(this.Article)
                 .State = EntityState.Modified;
+
+            this.Article.Published = this.clock.GetCurrentInstant();
 
             try
             {
