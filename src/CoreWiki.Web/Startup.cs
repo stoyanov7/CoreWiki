@@ -8,6 +8,7 @@ namespace CoreWiki.Web
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using NodaTime;
     using Westwind.AspNetCore.Markdown;
 
     public class Startup
@@ -31,6 +32,8 @@ namespace CoreWiki.Web
             });
 
             services.AddMarkdown();
+
+            services.AddSingleton<IClock>(SystemClock.Instance);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
