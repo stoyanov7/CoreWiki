@@ -58,6 +58,7 @@
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="~/lib/moment/moment.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
@@ -73,7 +74,12 @@
                 crossorigin="anonymous"
                 integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
         </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" 
+                asp-fallback-src="~/lib/moment/moment.min.js"
+                integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ="
+                crossorigin="anonymous">
+        </script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)
