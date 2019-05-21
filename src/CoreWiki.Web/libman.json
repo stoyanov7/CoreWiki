@@ -47,6 +47,15 @@
       ]
     },
     {
+      "library": "popper.js@1.15.0",
+      "destination": "wwwroot/lib/popper",
+      "files": [
+        "umd/popper.js",
+        "umd/popper.min.js",
+        "umd/popper.min.js.map"
+      ]
+    },
+    {
       "library": "moment.js@2.24.0",
       "destination": "wwwroot/lib/moment",
       "files": [
