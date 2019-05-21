@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>@ViewData["Title"]</h2>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -36,7 +36,7 @@
                     @Html.DisplayFor(modelItem => item.Content)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PublishedOn)
+                    <span data-value="@item.Published" class="timeStampValue"> @item.Published</span>
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-topic="@item.Topic">Edit</a> |
