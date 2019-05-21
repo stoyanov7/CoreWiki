@@ -18,6 +18,16 @@
         "css/bootstrap.min.css",
         "css/bootstrap.min.css.map"
       ]
+    },
+    {
+      "library": "moment.js@2.24.0",
+      "destination": "wwwroot/lib/moment",
+      "files": [
+        "moment.js",
+        "moment.min.js",
+        "moment-with-locales.js",
+        "moment-with-locales.min.js"
+      ]
     }
   ]
 }
