@@ -1,4 +1,13 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿(function() {
+    const reformatTimeStamps = function() {
+        const timeStamps = document.getElementsByClassName("timeStampValue");
 
-// Write your Javascript code.
+        for (let timeStamp of timeStamps) {
+            const currentTimeStamp = timeStamp.getAttribute("data-value");
+            const date = new Date(currentTimeStamp);
+            timeStamp.textContent = moment(date).format('"MMM Do YY"');
+        }
+    };
+
+    reformatTimeStamps();
+})();
