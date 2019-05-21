@@ -3,6 +3,8 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using NodaTime;
+    using NodaTime.Extensions;
 
     public class Article
     {
@@ -16,10 +18,17 @@
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
+        [NotMapped]
+        public Instant Published { get; set; }
+
+        [Obsolete("This property only exists for EF-serialization purposes")]
         [DataType(DataType.Date)]
         [Display(Name = "Published on")]
-        public DateTime PublishedOn { get; set; } 
+        public DateTime PublishedOn
+        {
+            get => this.Published.ToDateTimeUtc();
 
-        
+            set => this.Published = DateTime.SpecifyKind(value, DateTimeKind.Utc).ToInstant();
+        } 
     }
 }
