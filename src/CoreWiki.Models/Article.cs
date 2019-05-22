@@ -13,6 +13,7 @@
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(100)]
         public string Topic { get; set; }
 
         [DataType(DataType.MultilineText)]
