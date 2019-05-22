@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.Routing;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -20,10 +21,12 @@
 
         public int TotalPages { get; set; }
 
+        public string AspPage { get; set; }
+
         [ViewContext]
         public ActionContext ActionContext { get; set; }
 
-        public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             var urlHelper = this.urlHelperFactory.GetUrlHelper(this.ActionContext);
 
@@ -41,30 +44,35 @@
 
             for (var pageNum = 1; pageNum <= this.TotalPages; pageNum++)
             {
-                // LI tag
-                output.Content.AppendHtml($"<li class=\"page-item");
+                var li = new TagBuilder("li");
+                li.AddCssClass("page-item");
+                
                 if (pageNum == this.CurrentPage)
                 {
-                    output.Content.AppendHtml(" active");
+                    li.AddCssClass("active");
                 }
-                output.Content.AppendHtml("\">");
 
-                // A tag
+                var a = new TagBuilder("a");
+                a.AddCssClass("page-link");
+                a.InnerHtml.Append($"{pageNum}");
+
                 if (pageNum == this.CurrentPage)
                 {
-                    output.Content.AppendHtml($"<a class=\"page-link active\" href=\"#\">{pageNum}</a>");
+                    a.Attributes.Add("href", "#");
                 }
                 else
                 {
                     var routes = new { PageNumber = pageNum };
 
-                    output.Content.AppendHtml($"<a class=\"page-link\" href=\"{urlHelper.Page("./All", routes)}\">{pageNum}</a>");
+                    a.Attributes.Add("href", $"{urlHelper.Page(this.AspPage, routes)}");
                 }
+
+                li.InnerHtml.AppendHtml(a);
+                output.Content.AppendHtml(li);
             }
 
-            output.Content.AppendHtml("</ul>");
-            return Task.CompletedTask;
-
+            await base.ProcessAsync(context, output);
+            return;
         }
     }
 }
