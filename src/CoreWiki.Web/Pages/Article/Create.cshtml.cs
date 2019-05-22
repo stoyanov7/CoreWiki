@@ -1,5 +1,6 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -27,6 +28,14 @@
         {
             if (!this.ModelState.IsValid)
             {
+                return this.Page();
+            }
+
+            if (this.context.Articles.Any(x => x.Topic == this.Article.Topic))
+            {
+                this.ModelState.AddModelError($"{nameof(this.Article)}.{nameof(this.Article.Topic)}",
+                    $"The topic '{this.Article.Topic}' already exists.  Please choose another name!");
+
                 return this.Page();
             }
 
