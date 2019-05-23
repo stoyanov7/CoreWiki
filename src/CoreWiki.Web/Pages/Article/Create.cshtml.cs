@@ -7,6 +7,7 @@
     using Data;
     using Models;
     using NodaTime;
+    using Utilities;
 
     public class CreateModel : PageModel
     {
@@ -44,6 +45,7 @@
             }
 
             this.Article.Published = this.clock.GetCurrentInstant();
+            this.Article.Slug = UrlHelpers.UrlFriendly(this.Article.Topic.ToLower());
 
             this.context
                 .Articles

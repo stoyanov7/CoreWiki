@@ -39,9 +39,9 @@
                     <span data-value="@item.Published" class="timeStampValue"> @item.Published</span>
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-topic="@item.Topic">Edit</a> |
-                    <a asp-page="./Details" asp-route-topic="@item.Topic">Details</a> |
-                    <a asp-page="./Delete" asp-route-topic="@item.Topic">Delete</a>
+                    <a asp-page="./Edit" asp-route-slug="@item.Slug">Edit</a> |
+                    <a asp-page="./Details" asp-route-slug="@item.Slug">Details</a> |
+                    <a asp-page="./Delete" asp-route-slug="@item.Slug">Delete</a>
                 </td>
             </tr>
         }

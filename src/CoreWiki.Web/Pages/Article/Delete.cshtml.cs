@@ -19,16 +19,16 @@
         [BindProperty]
         public Article Article { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string topic)
+        public async Task<IActionResult> OnGetAsync(string slug)
         {
-            if (topic == null)
+            if (slug == null)
             {
                 return this.NotFound();
             }
 
             this.Article = await this.context
                 .Articles
-                .FirstOrDefaultAsync(m => m.Topic == topic);
+                .FirstOrDefaultAsync(m => m.Slug == slug);
 
             if (this.Article == null)
             {
@@ -38,16 +38,16 @@
             return this.Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string topic)
+        public async Task<IActionResult> OnPostAsync(string slug)
         {
-            if (topic == null)
+            if (slug == null)
             {
                 return this.NotFound();
             }
 
             this.Article = await this.context
                 .Articles
-                .FindAsync(topic);
+                .FindAsync(slug);
 
             if (this.Article != null)
             {
