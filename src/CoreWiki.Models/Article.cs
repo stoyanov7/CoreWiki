@@ -16,6 +16,8 @@
         [MaxLength(100)]
         public string Topic { get; set; }
 
+        public string Slug { get; set; }
+
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 

@@ -8,6 +8,7 @@
     using Microsoft.EntityFrameworkCore;
     using Models;
     using NodaTime;
+    using Utilities;
 
     public class EditModel : PageModel
     {
@@ -23,16 +24,16 @@
         [BindProperty]
         public Article Article { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string topic)
+        public async Task<IActionResult> OnGetAsync(string slug)
         {
-            if (topic == null)
+            if (slug == null)
             {
                 return this.NotFound();
             }
 
             this.Article = await this.context
                 .Articles
-                .FirstOrDefaultAsync(m => m.Topic == topic);
+                .FirstOrDefaultAsync(m => m.Slug == slug);
 
             if (this.Article == null)
             {
@@ -54,6 +55,7 @@
                 .State = EntityState.Modified;
 
             this.Article.Published = this.clock.GetCurrentInstant();
+            this.Article.Slug = UrlHelpers.UrlFriendly(this.Article.Topic.ToLower());
 
             try
             {
@@ -74,9 +76,9 @@
             return this.RedirectToPage("./Index");
         }
 
-        private bool ArticleExists(string topic)
+        private bool ArticleExists(string slug)
              => this.context
                  .Articles
-                 .Any(e => e.Topic == topic);
+                 .Any(e => e.Slug == slug);
     }
 }
