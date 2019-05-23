@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Web.TagHelpers
+﻿namespace CoreWiki.Utilities.TagHelpers
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
@@ -7,8 +7,7 @@
     using Microsoft.AspNetCore.Mvc.TagHelpers;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Razor.TagHelpers;
-
-
+    
     [HtmlTargetElement("pager")]
     public class PagerTagHelper : TagHelper
     {
