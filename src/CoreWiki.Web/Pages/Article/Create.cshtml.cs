@@ -31,7 +31,11 @@
                 return this.Page();
             }
 
-            if (this.context.Articles.Any(x => x.Topic == this.Article.Topic))
+            var isTopicExist = this.context
+                .Articles
+                .Any(x => x.Topic == this.Article.Topic);
+
+            if (isTopicExist)
             {
                 this.ModelState.AddModelError($"{nameof(this.Article)}.{nameof(this.Article.Topic)}",
                     $"The topic '{this.Article.Topic}' already exists.  Please choose another name!");
