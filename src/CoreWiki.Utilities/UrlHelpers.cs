@@ -4,6 +4,10 @@
 
     public class UrlHelpers
     {
+        /// <summary>
+        /// Produces optional, URL-friendly version of a Topic, "like-this-one". 
+        /// hand-tuned for speed, reflects performance refactoring contributed
+        /// </summary>
         public static string UrlFriendly(string title)
         {
             if (title == null)
@@ -66,7 +70,7 @@
                 : sb.ToString();
         }
 
-        public static string RemapInternationalCharToAscii(char c)
+        private static string RemapInternationalCharToAscii(char c)
         {
             var s = c.ToString().ToLowerInvariant();
 
