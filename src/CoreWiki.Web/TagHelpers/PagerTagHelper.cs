@@ -4,8 +4,10 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc.Routing;
+    using Microsoft.AspNetCore.Mvc.TagHelpers;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Razor.TagHelpers;
+
 
     [HtmlTargetElement("pager")]
     public class PagerTagHelper : TagHelper
@@ -17,12 +19,24 @@
             this.urlHelperFactory = urlFactory;
         }
 
+        /// <summary>
+        /// Gets or sets the number of the current page.
+        /// </summary>
         public int CurrentPage { get; set; }
 
+        /// <summary>
+        /// Gets or sets the number of page links to show.
+        /// </summary>
         public int TotalPages { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the page.
+        /// </summary>
         public string AspPage { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="ActionContext"/> for the current request.
+        /// </summary>
         [ViewContext]
         public ActionContext ActionContext { get; set; }
 
@@ -33,15 +47,10 @@
             output.TagMode = TagMode.StartTagAndEndTag;
             output.TagName = "ul";
 
-            if (output.Attributes.ContainsName("class"))
-            {
-                output.Attributes.SetAttribute("class", output.Attributes["class"].Value + " pagination");
-            }
-            else
-            {
-                output.Attributes.Add("class", "pagination");
-            }
-
+            var ul = new TagBuilder("ul");
+            ul.AddCssClass("pagination");
+            output.MergeAttributes(ul);
+            
             for (var pageNum = 1; pageNum <= this.TotalPages; pageNum++)
             {
                 var li = new TagBuilder("li");
