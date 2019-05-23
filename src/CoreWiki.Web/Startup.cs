@@ -31,6 +31,7 @@ namespace CoreWiki.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddMarkdown();
 
             services.AddSingleton<IClock>(SystemClock.Instance);
