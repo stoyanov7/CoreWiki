@@ -20,14 +20,14 @@
             this.context = context;
         }
 
-        [FromQuery()]
+        [FromRoute]
         public int PageNumber { get; set; } = 1;
 
         public int TotalPages { get; set; }
 
         public IEnumerable<Article> Articles { get; set; }
 
-        public async Task OnGet()
+        public async Task OnGet(int pageNumber = 1)
         {
             this.Articles = await this.context
                 .Articles
