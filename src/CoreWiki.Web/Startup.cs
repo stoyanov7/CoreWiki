@@ -32,6 +32,7 @@ namespace CoreWiki.Web
             });
 
             services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddResponseCompression(options => options.EnableForHttps = true);
             services.AddMarkdown();
 
             services.AddSingleton<IClock>(SystemClock.Instance);
@@ -54,6 +55,7 @@ namespace CoreWiki.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseResponseCompression();
 
             app.UseMarkdown();
 
