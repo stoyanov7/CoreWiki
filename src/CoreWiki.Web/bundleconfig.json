@@ -13,8 +13,7 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "sourceMap": false
+    }
   },
   {
     "outputFileName": "wwwroot/js/site.min.js",
@@ -24,7 +23,12 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "sourceMap": false
+    }
+  },
+  {
+    "outputFileName": "gulpfile.min.js",
+    "inputFiles": [
+      "gulpfile.js"
+    ]
   }
 ]
