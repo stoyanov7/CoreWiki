@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Data;
+    using Microsoft.Extensions.Logging;
     using Models;
     using NodaTime;
     using Utilities;
@@ -13,11 +14,13 @@
     {
         private readonly CoreWikiContext context;
         private readonly IClock clock;
+        private readonly ILogger<CreateModel> logger;
 
-        public CreateModel(CoreWikiContext context, IClock clock)
+        public CreateModel(CoreWikiContext context, IClock clock, ILogger<CreateModel> logger)
         {
             this.context = context;
             this.clock = clock;
+            this.logger = logger;
         }
 
         public IActionResult OnGet() => this.Page();
@@ -41,6 +44,8 @@
                 this.ModelState.AddModelError($"{nameof(this.Article)}.{nameof(this.Article.Topic)}",
                     $"The topic '{this.Article.Topic}' already exists.  Please choose another name!");
 
+                this.logger.LogInformation($"The topic with name - {this.Article.Topic} exist.");
+
                 return this.Page();
             }
 
@@ -52,6 +57,8 @@
                 .Add(this.Article);
 
             await this.context.SaveChangesAsync();
+
+            this.logger.LogInformation($"Create new article with topic name - {this.Article.Topic}");
 
             return this.RedirectToPage("./Index");
         }
