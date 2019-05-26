@@ -17,5 +17,15 @@
         }
 
         public DbSet<Article> Articles { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<Article>()
+                .HasIndex(a => a.Slug)
+                .IsUnique();
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
