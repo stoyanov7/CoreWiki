@@ -3,6 +3,9 @@ sudo: required
 language: csharp
 mono: none
 dotnet: 2.1.505
+branches:  
+  only:
+    - master
 solution: CoreWiki.sln
 script:
   - cd src
