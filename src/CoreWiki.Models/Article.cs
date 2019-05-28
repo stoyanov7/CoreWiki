@@ -1,6 +1,7 @@
 ﻿namespace CoreWiki.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using NodaTime;
@@ -32,6 +33,8 @@
             get => this.Published.ToDateTimeUtc();
 
             set => this.Published = DateTime.SpecifyKind(value, DateTimeKind.Utc).ToInstant();
-        } 
+        }
+
+        public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
     }
 }
