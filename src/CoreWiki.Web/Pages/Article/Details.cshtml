@@ -17,3 +17,16 @@
 
 @await Component.InvokeAsync("CreateComments", new Models.Comment { ArticleId = Model.Article.Id })
 @await Component.InvokeAsync("ListComments", @Model.Article.Comments)
+
+@section Styles {
+    <link href="~/lib/simplemde/simplemde.min.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="~/lib/simplemde/simplemde.min.js"></script>
+    <script>
+        var simplemde = new SimpleMDE();
+    </script>
+    
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
