@@ -14,3 +14,6 @@
     <a asp-page="./Edit" asp-route-slug="@Model.Article.Slug">Edit</a> |
     <a asp-page="./Index">Back to List</a>
 </div>
+
+@await Component.InvokeAsync("CreateComments", new Models.Comment { ArticleId = Model.Article.Id })
+@await Component.InvokeAsync("ListComments", @Model.Article.Comments)
