@@ -1,10 +1,9 @@
-﻿using CoreWiki.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace CoreWiki.Web.Pages.Components.ListComments
+﻿namespace CoreWiki.Web.Pages.Components.ListComments
 {
+    using Models;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Data;
 
     [ViewComponent(Name = "ListComments")]
@@ -19,7 +18,7 @@ namespace CoreWiki.Web.Pages.Components.ListComments
 
         public async Task<IViewComponentResult> InvokeAsync(ICollection<Comment> comments)
         {
-            return View("ListComments", comments);
+            return this.View("ListComments", comments);
         }
     }
 }

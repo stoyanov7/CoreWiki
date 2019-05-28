@@ -17,7 +17,7 @@
 
         public async Task<IViewComponentResult> InvokeAsync(Comment comment)
         {
-            return View("CreateComments", comment);
+            return this.View("CreateComments", comment);
         }
     }
 }
