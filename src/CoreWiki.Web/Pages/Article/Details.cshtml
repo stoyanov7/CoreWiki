@@ -9,6 +9,7 @@
 <h5>
     Last Published: <span data-value="@Model.Article.Published" class="timeStampValue"> @Model.Article.Published</span>
 </h5>
+<h5>Estimated reading time: <span>@CalculateReadTime(Model.Article.Content)</span> min.</h5>
 <markdown markdown="@Model.Article.Content"></markdown>
 <div>
     <a asp-page="./Edit" asp-route-slug="@Model.Article.Slug">Edit</a> |
@@ -17,6 +18,16 @@
 
 @await Component.InvokeAsync("CreateComments", new Models.Comment { ArticleId = Model.Article.Id })
 @await Component.InvokeAsync("ListComments", @Model.Article.Comments)
+
+@functions {
+    public int CalculateReadTime(string content)
+    {
+        var wordPerMinute = 275.0m;
+        var wordCount = content.Split().Length;
+
+        return (int) Math.Ceiling(wordCount / wordPerMinute);
+    }
+}
 
 @section Styles {
     <link href="~/lib/simplemde/simplemde.min.css" rel="stylesheet" />
