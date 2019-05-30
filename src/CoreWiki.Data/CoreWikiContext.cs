@@ -5,11 +5,6 @@
 
     public class CoreWikiContext : DbContext
     {
-        public CoreWikiContext()
-        {
-            
-        }
-
         public CoreWikiContext(DbContextOptions<CoreWikiContext> options)
             :base(options)
         {
