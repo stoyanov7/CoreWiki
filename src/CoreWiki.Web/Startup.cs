@@ -22,7 +22,7 @@ namespace CoreWiki.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CoreWikiContext>(options =>
+            services.AddDbContextPool<CoreWikiContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services.Configure<CookiePolicyOptions>(options =>
