@@ -18,7 +18,7 @@
 
         public async Task<IViewComponentResult> InvokeAsync(ICollection<Comment> comments)
         {
-            return this.View("ListComments", comments);
+            return await Task.FromResult(this.View("ListComments", comments));
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace CoreWiki.Web.Pages.Components.CreateComments
 {
-    using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
     using Data;
     using Models;
 
@@ -17,7 +17,7 @@
 
         public async Task<IViewComponentResult> InvokeAsync(Comment comment)
         {
-            return this.View("CreateComments", comment);
+            return await Task.FromResult(this.View("CreateComments", comment));
         }
     }
 }
