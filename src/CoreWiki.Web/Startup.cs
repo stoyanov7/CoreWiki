@@ -3,13 +3,14 @@ namespace CoreWiki.Web
     using Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Net.Http.Headers;
     using NodaTime;
     using Westwind.AspNetCore.Markdown;
+    using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
     public class Startup
     {
@@ -54,7 +55,16 @@ namespace CoreWiki.Web
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    const int durationInSeconds = 60 * 60 * 24;
+                    ctx.Context
+                        .Response
+                        .Headers[HeaderNames.CacheControl] = $"public,max-age={durationInSeconds}";
+                }
+            });
             app.UseCookiePolicy();
             app.UseResponseCompression();
 
