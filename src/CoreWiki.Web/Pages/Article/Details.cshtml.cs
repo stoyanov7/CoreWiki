@@ -1,7 +1,9 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
+    using System;
     using System.Threading.Tasks;
     using Data;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.EntityFrameworkCore;
@@ -36,6 +38,16 @@
             if (this.Article == null)
             {
                 return this.NotFound();
+            }
+
+            if (this.Request.Cookies[this.Article.Topic] == null)
+            {
+                this.Article.ViewCount++;
+
+                this.Response.Cookies.Append(this.Article.Topic, "foo", new CookieOptions
+                {
+                    Expires = DateTime.UtcNow.AddDays(1)
+                });
             }
 
             return this.Page();
