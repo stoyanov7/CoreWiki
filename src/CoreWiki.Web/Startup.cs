@@ -1,5 +1,6 @@
 namespace CoreWiki.Web
 {
+    using System;
     using Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -9,6 +10,9 @@ namespace CoreWiki.Web
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Net.Http.Headers;
     using NodaTime;
+    using Snickler.RSSCore.Extensions;
+    using Snickler.RSSCore.Models;
+    using Utilities.RssFeed;
     using Westwind.AspNetCore.Markdown;
     using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
@@ -35,6 +39,7 @@ namespace CoreWiki.Web
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddResponseCompression(options => options.EnableForHttps = true);
             services.AddMarkdown();
+            services.AddRSSFeed<RssProvider>();
 
             services.AddSingleton<IClock>(SystemClock.Instance);
 
@@ -69,6 +74,14 @@ namespace CoreWiki.Web
             app.UseResponseCompression();
 
             app.UseMarkdown();
+
+            app.UseRSSFeed("/feed", new RSSFeedOptions
+            {
+                Title = "CoreWiki RSS Feed",
+                Copyright = DateTime.UtcNow.Year.ToString(),
+                Description = "RSS Feed for CoreWiki",
+                Url = new Uri(this.Configuration["Url"], UriKind.Absolute)
+            });
 
             app.UseMvc();
         }
