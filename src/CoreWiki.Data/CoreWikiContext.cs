@@ -1,9 +1,11 @@
 ﻿namespace CoreWiki.Data
 {
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using Models.Identity;
 
-    public class CoreWikiContext : DbContext
+    public class CoreWikiContext : IdentityDbContext<ApplicationUser>
     {
         public CoreWikiContext(DbContextOptions<CoreWikiContext> options)
             :base(options)

@@ -4,11 +4,13 @@ namespace CoreWiki.Web
     using Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Net.Http.Headers;
+    using Models.Identity;
     using NodaTime;
     using Snickler.RSSCore.Extensions;
     using Snickler.RSSCore.Models;
@@ -42,6 +44,19 @@ namespace CoreWiki.Web
             services.AddRSSFeed<RssProvider>();
 
             services.AddSingleton<IClock>(SystemClock.Instance);
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 1;
+                options.User.RequireUniqueEmail = true;
+            })
+            .AddDefaultUI()
+            .AddDefaultTokenProviders()
+            .AddEntityFrameworkStores<CoreWikiContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -83,6 +98,7 @@ namespace CoreWiki.Web
                 Url = new Uri(this.Configuration["Url"], UriKind.Absolute)
             });
 
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
