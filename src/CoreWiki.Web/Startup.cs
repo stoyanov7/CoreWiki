@@ -1,11 +1,13 @@
 namespace CoreWiki.Web
 {
     using System;
+    using System.IO.Compression;
     using Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.ResponseCompression;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -40,7 +42,9 @@ namespace CoreWiki.Web
             });
 
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddResponseCompression(options => options.EnableForHttps = true);
+
+            this.ConfigureResponseCompression(services);
+
             services.AddMarkdown();
             services.AddRSSFeed<RssProvider>();
 
@@ -103,6 +107,20 @@ namespace CoreWiki.Web
 
             app.UseAuthentication();
             app.UseMvc();
+        }
+
+        public void ConfigureResponseCompression(IServiceCollection service)
+        {
+            service.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Optimal;
+            });
+
+            service.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+            });
         }
     }
 }
