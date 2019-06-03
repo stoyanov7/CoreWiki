@@ -22,6 +22,8 @@
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
+        public long ViewCount { get; set; }
+
         [NotMapped]
         public Instant Published { get; set; }
 

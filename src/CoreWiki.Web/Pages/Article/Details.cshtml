@@ -9,6 +9,7 @@
 <h5>
     Last Published: <span data-value="@Model.Article.Published" class="timeStampValue"> @Model.Article.Published</span>
 </h5>
+<h5>View Count: <span data-value="@Model.Article.ViewCount">@Model.Article.ViewCount</span></h5>
 <h5>Estimated reading time: <span>@CalculateReadTime(Model.Article.Content)</span> min.</h5>
 <markdown markdown="@Model.Article.Content"></markdown>
 <div>
