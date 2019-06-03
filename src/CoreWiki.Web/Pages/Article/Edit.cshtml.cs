@@ -28,7 +28,7 @@
         {
             if (slug == null)
             {
-                return this.NotFound();
+                return new ArticleNotFoundResult();
             }
 
             this.Article = await this.context
@@ -37,7 +37,7 @@
 
             if (this.Article == null)
             {
-                return this.NotFound();
+                return new ArticleNotFoundResult();
             }
 
             return this.Page();
@@ -65,7 +65,7 @@
             {
                 if (!this.ArticleExists(this.Article.Topic))
                 {
-                    return this.NotFound();
+                    return new ArticleNotFoundResult();
                 }
                 else
                 {

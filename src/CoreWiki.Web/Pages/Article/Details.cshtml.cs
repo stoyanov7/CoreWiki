@@ -9,6 +9,7 @@
     using Microsoft.EntityFrameworkCore;
     using Models;
     using NodaTime;
+    using Utilities;
 
     public class DetailsModel : PageModel
     {
@@ -27,7 +28,7 @@
         {
             if (slug == null)
             {
-                return this.NotFound();
+                return new ArticleNotFoundResult();
             }
 
             this.Article = await this.context
@@ -37,7 +38,7 @@
 
             if (this.Article == null)
             {
-                return this.NotFound();
+                return new ArticleNotFoundResult();
             }
 
             if (this.Request.Cookies[this.Article.Topic] == null)
@@ -64,7 +65,7 @@
 
             if (this.Article == null)
             {
-                return this.NotFound();
+                return new ArticleNotFoundResult();
             }
 
             if (!this.ModelState.IsValid)
