@@ -22,7 +22,18 @@
                 <span asp-validation-for="Article.Content" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <div class="input-group mb-3">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Upload</span>
+                    </div>
+                    <div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="inputGroupFile01" onchange="openFile(event)">
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
@@ -40,7 +51,23 @@
     <script src="~/lib/simplemde/simplemde.min.js"></script>
     <script>
         var simplemde = new SimpleMDE();
+
+        var openFile = function (event) {
+            let input = event.target;
+            let reader = new FileReader();
+
+            reader.onload = function () {
+                let text = simplemde.value();
+
+                text += `\n${reader.result}`;
+                simplemde.value(text);
+            }
+
+            reader.readAsText(input.files[0]);
+        }
     </script>
+    
+    <script>fillInputWithName();</script>
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

@@ -23,6 +23,14 @@
             this.Article = await this.context
                 .Articles
                 .ToListAsync();
+
+            foreach (var current in this.Article)
+            {
+                if (current.Content.Length >= 50)
+                {
+                    current.Content = current.Content.Substring(0, 50) + "...";
+                }
+            }
         }
     }
 }
