@@ -73,7 +73,7 @@
                 }
             }
 
-            return this.RedirectToPage("./Index");
+            return this.RedirectToPage("/Article/Details", new { slug = this.Article.Slug });
         }
 
         private bool ArticleExists(string slug)
