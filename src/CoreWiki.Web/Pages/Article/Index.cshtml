@@ -8,7 +8,7 @@
 <h2>@ViewData["Title"]</h2>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create" class="btn btn-success">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -20,7 +20,10 @@
                 @Html.DisplayNameFor(model => model.Article[0].Content)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Article[0].PublishedOn)
+                @Html.DisplayNameFor(model => model.Article[0].Published)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].Comments)
             </th>
             <th></th>
         </tr>
@@ -38,10 +41,11 @@
                 <td>
                     <span data-value="@item.Published" class="timeStampValue"> @item.Published</span>
                 </td>
+                <td>@Html.DisplayFor(modelItem => item.Comments.Count)</td>
                 <td>
-                    <a asp-page="./Edit" asp-route-slug="@item.Slug">Edit</a> |
-                    <a asp-page="./Details" asp-route-slug="@item.Slug">Details</a> |
-                    <a asp-page="./Delete" asp-route-slug="@item.Slug">Delete</a>
+                    <a asp-page="./Edit" asp-route-slug="@item.Slug" class="btn btn-warning">Edit</a>
+                    <a asp-page="./Details" asp-route-slug="@item.Slug" class="btn btn-primary">Details</a>
+                    <a asp-page="./Delete" asp-route-slug="@item.Slug" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
