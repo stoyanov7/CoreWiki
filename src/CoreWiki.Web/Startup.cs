@@ -14,6 +14,7 @@ namespace CoreWiki.Web
     using NodaTime;
     using Snickler.RSSCore.Extensions;
     using Snickler.RSSCore.Models;
+    using Utilities;
     using Utilities.RssFeed;
     using Westwind.AspNetCore.Markdown;
     using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
@@ -65,6 +66,8 @@ namespace CoreWiki.Web
         {
             if (env.IsDevelopment())
             {
+                app.SeedDatabase();
+
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
