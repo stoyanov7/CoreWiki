@@ -82,6 +82,7 @@ namespace CoreWiki.Web
             }
 
             app.UseHttpsRedirection();
+            app.UseResponseCompression();
             app.UseStaticFiles(new StaticFileOptions
             {
                 OnPrepareResponse = ctx =>
@@ -93,7 +94,6 @@ namespace CoreWiki.Web
                 }
             });
             app.UseCookiePolicy();
-            app.UseResponseCompression();
 
             app.UseMarkdown();
 
