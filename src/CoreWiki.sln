@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Models", "CoreWiki
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Data", "CoreWiki.Data\CoreWiki.Data.csproj", "{1E5228D2-6EAD-46E0-ABC0-51C66E678D85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWiki.Utilities", "CoreWiki.Utilities\CoreWiki.Utilities.csproj", "{95B734D8-2EE9-4BEC-9332-E6D93392810A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Utilities", "CoreWiki.Utilities\CoreWiki.Utilities.csproj", "{95B734D8-2EE9-4BEC-9332-E6D93392810A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
