@@ -43,6 +43,15 @@ namespace CoreWiki.Web
 
             services.AddRouting(options => options.LowercaseUrls = true);
 
+            if (!string.IsNullOrEmpty(this.Configuration["Authentication:Microsoft:ClientId"]))
+            {
+                services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
+                {
+                    microsoftOptions.ClientId = this.Configuration["Authentication:Microsoft:ClientId"];
+                    microsoftOptions.ClientSecret = this.Configuration["Authentication:Microsoft:ClientSecret"];
+                });
+            }
+
             this.ConfigureResponseCompression(services);
 
             services.AddMarkdown();
