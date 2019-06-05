@@ -89,7 +89,11 @@
         @RenderBody()
         <hr />
         <footer>
-            <partial name="_ThemePartial" />
+            <div class="row justify-content-between">
+                <div class="col-sm-12 col-md-auto">
+                    <partial name="_ThemePartial" />
+                </div>
+            </div>
             <p>&copy; @DateTime.Now.Year - Core Wiki</p>
         </footer>
     </div>
