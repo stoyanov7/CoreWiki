@@ -1,13 +1,47 @@
-﻿<!DOCTYPE html>
+﻿@using System.IO
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor Context
+@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment env
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Core Wiki</title>
 
+    @{
+        var themeFileName = string.Empty;
+
+        if (Context.HttpContext.Request.Cookies.TryGetValue("CoreWiki.Theme", out var themeName))
+        {
+            var path = string.Empty;
+
+            switch (themeName)
+            {
+                case "light":
+                    path = System.IO.Path.Combine(env.WebRootPath, "lib\\bootstrap\\css", "bootstrap.min.css");
+
+                    if (File.Exists(path))
+                    {
+                        themeFileName = "\\lib\\bootstrap\\css\\bootstrap.min.css";
+                    }
+                    break;
+                case "dark":
+                    path = System.IO.Path.Combine(env.WebRootPath, "lib\\bootswatch\\cyborg", "bootstrap.min.css");
+
+                    if (File.Exists(path))
+                    {
+                        themeFileName = "\\lib\\bootswatch\\cyborg\\bootstrap.min.css";
+                    }
+                    break;
+            }
+        }
+    }
+
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="@themeFileName" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -20,7 +54,7 @@
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
               asp-fallback-href="~/lib/font-awesome/css/font-awesome.min.css"
-              asp-fallback-test-class="sr-only" 
+              asp-fallback-test-class="sr-only"
               asp-fallback-test-property="position"
               asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
@@ -28,7 +62,7 @@
     @RenderSection("Styles", false)
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
         <a asp-area="" asp-page="/Index" class="navbar-brand">Core Wiki</a>
         <button class="navbar-toggler"
                 type="button"
@@ -55,6 +89,7 @@
         @RenderBody()
         <hr />
         <footer>
+            <partial name="_ThemePartial" />
             <p>&copy; @DateTime.Now.Year - Core Wiki</p>
         </footer>
     </div>
