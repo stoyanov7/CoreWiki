@@ -27,14 +27,20 @@
         /// <returns>The number of words in the sentence.</returns>
         public static int WordCount(this string content)
         {
-            if (string.IsNullOrWhiteSpace(content))
+            var wordCount = 0;
+
+            for (var i = 1; i < content.Length; i++)
             {
-                return 0;
+                if (char.IsWhiteSpace(content[i]) || i == content.Length)
+                {
+                    if (!char.IsWhiteSpace(content[i - 1]))
+                    {
+                        wordCount++;
+                    }
+                }
             }
 
-            var matches = Regex.Matches(content, @"\b\S+\b");
-
-            return matches.Count;
+            return wordCount;
         }
 
         /// <summary>
