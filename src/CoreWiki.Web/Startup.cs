@@ -1,25 +1,19 @@
 namespace CoreWiki.Web
 {
     using System;
-    using System.IO.Compression;
-    using Data;
+    using Configurations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.ResponseCompression;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Net.Http.Headers;
-    using Models.Identity;
     using NodaTime;
     using Snickler.RSSCore.Extensions;
     using Snickler.RSSCore.Models;
     using Utilities;
     using Utilities.RssFeed;
     using Westwind.AspNetCore.Markdown;
-    using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
     public class Startup
     {
@@ -32,45 +26,20 @@ namespace CoreWiki.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<CoreWikiContext>(options =>
-                options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
-
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            services.ConfigureDatabase(this.Configuration);
+            services.ConfigureCookiePolicy();
 
             services.AddRouting(options => options.LowercaseUrls = true);
 
-            if (!string.IsNullOrEmpty(this.Configuration["Authentication:Microsoft:ClientId"]))
-            {
-                services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
-                {
-                    microsoftOptions.ClientId = this.Configuration["Authentication:Microsoft:ClientId"];
-                    microsoftOptions.ClientSecret = this.Configuration["Authentication:Microsoft:ClientSecret"];
-                });
-            }
-
-            this.ConfigureResponseCompression(services);
+            services.ConfigureAuthentication(this.Configuration);
+            services.ConfigureResponseCompression();
 
             services.AddMarkdown();
             services.AddRSSFeed<RssProvider>();
 
             services.AddSingleton<IClock>(SystemClock.Instance);
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 1;
-                options.User.RequireUniqueEmail = true;
-            })
-            .AddDefaultUI()
-            .AddDefaultTokenProviders()
-            .AddEntityFrameworkStores<CoreWikiContext>();
+            services.ConfigureIdentity();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -116,20 +85,6 @@ namespace CoreWiki.Web
 
             app.UseAuthentication();
             app.UseMvc();
-        }
-
-        public void ConfigureResponseCompression(IServiceCollection service)
-        {
-            service.Configure<GzipCompressionProviderOptions>(options =>
-            {
-                options.Level = CompressionLevel.Optimal;
-            });
-
-            service.AddResponseCompression(options =>
-            {
-                options.EnableForHttps = true;
-                options.Providers.Add<GzipCompressionProvider>();
-            });
         }
     }
 }
