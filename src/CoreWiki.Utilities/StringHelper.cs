@@ -1,7 +1,6 @@
 ﻿namespace CoreWiki.Utilities
 {
     using System;
-    using System.Text.RegularExpressions;
 
     public static class StringHelper
     {
