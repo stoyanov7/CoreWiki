@@ -5,11 +5,13 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Data;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
     using Models;
     using NodaTime;
     using Utilities;
 
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly CoreWikiContext context;
