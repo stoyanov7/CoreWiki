@@ -6,7 +6,11 @@
     {
         public static void Execute(AuthorizationOptions options)
         {
-
+            options.AddPolicy("CanDeleteArticle", policy =>
+            {
+                policy.RequireAuthenticatedUser();
+                policy.RequireRole("Administrator");
+            });
         }
     }
 }

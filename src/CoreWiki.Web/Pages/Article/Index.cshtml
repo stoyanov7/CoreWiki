@@ -1,5 +1,10 @@
 ﻿@page
-@model CoreWiki.Web.Pages.Article.IndexModel
+
+@using CoreWiki.Web.Pages.Article;
+@using Microsoft.AspNetCore.Authorization
+
+@model IndexModel
+@inject IAuthorizationService AuthorizationService
 
 @{
     ViewData["Title"] = "Index";
@@ -45,7 +50,10 @@
                 <td>
                     <a asp-page="./Edit" asp-route-slug="@item.Slug" class="btn btn-warning">Edit</a>
                     <a asp-page="./Details" asp-route-slug="@item.Slug" class="btn btn-primary">Details</a>
-                    <a asp-page="./Delete" asp-route-slug="@item.Slug" class="btn btn-danger">Delete</a>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "CanDeleteArticle")).Succeeded)
+                    {
+                        <a asp-page="./Delete" asp-route-slug="@item.Slug" class="btn btn-danger">Delete</a>
+                    }
                 </td>
             </tr>
         }
