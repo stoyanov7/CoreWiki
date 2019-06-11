@@ -8,7 +8,7 @@
     public static class ApplicationBuilderAuthExtensions
     {
         private const string AdminRole = "Administrator";
-        private const string AdminUsername = "admin";
+        private const string AdminUsername = "admin@gmail.com";
         private const string AdminEmail = "admin@gmail.com";
         private const string DefaultAdminPassword = "123";
 
