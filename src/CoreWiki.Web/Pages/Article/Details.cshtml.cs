@@ -4,22 +4,36 @@
     using System.Threading.Tasks;
     using Data;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Http.Extensions;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using Models;
+    using Models.Identity;
     using NodaTime;
+    using SendGrid;
+    using SendGrid.Helpers.Mail;
     using Utilities;
 
     public class DetailsModel : PageModel
     {
         private readonly CoreWikiContext context;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly IClock clock;
+        private readonly IConfiguration configuration;
 
-        public DetailsModel(CoreWikiContext context, IClock clock)
+        public DetailsModel(
+            CoreWikiContext context,
+            UserManager<ApplicationUser> userManager,
+            IClock clock,
+            IConfiguration configuration)
         {
             this.context = context;
+            this.userManager = userManager;
             this.clock = clock;
+            this.configuration = configuration;
         }
 
         public Article Article { get; set; }
@@ -78,6 +92,24 @@
 
             this.context.Comments.Add(comment);
             await this.context.SaveChangesAsync();
+
+            // TODO: Add notification here
+            var authorEmail = (await this.userManager.FindByIdAsync(this.Article.AuthorId)).Email;
+
+            var message = new SendGridMessage();
+            message.SetFrom(new EmailAddress("noreply@corewiki.com", "No Reply Team"));
+            var recipient = new EmailAddress(authorEmail);
+
+            message.AddTo(recipient);
+            message.SetSubject("You have a new comment!");
+
+            var thisUrl = this.Request.GetEncodedUrl();
+            message.AddContent(MimeType.Text, "Test content");
+
+            var apiKey = this.configuration["SendGridApiKey"];
+            var client = new SendGridClient(apiKey);
+
+            var response = await client.SendEmailAsync(message);
 
             return this.Redirect($"/Article/Details/{this.Article.Slug}");
         }
