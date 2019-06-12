@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoreWiki.Data\CoreWiki.Data.csproj" />
+    <ProjectReference Include="..\CoreWiki.Services\CoreWiki.Services.csproj" />
     <ProjectReference Include="..\CoreWiki.Utilities\CoreWiki.Utilities.csproj" />
   </ItemGroup>
 
