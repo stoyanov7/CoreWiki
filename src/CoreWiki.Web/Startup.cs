@@ -4,11 +4,13 @@ namespace CoreWiki.Web
     using Configurations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Net.Http.Headers;
     using NodaTime;
+    using Services;
     using Snickler.RSSCore.Extensions;
     using Snickler.RSSCore.Models;
     using Utilities;
@@ -38,6 +40,7 @@ namespace CoreWiki.Web
             services.AddRSSFeed<RssProvider>();
 
             services.AddSingleton<IClock>(SystemClock.Instance);
+            services.AddSingleton<IEmailSender, EmailNotifier>();
 
             services.ConfigureIdentity();
 
