@@ -26,17 +26,35 @@
         /// <returns>The number of words in the sentence.</returns>
         public static int WordCount(this string content)
         {
-            var wordCount = 0;
-
-            for (var i = 1; i < content.Length; i++)
+            if (content == null)
             {
-                if (char.IsWhiteSpace(content[i]) || i == content.Length)
+                return 0;
+            }
+
+            var wordCount = 0;
+            var letterCount = 0;
+
+            foreach (var c in content)
+            {
+                if (c == '\'')
                 {
-                    if (!char.IsWhiteSpace(content[i - 1]))
-                    {
-                        wordCount++;
-                    }
+                    continue;
                 }
+
+                if (char.IsLetterOrDigit(c))
+                {
+                    letterCount++;
+                }
+                else if (letterCount > 0)
+                {
+                    letterCount = 0;
+                    wordCount++;
+                }
+            }
+
+            if (letterCount > 0)
+            {
+                wordCount++;
             }
 
             return wordCount;
