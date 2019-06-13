@@ -2,6 +2,7 @@
 {
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Utilities;
 
     public static partial class ConfigurationExtensions
     {
@@ -15,6 +16,8 @@
                     microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
                 });
             }
+
+            service.AddAuthorization(AuthPolicy.Execute);
 
             return service;
         }

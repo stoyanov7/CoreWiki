@@ -27,7 +27,15 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-outline-success">Register</button>
+            <div class="form-group">
+                <div class="form-check">
+                    <input asp-for="Input.CanNotify" class="form-check-input" />
+                    <label asp-for="Input.CanNotify" class="form-check-label"></label>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-outline-success">Register</button>
+            </div>
         </form>
     </div>
 </div>

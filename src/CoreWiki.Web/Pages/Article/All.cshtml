@@ -20,7 +20,7 @@
                 <span data-value="@item.Published" class="timeStampValue"> @item.Published</span>
             </h6>
             <a class="card-link" asp-page="./Edit" asp-route-slug="@item.Slug">Edit</a>
-            <a class="card-link" asp-page="./Delete" asp-route-slug="@item.Slug">Delete</a>
+            <a class="card-link" asp-page="./Delete" asp-route-slug="@item.Slug" asp-policy="CanDeleteArticle">Delete</a>
         </div>
     </div>
 }
