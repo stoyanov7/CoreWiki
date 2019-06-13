@@ -84,6 +84,10 @@ namespace CoreWiki.Web
             });
 
             app.UseAuthentication();
+
+            app.UseStatusCodePages();
+            app.UseStatusCodePagesWithReExecute("/{0}");
+
             app.UseMvc();
         }
     }
