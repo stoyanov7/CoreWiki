@@ -91,13 +91,16 @@
             this.context.Comments.Add(comment);
             await this.context.SaveChangesAsync();
 
-            // TODO: Add notification here
-            var authorEmail = (await this.userManager.FindByIdAsync(this.Article.AuthorId)).Email;
-            var thisUrl = this.Request.GetEncodedUrl();
+            var author = await this.userManager.FindByIdAsync(this.Article.AuthorId);
 
-            await this.emailSender
-                .SendEmailAsync(authorEmail, "You have a new comment!", $"Someone said something about your article at {thisUrl}");
+            if (author.CanNotify)
+            {
+                var authorEmail = (await this.userManager.FindByIdAsync(this.Article.AuthorId)).Email;
+                var thisUrl = this.Request.GetEncodedUrl();
 
+                await this.emailSender
+                    .SendEmailAsync(authorEmail, "You have a new comment!", $"Someone said something about your article at {thisUrl}");
+            }
 
             return this.Redirect($"/Article/Details/{this.Article.Slug}");
         }

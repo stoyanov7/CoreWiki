@@ -35,7 +35,13 @@
                 <input asp-for="Input.PhoneNumber" class="form-control" />
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-success">Save</button>
+            <div class="form-check form-check-inline">
+                <input asp-for="Input.CanNotify" class="form-control"/>
+                <label asp-for="Input.CanNotify"></label>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
         </form>
     </div>
 </div>
