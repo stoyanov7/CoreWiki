@@ -23,6 +23,7 @@
         {
             this.Articles = await this.context
                 .Articles
+                .Include(a => a.Comments)
                 .OrderByDescending(x => x.PublishedOn)
                 .Take(5)
                 .ToListAsync();

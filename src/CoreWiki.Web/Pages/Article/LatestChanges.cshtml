@@ -22,8 +22,11 @@
             <h6 class="card-subtitle mb-2 text-muted">
                 <span data-value="@item.Published" class="timeStampValue"> @item.Published</span>
             </h6>
-            <a class="card-link" asp-page="./Edit" asp-route-slug="@item.Slug">Edit</a>
-            <a class="card-link" asp-page="./Delete" asp-route-slug="@item.Slug">Delete</a>
+            <h6 class="card-subtitle mb-2 text-muted">
+                <span>Comments: @item.Comments.Count</span>
+            </h6>
+            <a class="btn btn-warning" asp-page="./Edit" asp-route-slug="@item.Slug">Edit</a>
+            <a class="btn btn-danger" asp-page="./Delete" asp-route-slug="@item.Slug" asp-policy="CanDeleteArticle">Delete</a>
         </div>
     </div>
 }

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Identity;
     using NodaTime;
     using NodaTime.Extensions;
 
@@ -23,6 +24,9 @@
         public string Content { get; set; }
 
         public long ViewCount { get; set; }
+
+        public string AuthorId { get; set; }
+        public ApplicationUser Author { get; set; }
 
         [NotMapped]
         public Instant Published { get; set; }

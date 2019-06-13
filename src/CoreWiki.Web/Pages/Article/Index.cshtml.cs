@@ -22,6 +22,7 @@
         {
             this.Article = await this.context
                 .Articles
+                .Include(c => c.Comments)
                 .ToListAsync();
 
             foreach (var current in this.Article)

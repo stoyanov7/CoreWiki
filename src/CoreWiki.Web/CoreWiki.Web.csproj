@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>c53ed3e7-2f7d-43d6-8631-6cf6619764df</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,11 +10,13 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Sendgrid" Version="9.11.0" />
     <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.2.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CoreWiki.Data\CoreWiki.Data.csproj" />
+    <ProjectReference Include="..\CoreWiki.Services\CoreWiki.Services.csproj" />
     <ProjectReference Include="..\CoreWiki.Utilities\CoreWiki.Utilities.csproj" />
   </ItemGroup>
 
