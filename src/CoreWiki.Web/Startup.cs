@@ -44,7 +44,9 @@ namespace CoreWiki.Web
 
             services.ConfigureIdentity();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services
+                .AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
