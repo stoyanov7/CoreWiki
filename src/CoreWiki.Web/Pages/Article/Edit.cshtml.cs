@@ -57,6 +57,9 @@
             this.Article.Published = this.clock.GetCurrentInstant();
             this.Article.Slug = UrlHelpers.UrlFriendly(this.Article.Topic.ToLower());
 
+            this.Article.Version++;
+            this.context.ArticleHistories.Add(ArticleHistory.FromArticle(this.Article));
+
             try
             {
                 await this.context.SaveChangesAsync();

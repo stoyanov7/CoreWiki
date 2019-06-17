@@ -39,5 +39,18 @@
             
             set => this.Published = DateTime.SpecifyKind(value, DateTimeKind.Utc).ToInstant();
         }
+
+        public static ArticleHistory FromArticle(Article article)
+        {
+            return new ArticleHistory
+            {
+                Article = article,
+                Content = article.Content,
+                Published = article.Published,
+                Slug = article.Slug,
+                Topic = article.Topic,
+                Version = article.Version
+            };
+        }
     }
 }
