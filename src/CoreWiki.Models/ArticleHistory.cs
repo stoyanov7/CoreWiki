@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Identity;
     using NodaTime;
     using NodaTime.Extensions;
 
@@ -14,6 +15,9 @@
 
         public int ArticleId { get; set; }
         public Article Article { get; set; }
+
+        public string AuthorId { get; set; }
+        public ApplicationUser Author { get; set; }
 
         [Required]
         public int Version { get; set; }
@@ -44,7 +48,10 @@
         {
             return new ArticleHistory
             {
+                ArticleId = article.Id,
                 Article = article,
+                AuthorId =  article.AuthorId,
+                Author = article.Author,
                 Content = article.Content,
                 Published = article.Published,
                 Slug = article.Slug,
