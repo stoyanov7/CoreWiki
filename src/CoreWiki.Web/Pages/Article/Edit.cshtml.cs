@@ -1,6 +1,7 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using Data;
     using Microsoft.AspNetCore.Mvc;
@@ -56,6 +57,7 @@
 
             this.Article.Published = this.clock.GetCurrentInstant();
             this.Article.Slug = UrlHelpers.UrlFriendly(this.Article.Topic.ToLower());
+            this.Article.AuthorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             this.Article.Version++;
             this.context.ArticleHistories.Add(ArticleHistory.FromArticle(this.Article));
