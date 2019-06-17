@@ -4,14 +4,16 @@ using CoreWiki.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreWiki.Data.Migrations
 {
     [DbContext(typeof(CoreWikiContext))]
-    partial class CoreWikiContextModelSnapshot : ModelSnapshot
+    [Migration("20190615111339_ArticleHistory")]
+    partial class ArticleHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,8 +62,6 @@ namespace CoreWiki.Data.Migrations
 
                     b.Property<int>("ArticleId");
 
-                    b.Property<string>("AuthorId");
-
                     b.Property<string>("Content");
 
                     b.Property<DateTime>("PublisheOn")
@@ -78,8 +78,6 @@ namespace CoreWiki.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ArticleId");
-
-                    b.HasIndex("AuthorId");
 
                     b.ToTable("ArticleHistories");
                 });
@@ -288,10 +286,6 @@ namespace CoreWiki.Data.Migrations
                         .WithMany("History")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CoreWiki.Models.Identity.ApplicationUser", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId");
                 });
 
             modelBuilder.Entity("CoreWiki.Models.Comment", b =>

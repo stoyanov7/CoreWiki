@@ -17,6 +17,8 @@
 
         public DbSet<Comment> Comments { get; set; }
 
+        public DbSet<ArticleHistory> ArticleHistories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
