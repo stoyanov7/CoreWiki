@@ -31,6 +31,7 @@
             this.Article = await this.context
                 .Articles
                 .Include(h => h.History)
+                .Include(a => a.Author)
                 .SingleOrDefaultAsync(s => s.Slug == slug);
 
             if (this.Article is null)
