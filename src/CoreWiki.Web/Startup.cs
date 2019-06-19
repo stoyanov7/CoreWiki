@@ -2,14 +2,18 @@ namespace CoreWiki.Web
 {
     using System;
     using Configurations;
+    using Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Net.Http.Headers;
     using NodaTime;
+    using Repository;
+    using Repository.Contracts;
     using Services;
     using Snickler.RSSCore.Extensions;
     using Snickler.RSSCore.Models;
@@ -38,6 +42,11 @@ namespace CoreWiki.Web
 
             services.AddMarkdown();
             services.AddRSSFeed<RssProvider>();
+
+            services.AddScoped<DbContext, CoreWikiContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped<IArticleRepository, ArticleRepository>();
 
             services.AddSingleton<IClock>(SystemClock.Instance);
             services.AddSingleton<IEmailSender, EmailNotifier>();

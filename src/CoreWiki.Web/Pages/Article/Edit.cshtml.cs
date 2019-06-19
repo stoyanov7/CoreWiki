@@ -9,16 +9,19 @@
     using Microsoft.EntityFrameworkCore;
     using Models;
     using NodaTime;
+    using Repository.Contracts;
     using Utilities;
 
     public class EditModel : PageModel
     {
         private readonly CoreWikiContext context;
+        private readonly IArticleRepository articleRepository;
         private readonly IClock clock;
 
-        public EditModel(CoreWikiContext context, IClock clock)
+        public EditModel(CoreWikiContext context, IArticleRepository articleRepository, IClock clock)
         {
             this.context = context;
+            this.articleRepository = articleRepository;
             this.clock = clock;
         }
 
@@ -32,9 +35,7 @@
                 return new ArticleNotFoundResult();
             }
 
-            this.Article = await this.context
-                .Articles
-                .FirstOrDefaultAsync(m => m.Slug == slug);
+            this.Article = await this.articleRepository.FindBySlugAsync(slug);
 
             if (this.Article == null)
             {
@@ -75,7 +76,7 @@
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.ArticleExists(this.Article.Topic))
+                if (!this.articleRepository.IsArticleExistByTopic(this.Article.Topic))
                 {
                     return new ArticleNotFoundResult();
                 }
@@ -87,10 +88,5 @@
 
             return this.RedirectToPage("/Article/Details", new { slug = this.Article.Slug });
         }
-
-        private bool ArticleExists(string slug)
-             => this.context
-                 .Articles
-                 .Any(e => e.Slug == slug);
     }
 }
