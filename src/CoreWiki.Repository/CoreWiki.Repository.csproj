@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoreWiki.Models\CoreWiki.Models.csproj" />
+    <ProjectReference Include="..\CoreWiki.Utilities\CoreWiki.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

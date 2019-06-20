@@ -12,6 +12,8 @@
 
         Task<IList<Article>> All();
 
+        Task UpdateAsync(Article article);
+
         void Delete(string slug);
     }
 }
