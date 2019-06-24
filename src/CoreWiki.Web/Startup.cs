@@ -59,10 +59,10 @@ namespace CoreWiki.Web
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseNWebSec();
             app.UseResponseCompression();
             app.UseStaticFiles(new StaticFileOptions
             {
