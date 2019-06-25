@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="entity">Entity for adding.</param>
         /// <returns></returns>
-        public async Task AddAsync(T entity)
+        public virtual async Task AddAsync(T entity)
         {
             await this.UnitOfWork
                 .Context
