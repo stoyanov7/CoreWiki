@@ -38,6 +38,7 @@
             this.Article = await this.context
                 .Articles
                 .Include(h => h.History)
+                .ThenInclude(h => h.Author)
                 .Include(a => a.Author)
                 .SingleOrDefaultAsync(s => s.Slug == slug);
 
