@@ -26,6 +26,17 @@
             this.clock = clock;
         }
 
+        public override async Task AddAsync(Article article)
+        {
+            await base.AddAsync(article);
+
+            this.UnitOfWork
+                .Context
+                .Set<ArticleHistory>()
+                .Add(ArticleHistory.FromArticle(article));
+
+        }
+
         public bool IsArticleExistByTopic(string topic)
         {
             return this.UnitOfWork
