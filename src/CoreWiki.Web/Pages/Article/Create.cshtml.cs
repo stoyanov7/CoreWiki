@@ -60,10 +60,6 @@
             await this.articleRepository
                 .AddAsync(this.Article);
 
-            //this.context
-                //.ArticleHistories
-                //.Add(ArticleHistory.FromArticle(this.Article));
-
             await this.articleRepository.SaveChangesAsync();
 
             this.logger.LogInformation($"Create new article with topic name - {this.Article.Topic}");
