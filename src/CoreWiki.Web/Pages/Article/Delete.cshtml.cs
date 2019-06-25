@@ -5,17 +5,19 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
     using Models;
+    using Repository.Contracts;
 
     [Authorize("CanDeleteArticle")]
     public class DeleteModel : PageModel
     {
         private readonly CoreWikiContext context;
+        private readonly IArticleRepository articleRepository;
 
-        public DeleteModel(CoreWikiContext context)
+        public DeleteModel(CoreWikiContext context, IArticleRepository articleRepository)
         {
             this.context = context;
+            this.articleRepository = articleRepository;
         }
 
         [BindProperty]
@@ -28,9 +30,7 @@
                 return this.NotFound();
             }
 
-            this.Article = await this.context
-                .Articles
-                .FirstOrDefaultAsync(m => m.Slug == slug);
+            this.Article = await this.articleRepository.FindBySlugAsync(slug);
 
             if (this.Article == null)
             {
@@ -47,19 +47,9 @@
                 return this.NotFound();
             }
 
-            this.Article = await this.context
-                .Articles
-                .FindAsync(slug);
-
-            if (this.Article != null)
-            {
-                this.context
-                    .Articles
-                    .Remove(this.Article);
-
-                await this.context.SaveChangesAsync();
-            }
-
+            this.articleRepository.Delete(slug);
+            await this.articleRepository.SaveChangesAsync();
+            
             return this.RedirectToPage("./Index");
         }
     }

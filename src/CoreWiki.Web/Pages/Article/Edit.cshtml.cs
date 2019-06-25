@@ -1,24 +1,19 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
-    using System.Linq;
     using System.Threading.Tasks;
-    using Data;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
     using Models;
-    using NodaTime;
+    using Repository.Contracts;
     using Utilities;
 
     public class EditModel : PageModel
     {
-        private readonly CoreWikiContext context;
-        private readonly IClock clock;
-
-        public EditModel(CoreWikiContext context, IClock clock)
+        private readonly IArticleRepository articleRepository;
+        
+        public EditModel(IArticleRepository articleRepository)
         {
-            this.context = context;
-            this.clock = clock;
+            this.articleRepository = articleRepository;
         }
 
         [BindProperty]
@@ -31,9 +26,7 @@
                 return new ArticleNotFoundResult();
             }
 
-            this.Article = await this.context
-                .Articles
-                .FirstOrDefaultAsync(m => m.Slug == slug);
+            this.Article = await this.articleRepository.FindBySlugAsync(slug);
 
             if (this.Article == null)
             {
@@ -50,35 +43,16 @@
                 return this.Page();
             }
 
-            this.context
-                .Attach(this.Article)
-                .State = EntityState.Modified;
-
-            this.Article.Published = this.clock.GetCurrentInstant();
-            this.Article.Slug = UrlHelpers.UrlFriendly(this.Article.Topic.ToLower());
-
             try
             {
-                await this.context.SaveChangesAsync();
+                await this.articleRepository.UpdateAsync(this.Article);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (ArticleNotFoundException)
             {
-                if (!this.ArticleExists(this.Article.Topic))
-                {
-                    return new ArticleNotFoundResult();
-                }
-                else
-                {
-                    throw;
-                }
+                return new ArticleNotFoundResult();
             }
 
             return this.RedirectToPage("/Article/Details", new { slug = this.Article.Slug });
         }
-
-        private bool ArticleExists(string slug)
-             => this.context
-                 .Articles
-                 .Any(e => e.Slug == slug);
     }
 }

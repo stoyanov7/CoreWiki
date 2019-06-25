@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
+    <PackageReference Include="DiffPlex" Version="1.4.4" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
@@ -17,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoreWiki.Data\CoreWiki.Data.csproj" />
+    <ProjectReference Include="..\CoreWiki.Repository\CoreWiki.Repository.csproj" />
     <ProjectReference Include="..\CoreWiki.Services\CoreWiki.Services.csproj" />
     <ProjectReference Include="..\CoreWiki.Utilities\CoreWiki.Utilities.csproj" />
   </ItemGroup>

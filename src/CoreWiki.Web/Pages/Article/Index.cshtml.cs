@@ -2,28 +2,24 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Data;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
     using Models;
+    using Repository.Contracts;
 
     public class IndexModel : PageModel
     {
-        private readonly CoreWikiContext context;
+        private readonly IArticleRepository articleRepository;
 
-        public IndexModel(CoreWikiContext context)
+        public IndexModel(IArticleRepository articleRepository)
         {
-            this.context = context;
+            this.articleRepository = articleRepository;
         }
 
-        public IList<Article> Article { get;set; }
+        public IList<Article> Article { get; set; }
 
         public async Task OnGetAsync()
         {
-            this.Article = await this.context
-                .Articles
-                .Include(c => c.Comments)
-                .ToListAsync();
+            this.Article = await this.articleRepository.All();
 
             foreach (var current in this.Article)
             {

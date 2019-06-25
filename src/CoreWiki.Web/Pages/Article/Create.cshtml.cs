@@ -1,27 +1,29 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
-    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Data;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
     using Models;
     using NodaTime;
+    using Repository.Contracts;
     using Utilities;
 
     [Authorize]
     public class CreateModel : PageModel
     {
-        private readonly CoreWikiContext context;
+        private readonly IArticleRepository articleRepository;
         private readonly IClock clock;
         private readonly ILogger<CreateModel> logger;
 
-        public CreateModel(CoreWikiContext context, IClock clock, ILogger<CreateModel> logger)
+        public CreateModel(
+            IArticleRepository articleRepository,
+            IClock clock,
+            ILogger<CreateModel> logger)
         {
-            this.context = context;
+            this.articleRepository = articleRepository;
             this.clock = clock;
             this.logger = logger;
         }
@@ -38,9 +40,8 @@
                 return this.Page();
             }
 
-            var isTopicExist = this.context
-                .Articles
-                .Any(x => x.Topic == this.Article.Topic);
+            var isTopicExist = this.articleRepository
+                .IsArticleExistByTopic(this.Article.Topic);
 
             if (isTopicExist)
             {
@@ -56,11 +57,14 @@
             this.Article.Slug = UrlHelpers.UrlFriendly(this.Article.Topic.ToLower());
             this.Article.AuthorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            this.context
-                .Articles
-                .Add(this.Article);
+            await this.articleRepository
+                .AddAsync(this.Article);
 
-            await this.context.SaveChangesAsync();
+            //this.context
+                //.ArticleHistories
+                //.Add(ArticleHistory.FromArticle(this.Article));
+
+            await this.articleRepository.SaveChangesAsync();
 
             this.logger.LogInformation($"Create new article with topic name - {this.Article.Topic}");
 
