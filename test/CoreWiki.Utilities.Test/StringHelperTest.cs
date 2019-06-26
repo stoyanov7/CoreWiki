@@ -22,5 +22,32 @@ namespace CoreWiki.Utilities.Test
 
             Assert.Equal(expectedWordCount, actualWordCount);
         }
+
+        [Fact]
+        public void Pluralizer_WithOneResult_ShouldReturnSingularString()
+        {
+            var expected = "result";
+            var word = StringHelper.Pluralize("result", null, 1);
+
+            Assert.Equal(word, expected);
+        }
+
+        [Fact]
+        public void Pluralizer_WithMoreThanOneResult_ShouldReturnPluralString()
+        {
+            var expected = "results";
+            var word = StringHelper.Pluralize(null, "results", 3);
+
+            Assert.Equal(word, expected);
+        }
+
+        [Fact]
+        public void Pluralized_WithoutResult_ShouldReturnMessage()
+        {
+            var expected = "No records";
+            var word = StringHelper.Pluralize(null, null, 0);
+
+            Assert.Equal(word, expected);
+        }
     }
 }
