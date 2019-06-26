@@ -9,6 +9,7 @@
     using Repository;
     using Repository.Contracts;
     using Services;
+    using Services.Contracts;
 
     public static partial class ConfigurationExtensions
     {
@@ -20,6 +21,8 @@
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IArticleRepository, ArticleRepository>();
+
+            services.AddTransient<IArticleSearchService, ArticleSearchService>();
 
             services.AddSingleton<IClock>(SystemClock.Instance);
             services.AddSingleton<IEmailSender, EmailNotifier>();
