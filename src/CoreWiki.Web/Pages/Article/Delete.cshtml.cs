@@ -7,8 +7,9 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Models;
     using Repository.Contracts;
+    using Utilities.Constants;
 
-    [Authorize("CanDeleteArticle")]
+    [Authorize(PolicyConstants.CanDeleteArticle)]
     public class DeleteModel : PageModel
     {
         private readonly CoreWikiContext context;
