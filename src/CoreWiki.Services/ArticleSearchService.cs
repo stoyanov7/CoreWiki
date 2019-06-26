@@ -1,30 +1,26 @@
 ﻿namespace CoreWiki.Services
 {
-    using System.Linq;
     using Contracts;
-    using Data;
+    using Repository.Contracts;
     using Utilities;
 
     public class ArticleSearchService : IArticleSearchService
     {
-        private readonly CoreWikiContext context;
+        private readonly IArticleRepository articleRepository;
 
-        public ArticleSearchService(CoreWikiContext context)
+        public ArticleSearchService(IArticleRepository articleRepository)
         {
-            this.context = context;
+            this.articleRepository = articleRepository;
         }
 
         public SearchResult Search(string query)
         {
             var trimmedQuery = query.Trim();
 
-            var articles = this.context
-                .Articles
-                .Where(a =>
+            var articles = this.articleRepository
+                .Get(a =>
                     a.Topic.ToLower().Contains(trimmedQuery.ToLower()) ||
-                    a.Content.ToLower().Contains(trimmedQuery.ToLower()))
-                .OrderBy(a => a.Topic)
-                .ToList();
+                    a.Content.ToLower().Contains(trimmedQuery.ToLower()));
 
             return new SearchResult
             {

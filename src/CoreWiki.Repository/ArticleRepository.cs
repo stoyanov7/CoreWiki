@@ -1,7 +1,9 @@
 ﻿namespace CoreWiki.Repository
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Contracts;
@@ -33,6 +35,13 @@
                 .Set<Article>()
                 .Any(x => x.Topic == topic);
         }
+
+        public IEnumerable<Article> Get(Expression<Func<Article, bool>> predicate)
+            => this.UnitOfWork
+                .Context
+                .Set<Article>()
+                .Where(predicate)
+                .AsEnumerable();
 
         public async Task<Article> FindBySlugAsync(string slug)
         {
