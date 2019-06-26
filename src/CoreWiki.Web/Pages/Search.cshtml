@@ -1,0 +1,26 @@
+﻿@page
+@using CoreWiki.Utilities
+@model SearchModel
+
+@{
+    ViewData["Title"] = "Search";
+    var searchResult = Model.SearchResult;
+}
+
+<h1 class="h1">Search CoreWiki</h1>
+<form asp-page="Search" method="get" class="my-2">
+    <div class="form-group">
+        <div class="input-group">
+            <input class="form-control" type="text" name="searchValue" value="@searchResult?.Query" placeholder="Search for articles on CoreWiki"/>
+            <div class="input-group-append">
+                <button class="btn badge-primary" type="submit">Search</button>
+            </div>
+        </div>
+    </div>
+</form>
+@if (searchResult != null)
+{
+    <div class="mb-2">
+        @StringHelper.Pluralize("result", "results", @searchResult.TotalResults, true) found for <strong>@searchResult.Query</strong>
+    </div>
+}
