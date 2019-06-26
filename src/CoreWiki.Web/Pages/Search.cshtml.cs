@@ -8,14 +8,14 @@
 
     public class SearchModel : PageModel
     {
-        public SearchResult SearchResult;
-
         private readonly IArticleSearchService articleSearchService;
 
         public SearchModel(IArticleSearchService articleSearchService)
         {
             this.articleSearchService = articleSearchService;
         }
+
+        public SearchResult SearchResult { get; private set; }
 
         public IActionResult OnGet()
         {
