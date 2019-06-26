@@ -14,6 +14,11 @@
         /// <returns></returns>
         public static string Pluralize(string singular, string plural, int count, bool prependCount = false)
         {
+            if (count == 0)
+            {
+                return "No records";
+            }
+
             var noun = count == 1 ? singular : plural;
 
             return prependCount ? $"{count} {noun}" : noun;
