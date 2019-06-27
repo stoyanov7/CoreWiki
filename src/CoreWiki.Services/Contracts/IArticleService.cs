@@ -7,6 +7,8 @@
     {
         Task<TModel> FindBySlugAsync<TModel>(string slug);
 
+        Task<IList<TModel>> GetAllArticlesAsync<TModel>();
+
         Task<IEnumerable<TModel>> GetAllArticlesAsync<TModel>(int pageNumber, int pageSize);
 
         int GetCount();

@@ -25,6 +25,23 @@
             return model;
         }
 
+        public async Task<IList<TModel>> GetAllArticlesAsync<TModel>()
+        {
+            var allArticles = await this.articleRepository.All();
+
+            foreach (var current in allArticles)
+            {
+                if (current.Content.Length >= 50)
+                {
+                    current.Content = current.Content.Substring(0, 50) + "...";
+                }
+            }
+
+            var model = this.mapper.Map<IList<TModel>>(allArticles);
+
+            return model;
+        }
+
         public async Task<IEnumerable<TModel>> GetAllArticlesAsync<TModel>(int pageNumber, int pageSize)
         {
             var allArticles = await this.articleRepository.All(pageNumber, pageSize);
