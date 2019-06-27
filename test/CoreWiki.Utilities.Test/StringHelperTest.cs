@@ -1,5 +1,6 @@
 namespace CoreWiki.Utilities.Test
 {
+    using System;
     using Xunit;
 
     public class StringHelperTest
@@ -27,7 +28,7 @@ namespace CoreWiki.Utilities.Test
         public void Pluralizer_WithOneResult_ShouldReturnSingularString()
         {
             var expected = "result";
-            var word = StringHelper.Pluralize("result", null, 1);
+            var word = StringHelper.Pluralize("result", "results", 1);
 
             Assert.Equal(word, expected);
         }
@@ -36,7 +37,7 @@ namespace CoreWiki.Utilities.Test
         public void Pluralizer_WithMoreThanOneResult_ShouldReturnPluralString()
         {
             var expected = "results";
-            var word = StringHelper.Pluralize(null, "results", 3);
+            var word = StringHelper.Pluralize("result", "results", 3);
 
             Assert.Equal(word, expected);
         }
@@ -45,9 +46,21 @@ namespace CoreWiki.Utilities.Test
         public void Pluralized_WithoutResult_ShouldReturnMessage()
         {
             var expected = "No records";
-            var word = StringHelper.Pluralize(null, null, 0);
+            var word = StringHelper.Pluralize("result", "results", 0);
 
             Assert.Equal(word, expected);
+        }
+
+        [Fact]
+        public void Pluralize_WithNullSingularParameter_ShouldThrowException()
+        {
+            Assert.Throws<ArgumentNullException>(() => StringHelper.Pluralize(null, "results", 1));
+        }
+
+        [Fact]
+        public void Pluralize_WithNullPluralParameter_ShouldThrowException()
+        {
+            Assert.Throws<ArgumentNullException>(() => StringHelper.Pluralize("result", null, 1));
         }
     }
 }
