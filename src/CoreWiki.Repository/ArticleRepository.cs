@@ -54,7 +54,7 @@
                 .Where(predicate)
                 .AsEnumerable();
 
-        public async Task<Article> FindBySlugAsync(string slug)
+        public async Task<Article> FindByAsync(string slug)
         {
             return await this.UnitOfWork
                 .Context

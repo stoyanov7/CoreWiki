@@ -12,7 +12,7 @@
 
         IEnumerable<Article> Get(Expression<Func<Article, bool>> predicate);
 
-        Task<Article> FindBySlugAsync(string slug);
+        Task<Article> FindByAsync(string slug);
 
         Task<IList<Article>> All();
 
