@@ -1,5 +1,6 @@
 ﻿namespace CoreWiki.Services
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using AutoMapper;
     using Contracts;
@@ -23,6 +24,16 @@
 
             return model;
         }
+
+        public async Task<IEnumerable<TModel>> GetAllArticlesAsync<TModel>(int pageNumber, int pageSize)
+        {
+            var allArticles = await this.articleRepository.All(pageNumber, pageSize);
+            var model = this.mapper.Map<IEnumerable<TModel>>(allArticles);
+
+            return model;
+        }
+
+        public int GetCount() => this.articleRepository.Count();
 
         public async Task Delete(string slug)
         {

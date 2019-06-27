@@ -16,6 +16,10 @@
 
         Task<IList<Article>> All();
 
+        Task<IEnumerable<Article>> All(int pageNumber, int pageSize);
+
+        int Count();
+
         Task UpdateAsync(Article article);
 
         void Delete(string slug);

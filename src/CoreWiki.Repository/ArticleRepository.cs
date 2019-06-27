@@ -71,6 +71,20 @@
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Article>> All(int pageNumber, int pageSize)
+        {
+            return await this.UnitOfWork
+                .Context
+                .Set<Article>()
+                .AsNoTracking()
+                .OrderBy(a => a.Topic)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToArrayAsync();
+        }
+
+        public int Count() => this.UnitOfWork.Context.Set<Article>().Count();
+
         public async Task UpdateAsync(Article article)
         {
             this.UnitOfWork
