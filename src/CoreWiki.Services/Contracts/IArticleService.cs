@@ -4,7 +4,7 @@
 
     public interface IArticleService
     {
-        Task<TModel> FindBySlug<TModel>(string slug);
+        Task<TModel> FindBySlugAsync<TModel>(string slug);
 
         Task Delete(string slug);
     }

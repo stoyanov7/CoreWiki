@@ -28,7 +28,7 @@
                 return this.NotFound();
             }
 
-            this.Article = await this.articleService.FindBySlug<DeleteArticleDto>(slug);
+            this.Article = await this.articleService.FindBySlugAsync<DeleteArticleDto>(slug);
 
             if (this.Article == null)
             {

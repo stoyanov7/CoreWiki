@@ -16,7 +16,7 @@
             this.mapper = mapper;
         }
 
-        public async Task<TModel> FindBySlug<TModel>(string slug)
+        public async Task<TModel> FindBySlugAsync<TModel>(string slug)
         {
             var articles = await this.articleRepository.FindByAsync(slug);
             var model = this.mapper.Map<TModel>(articles);
