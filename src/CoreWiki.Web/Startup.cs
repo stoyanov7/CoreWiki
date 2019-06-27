@@ -1,6 +1,7 @@
 namespace CoreWiki.Web
 {
     using System;
+    using AutoMapper;
     using Configurations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -39,6 +40,8 @@ namespace CoreWiki.Web
             services.ConfigureServices();
 
             services.ConfigureIdentity();
+
+            services.AddAutoMapper(cfg => cfg.ValidateInlineMaps = false);
 
             services
                 .AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
