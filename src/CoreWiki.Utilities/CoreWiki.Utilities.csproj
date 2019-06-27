@@ -20,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\..\..\..\.nuget\packages\automapper\8.1.1\lib\netstandard2.0\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
       <HintPath>..\..\..\..\..\..\.nuget\packages\microsoft.aspnetcore.mvc.abstractions\2.1.3\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
     </Reference>

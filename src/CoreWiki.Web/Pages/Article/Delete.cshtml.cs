@@ -1,37 +1,34 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
     using System.Threading.Tasks;
-    using Data;
+    using Dto;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Models;
-    using Repository.Contracts;
+    using Services.Contracts;
     using Utilities.Constants;
 
     [Authorize(PolicyConstants.CanDeleteArticle)]
     public class DeleteModel : PageModel
     {
-        private readonly CoreWikiContext context;
-        private readonly IArticleRepository articleRepository;
+        private readonly IArticleService articleService;
 
-        public DeleteModel(CoreWikiContext context, IArticleRepository articleRepository)
+        public DeleteModel(IArticleService articleService)
         {
-            this.context = context;
-            this.articleRepository = articleRepository;
+            this.articleService = articleService;
         }
 
         [BindProperty]
-        public Article Article { get; set; }
+        public DeleteArticleDto Article { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string slug)
+        public async Task<IActionResult> OnGet(string slug)
         {
             if (slug == null)
             {
                 return this.NotFound();
             }
 
-            this.Article = await this.articleRepository.FindBySlugAsync(slug);
+            this.Article = await this.articleService.FindBySlug<DeleteArticleDto>(slug);
 
             if (this.Article == null)
             {
@@ -48,8 +45,7 @@
                 return this.NotFound();
             }
 
-            this.articleRepository.Delete(slug);
-            await this.articleRepository.SaveChangesAsync();
+            await this.articleService.Delete(slug);
             
             return this.RedirectToPage("./Index");
         }

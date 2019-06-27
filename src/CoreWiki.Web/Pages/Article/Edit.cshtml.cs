@@ -26,7 +26,7 @@
                 return new ArticleNotFoundResult();
             }
 
-            this.Article = await this.articleRepository.FindBySlugAsync(slug);
+            this.Article = await this.articleRepository.FindByAsync(slug);
 
             if (this.Article == null)
             {

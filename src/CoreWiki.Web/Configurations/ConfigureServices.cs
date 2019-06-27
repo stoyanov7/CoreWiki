@@ -22,6 +22,7 @@
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IArticleRepository, ArticleRepository>();
 
+            services.AddTransient<IArticleService, ArticleService>();
             services.AddTransient<IArticleSearchService, ArticleSearchService>();
 
             services.AddSingleton<IClock>(SystemClock.Instance);
