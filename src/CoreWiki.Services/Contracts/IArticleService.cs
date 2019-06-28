@@ -11,6 +11,8 @@
 
         Task<IEnumerable<TModel>> GetAllArticlesAsync<TModel>(int pageNumber, int pageSize);
 
+        Task<IEnumerable<TModel>> GetLatestArticle<TModel>();
+
         int GetCount();
 
         Task Delete(string slug);

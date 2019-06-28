@@ -1,32 +1,25 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    using Data;
+    using Dto;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
-    using Models;
+    using Services.Contracts;
 
     public class LatestChangesModel : PageModel
     {
-        private readonly CoreWikiContext context;
+        private readonly IArticleService articleService;
 
-        public LatestChangesModel(CoreWikiContext context)
+        public LatestChangesModel(IArticleService articleService)
         {
-            this.context = context;
+            this.articleService = articleService;
         }
 
-        public IList<Article> Articles { get; set; }
+        public IList<LatestArticleDto> Articles { get; set; }
 
         public async Task OnGetAsync()
         {
-            this.Articles = await this.context
-                .Articles
-                .Include(a => a.Comments)
-                .OrderByDescending(x => x.PublishedOn)
-                .Take(5)
-                .ToListAsync();
+            this.Articles = await this.articleService.GetAllArticlesAsync<LatestArticleDto>();
         }
     }
 }

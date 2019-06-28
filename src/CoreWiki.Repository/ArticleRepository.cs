@@ -19,7 +19,7 @@
         private readonly IClock clock;
 
         public ArticleRepository(
-            IUnitOfWork unitOfWork, 
+            IUnitOfWork unitOfWork,
             IHttpContextAccessor httpContextAccessor,
             IClock clock)
             : base(unitOfWork)
@@ -81,6 +81,17 @@
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToArrayAsync();
+        }
+
+        public async Task<IEnumerable<Article>> LatestArticle()
+        {
+            return await this.UnitOfWork
+                .Context
+                .Set<Article>()
+                .Include(a => a.Comments)
+                .OrderByDescending(x => x.Published)
+                .Take(5)
+                .ToListAsync(); ;
         }
 
         public int Count() => this.UnitOfWork.Context.Set<Article>().Count();

@@ -18,6 +18,8 @@
 
         Task<IEnumerable<Article>> All(int pageNumber, int pageSize);
 
+        Task<IEnumerable<Article>> LatestArticle();
+
         int Count();
 
         Task UpdateAsync(Article article);

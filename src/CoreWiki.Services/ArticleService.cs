@@ -50,6 +50,14 @@
             return model;
         }
 
+        public async Task<IEnumerable<TModel>> GetLatestArticle<TModel>()
+        {
+            var article = await this.articleRepository.LatestArticle();
+            var model = this.mapper.Map<IEnumerable<TModel>>(article);
+
+            return model;
+        }
+
         public int GetCount() => this.articleRepository.Count();
 
         public async Task Delete(string slug)
