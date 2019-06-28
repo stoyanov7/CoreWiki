@@ -1,8 +1,13 @@
 ﻿@using CoreWiki.Models.Identity
+@using Microsoft.AspNetCore.Http
+@inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
+@inject IHttpContextAccessor HttpContext
+
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
+
 <ul class="nav nav-pills flex-column">
     <li class="nav-item">
         <a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" asp-page="./Index">Profile</a>
@@ -21,5 +26,15 @@
     </li>
     <li class="nav-item">
         <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" asp-page="./PersonalData">Personal data</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.MyRolesNavClass(ViewContext)" asp-page="./MyRoles">
+            Roles & Permissions  <span class="badge badge-light">
+                @{
+                    var roles = await UserManager.GetRolesAsync(await UserManager.GetUserAsync(HttpContext.HttpContext.User));
+                    @: @roles.Count
+                }
+            </span>
+        </a>
     </li>
 </ul>

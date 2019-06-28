@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{D224AB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Models.Test", "..\test\CoreWiki.Models.Test\CoreWiki.Models.Test.csproj", "{56D71FAA-7A57-4A9C-B9EC-9659FE2C5562}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWiki.Repository", "CoreWiki.Repository\CoreWiki.Repository.csproj", "{C9B3683F-1AD4-4D80-89C9-3C4D57575098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Repository", "CoreWiki.Repository\CoreWiki.Repository.csproj", "{C9B3683F-1AD4-4D80-89C9-3C4D57575098}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
