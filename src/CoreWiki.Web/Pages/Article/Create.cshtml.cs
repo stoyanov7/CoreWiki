@@ -7,28 +7,19 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
     using Models;
-    using NodaTime;
-    using Repository.Contracts;
     using Services.Contracts;
-    using Utilities;
 
     [Authorize]
     public class CreateModel : PageModel
     {
-        private readonly IArticleRepository articleRepository;
         private readonly IArticleService articleService;
-        private readonly IClock clock;
         private readonly ILogger<CreateModel> logger;
 
         public CreateModel(
-            IArticleRepository articleRepository,
             IArticleService articleService,
-            IClock clock,
             ILogger<CreateModel> logger)
         {
-            this.articleRepository = articleRepository;
             this.articleService = articleService;
-            this.clock = clock;
             this.logger = logger;
         }
 
@@ -56,14 +47,7 @@
                 return this.Page();
             }
 
-            this.Article.Published = this.clock.GetCurrentInstant();
-            this.Article.Slug = UrlHelpers.UrlFriendly(this.Article.Topic.ToLower());
-            this.Article.AuthorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            await this.articleRepository
-                .AddAsync(this.Article);
-
-            await this.articleRepository.SaveChangesAsync();
+            await this.articleService.Create(this.Article.Topic, this.Article.Content, this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             this.logger.LogInformation($"Create new article with topic name - {this.Article.Topic}");
 
