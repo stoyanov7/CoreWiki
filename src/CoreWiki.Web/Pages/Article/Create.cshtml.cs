@@ -9,21 +9,25 @@
     using Models;
     using NodaTime;
     using Repository.Contracts;
+    using Services.Contracts;
     using Utilities;
 
     [Authorize]
     public class CreateModel : PageModel
     {
         private readonly IArticleRepository articleRepository;
+        private readonly IArticleService articleService;
         private readonly IClock clock;
         private readonly ILogger<CreateModel> logger;
 
         public CreateModel(
             IArticleRepository articleRepository,
+            IArticleService articleService,
             IClock clock,
             ILogger<CreateModel> logger)
         {
             this.articleRepository = articleRepository;
+            this.articleService = articleService;
             this.clock = clock;
             this.logger = logger;
         }
@@ -40,8 +44,7 @@
                 return this.Page();
             }
 
-            var isTopicExist = this.articleRepository
-                .IsArticleExistByTopic(this.Article.Topic);
+            var isTopicExist = this.articleService.IsArticleExist(this.Article.Topic);
 
             if (isTopicExist)
             {

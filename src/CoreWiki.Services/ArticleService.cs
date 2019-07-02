@@ -17,6 +17,9 @@
             this.mapper = mapper;
         }
 
+        public bool IsArticleExist(string topic)
+            =>this.articleRepository.IsArticleExistByTopic(topic);
+
         public async Task<TModel> FindBySlugAsync<TModel>(string slug)
         {
             var articles = await this.articleRepository.FindByAsync(slug);
