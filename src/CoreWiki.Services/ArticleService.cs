@@ -84,7 +84,7 @@
         }
 
         public int GetCount() => this.articleRepository.Count();
-
+        
         public async Task Delete(string slug)
         {
             this.articleRepository.Delete(slug);
