@@ -2,11 +2,11 @@
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Dto;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
-    using Models;
     using Services.Contracts;
 
     [Authorize]
@@ -26,7 +26,7 @@
         public IActionResult OnGet() => this.Page();
 
         [BindProperty]
-        public Article Article { get; set; }
+        public CreateArticleDto Article { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
