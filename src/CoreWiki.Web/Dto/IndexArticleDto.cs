@@ -1,6 +1,7 @@
 ﻿namespace CoreWiki.Web.Dto
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using Models;
     using NodaTime;
     using Utilities.Infrastructure.Contracts;
@@ -14,6 +15,9 @@
         public string Slug { get; set; }
 
         public Instant Published { get; set; }
+
+        [Display(Name = "Views")]
+        public long ViewCount { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
     }

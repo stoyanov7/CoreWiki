@@ -4,17 +4,42 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using Contracts;
+    using Models;
+    using NodaTime;
     using Repository.Contracts;
+    using Utilities;
 
     public class ArticleService : IArticleService
     {
         private readonly IArticleRepository articleRepository;
         private readonly IMapper mapper;
+        private readonly IClock clock;
 
-        public ArticleService(IArticleRepository articleRepository, IMapper mapper)
+        public ArticleService(IArticleRepository articleRepository, IMapper mapper, IClock clock)
         {
             this.articleRepository = articleRepository;
             this.mapper = mapper;
+            this.clock = clock;
+        }
+
+        public bool IsArticleExist(string topic)
+            =>this.articleRepository.IsArticleExistByTopic(topic);
+
+        public async Task Create(string topic, string content, string authorId)
+        {
+            var article = new Article
+            {
+                Topic = topic,
+                Content = content,
+                Slug = UrlHelpers.UrlFriendly(topic.ToLower()),
+                Published = this.clock.GetCurrentInstant(),
+                AuthorId = authorId
+            };
+
+            await this.articleRepository
+                .AddAsync(article);
+
+            await this.articleRepository.SaveChangesAsync();
         }
 
         public async Task<TModel> FindBySlugAsync<TModel>(string slug)
@@ -59,7 +84,7 @@
         }
 
         public int GetCount() => this.articleRepository.Count();
-
+        
         public async Task Delete(string slug)
         {
             this.articleRepository.Delete(slug);

@@ -5,15 +5,18 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Models;
     using Repository.Contracts;
+    using Services.Contracts;
     using Utilities;
 
     public class EditModel : PageModel
     {
         private readonly IArticleRepository articleRepository;
+        private readonly IArticleService articleService;
         
-        public EditModel(IArticleRepository articleRepository)
+        public EditModel(IArticleRepository articleRepository, IArticleService articleService)
         {
             this.articleRepository = articleRepository;
+            this.articleService = articleService;
         }
 
         [BindProperty]
@@ -26,7 +29,7 @@
                 return new ArticleNotFoundResult();
             }
 
-            this.Article = await this.articleRepository.FindByAsync(slug);
+            this.Article = await this.articleService.FindBySlugAsync<Article>(slug);
 
             if (this.Article == null)
             {

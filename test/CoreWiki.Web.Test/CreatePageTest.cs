@@ -3,7 +3,7 @@ namespace CoreWiki.Web.Test
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Moq;
     using Pages.Article;
-    using Repository.Contracts;
+    using Services.Contracts;
     using Xunit;
 
     public class CreatePageTest
@@ -12,8 +12,8 @@ namespace CoreWiki.Web.Test
 
         public CreatePageTest()
         {
-            var articleRepositoryMock = new Mock<IArticleRepository>();
-            this.model = new CreateModel(articleRepositoryMock.Object, null, null);
+            var articleRepositoryMock = new Mock<IArticleService>();
+            this.model = new CreateModel(articleRepositoryMock.Object, null);
         }
 
         [Fact]

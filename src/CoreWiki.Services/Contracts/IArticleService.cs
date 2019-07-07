@@ -5,6 +5,10 @@
 
     public interface IArticleService
     {
+        Task Create(string topic, string content, string authorId);
+
+        bool IsArticleExist(string topic);
+
         Task<TModel> FindBySlugAsync<TModel>(string slug);
 
         Task<IList<TModel>> GetAllArticlesAsync<TModel>();

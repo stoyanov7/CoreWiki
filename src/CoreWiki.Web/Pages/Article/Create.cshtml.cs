@@ -2,36 +2,31 @@
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Dto;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
-    using Models;
-    using NodaTime;
-    using Repository.Contracts;
-    using Utilities;
+    using Services.Contracts;
 
     [Authorize]
     public class CreateModel : PageModel
     {
-        private readonly IArticleRepository articleRepository;
-        private readonly IClock clock;
+        private readonly IArticleService articleService;
         private readonly ILogger<CreateModel> logger;
 
         public CreateModel(
-            IArticleRepository articleRepository,
-            IClock clock,
+            IArticleService articleService,
             ILogger<CreateModel> logger)
         {
-            this.articleRepository = articleRepository;
-            this.clock = clock;
+            this.articleService = articleService;
             this.logger = logger;
         }
 
         public IActionResult OnGet() => this.Page();
 
         [BindProperty]
-        public Article Article { get; set; }
+        public CreateArticleDto Article { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -40,8 +35,7 @@
                 return this.Page();
             }
 
-            var isTopicExist = this.articleRepository
-                .IsArticleExistByTopic(this.Article.Topic);
+            var isTopicExist = this.articleService.IsArticleExist(this.Article.Topic);
 
             if (isTopicExist)
             {
@@ -53,14 +47,7 @@
                 return this.Page();
             }
 
-            this.Article.Published = this.clock.GetCurrentInstant();
-            this.Article.Slug = UrlHelpers.UrlFriendly(this.Article.Topic.ToLower());
-            this.Article.AuthorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            await this.articleRepository
-                .AddAsync(this.Article);
-
-            await this.articleRepository.SaveChangesAsync();
+            await this.articleService.Create(this.Article.Topic, this.Article.Content, this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             this.logger.LogInformation($"Create new article with topic name - {this.Article.Topic}");
 

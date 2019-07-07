@@ -30,7 +30,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Article[0].Comments)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Article[0].ViewCount)
+            </th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -47,12 +50,13 @@
                     <span data-value="@item.Published" class="timeStampValue"> @item.Published</span>
                 </td>
                 <td>@Html.DisplayFor(modelItem => item.Comments.Count)</td>
+                <td>@Html.DisplayFor(modelItem => item.ViewCount)</td>
                 <td>
                     <a asp-page="./Edit" asp-route-slug="@item.Slug" class="btn btn-warning">Edit</a>
                     <a asp-page="./Details" asp-route-slug="@item.Slug" class="btn btn-primary">Details</a>
-                    <a asp-page="./Delete" 
+                    <a asp-page="./Delete"
                        asp-route-slug="@item.Slug"
-                       asp-policy=@PolicyConstants.CanDeleteArticle 
+                       asp-policy=@PolicyConstants.CanDeleteArticle
                        class="btn btn-danger">Delete</a>
                 </td>
             </tr>
