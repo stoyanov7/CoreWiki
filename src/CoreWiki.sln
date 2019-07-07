@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Models.Test", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Repository", "CoreWiki.Repository\CoreWiki.Repository.csproj", "{C9B3683F-1AD4-4D80-89C9-3C4D57575098}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWiki.Web.Test", "..\test\CoreWiki.Web.Test\CoreWiki.Web.Test.csproj", "{2A2AA286-0B1D-4428-9F58-52D2EFD61104}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Web.Test", "..\test\CoreWiki.Web.Test\CoreWiki.Web.Test.csproj", "{2A2AA286-0B1D-4428-9F58-52D2EFD61104}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWiki.Application", "CoreWiki.Application\CoreWiki.Application.csproj", "{FCFEE61C-2CC0-46C9-8612-17F4EE8135DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{2A2AA286-0B1D-4428-9F58-52D2EFD61104}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A2AA286-0B1D-4428-9F58-52D2EFD61104}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A2AA286-0B1D-4428-9F58-52D2EFD61104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCFEE61C-2CC0-46C9-8612-17F4EE8135DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCFEE61C-2CC0-46C9-8612-17F4EE8135DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCFEE61C-2CC0-46C9-8612-17F4EE8135DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCFEE61C-2CC0-46C9-8612-17F4EE8135DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{56D71FAA-7A57-4A9C-B9EC-9659FE2C5562} = {D09B9EA5-D77C-4C8D-9621-32B5F0EAEFA0}
 		{C9B3683F-1AD4-4D80-89C9-3C4D57575098} = {D224AB49-F9E2-432F-9D9A-6FDF551625D8}
 		{2A2AA286-0B1D-4428-9F58-52D2EFD61104} = {D09B9EA5-D77C-4C8D-9621-32B5F0EAEFA0}
+		{FCFEE61C-2CC0-46C9-8612-17F4EE8135DE} = {D224AB49-F9E2-432F-9D9A-6FDF551625D8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {09643FEC-6FCB-45BA-9A22-ADB76C5B6706}
