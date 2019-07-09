@@ -2,7 +2,9 @@
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Application.Commands;
     using Dto;
+    using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Authorization;
@@ -12,13 +14,16 @@
     [Authorize]
     public class CreateModel : PageModel
     {
+        private readonly IMediator mediator;
         private readonly IArticleService articleService;
         private readonly ILogger<CreateModel> logger;
 
         public CreateModel(
+            IMediator mediator,
             IArticleService articleService,
             ILogger<CreateModel> logger)
         {
+            this.mediator = mediator;
             this.articleService = articleService;
             this.logger = logger;
         }
@@ -47,8 +52,13 @@
                 return this.Page();
             }
 
-            await this.articleService.Create(this.Article.Topic, this.Article.Content, this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var command = new CreateNewArticleCommand(
+                this.Article.Topic,
+                this.Article.Content,
+                this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
+            await this.mediator.Send(command);
+            
             this.logger.LogInformation($"Create new article with topic name - {this.Article.Topic}");
 
             return this.RedirectToPage("./Index");

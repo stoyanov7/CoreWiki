@@ -11,15 +11,19 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="BuildBundlerMinifier" Version="2.9.406" />
     <PackageReference Include="DiffPlex" Version="1.4.4" />
+    <PackageReference Include="MediatR" Version="7.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.0.48" />
     <PackageReference Include="NWebsec.AspNetCore.Middleware" Version="2.0.0" />
     <PackageReference Include="Sendgrid" Version="9.11.0" />
     <PackageReference Include="Westwind.AspNetCore.Markdown" Version="3.2.4" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CoreWiki.Application\CoreWiki.Application.csproj" />
     <ProjectReference Include="..\CoreWiki.Data\CoreWiki.Data.csproj" />
     <ProjectReference Include="..\CoreWiki.Repository\CoreWiki.Repository.csproj" />
     <ProjectReference Include="..\CoreWiki.Services\CoreWiki.Services.csproj" />
