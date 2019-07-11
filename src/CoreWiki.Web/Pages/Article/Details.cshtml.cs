@@ -2,7 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Application.Queries;
     using Data;
+    using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Http.Extensions;
     using Microsoft.AspNetCore.Mvc;
@@ -15,15 +17,18 @@
     public class DetailsModel : PageModel
     {
         private readonly CoreWikiContext context;
+        private readonly IMediator mediator;
         private readonly IArticleService articleService;
         private readonly IClock clock;
 
         public DetailsModel(
             CoreWikiContext context,
+            IMediator mediator,
             IArticleService articleService,
             IClock clock)
         {
             this.context = context;
+            this.mediator = mediator;
             this.articleService = articleService;
             this.clock = clock;
         }
@@ -37,7 +42,8 @@
                 return new ArticleNotFoundResult();
             }
 
-            this.Article = await this.articleService.DetailsAsync<Article>(slug);
+            var query = new GetArticleDetailsQuery(slug);
+            this.Article = await this.mediator.Send(query);
 
             if (this.Article == null)
             {
