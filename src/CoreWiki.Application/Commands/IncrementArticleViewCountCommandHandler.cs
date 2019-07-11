@@ -17,7 +17,7 @@
 
         public async Task<Unit> Handle(IncrementArticleViewCountCommand request, CancellationToken cancellationToken)
         {
-            await this.articleRepository.IncrementViewCount(request.Topic);
+            await this.articleRepository.IncrementViewCount(request.Slug);
 
             return Unit.Value;
         }

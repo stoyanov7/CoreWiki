@@ -159,12 +159,12 @@
             }
         }
 
-        public async Task IncrementViewCount(string topic)
+        public async Task IncrementViewCount(string slug)
         {
             var article = this.UnitOfWork
                 .Context
                 .Set<Article>()
-                .Single(a => a.Topic == topic);
+                .Single(a => a.Slug == slug);
 
             article.ViewCount++;
 

@@ -4,11 +4,11 @@
 
     public class IncrementArticleViewCountCommand : IRequest
     {
-        public IncrementArticleViewCountCommand(string topic)
+        public IncrementArticleViewCountCommand(string slug)
         {
-            this.Topic = topic;
+            this.Slug = slug;
         }
 
-        public string Topic { get; set; }
+        public string Slug { get; set; }
     }
 }

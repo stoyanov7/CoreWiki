@@ -51,18 +51,7 @@
                 return new ArticleNotFoundResult();
             }
 
-            var isCookieExist = this.Request.Cookies[this.Article.Topic] == null;
-
-            if (!isCookieExist)
-            {
-                await this.mediator
-                    .Send(new IncrementArticleViewCountCommand(this.Article.Topic));
-
-                this.Response.Cookies.Append(this.Article.Topic, "foo", new CookieOptions
-                {
-                    Expires = DateTime.UtcNow.AddDays(1)
-                });
-            }
+            await this.ManageArticleIncrementCount(slug);
 
             return this.Page();
         }
@@ -92,6 +81,24 @@
             await this.articleService.CanAuthorBeNotified(this.Article.AuthorId, this.Request.GetEncodedUrl());
             
             return this.Redirect($"/Article/Details/{this.Article.Slug}");
+        }
+
+        private async Task ManageArticleIncrementCount(string slug)
+        {
+            var incrementViewCount = (this.Request.Cookies[slug] == null);
+
+            if (!incrementViewCount)
+            {
+                return;
+            }
+
+            this.Article.ViewCount++;
+            this.Response.Cookies.Append(slug, "foo", new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddMinutes(5)
+            });
+
+            await this.mediator.Send(new IncrementArticleViewCountCommand(slug));
         }
     }
 }
