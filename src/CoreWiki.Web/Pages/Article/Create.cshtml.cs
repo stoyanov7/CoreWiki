@@ -61,7 +61,7 @@
             
             this.logger.LogInformation($"Create new article with topic name - {this.Article.Topic}");
 
-            return this.RedirectToPage("./Index");
+            return this.Redirect("./Index");
         }
     }
 }
