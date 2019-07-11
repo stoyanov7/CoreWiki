@@ -36,7 +36,11 @@
                 .Context
                 .Set<ArticleHistory>()
                 .Add(ArticleHistory.FromArticle(article));
+        }
 
+        public IQueryable<Article> Details()
+        {
+            return this.UnitOfWork.Context.Set<Article>();
         }
 
         public bool IsArticleExistByTopic(string topic)
