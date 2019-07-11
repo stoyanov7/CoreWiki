@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Application.Commands;
     using Application.Queries;
     using Data;
     using MediatR;
@@ -50,9 +51,12 @@
                 return new ArticleNotFoundResult();
             }
 
-            if (this.Request.Cookies[this.Article.Topic] == null)
+            var isCookieExist = this.Request.Cookies[this.Article.Topic] == null;
+
+            if (!isCookieExist)
             {
-                this.Article.ViewCount++;
+                await this.mediator
+                    .Send(new IncrementArticleViewCountCommand(this.Article.Topic));
 
                 this.Response.Cookies.Append(this.Article.Topic, "foo", new CookieOptions
                 {

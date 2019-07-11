@@ -28,5 +28,7 @@
         Task UpdateAsync(Article article);
 
         void Delete(string slug);
+
+        Task IncrementViewCount(string topic);
     }
 }

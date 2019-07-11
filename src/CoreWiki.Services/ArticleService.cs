@@ -1,6 +1,7 @@
 ﻿namespace CoreWiki.Services
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using Contracts;
@@ -22,11 +23,13 @@
         private readonly IEmailSender emailSender;
 
         public ArticleService(
+            UserManager<ApplicationUser> userManager,
             IArticleRepository articleRepository,
             IMapper mapper,
             IClock clock,
             IEmailSender emailSender)
         {
+            this.userManager = userManager;
             this.articleRepository = articleRepository;
             this.mapper = mapper;
             this.clock = clock;

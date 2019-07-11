@@ -158,5 +158,17 @@
                     .Remove(existing);
             }
         }
+
+        public async Task IncrementViewCount(string topic)
+        {
+            var article = this.UnitOfWork
+                .Context
+                .Set<Article>()
+                .Single(a => a.Topic == topic);
+
+            article.ViewCount++;
+
+            await this.UnitOfWork.Context.SaveChangesAsync();
+        }
     }
 }
