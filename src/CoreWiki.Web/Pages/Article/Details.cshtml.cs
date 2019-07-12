@@ -20,17 +20,20 @@
         private readonly CoreWikiContext context;
         private readonly IMediator mediator;
         private readonly IArticleService articleService;
+        private readonly ICommentService commentService;
         private readonly IClock clock;
 
         public DetailsModel(
             CoreWikiContext context,
             IMediator mediator,
             IArticleService articleService,
+            ICommentService commentService,
             IClock clock)
         {
             this.context = context;
             this.mediator = mediator;
             this.articleService = articleService;
+            this.commentService = commentService;
             this.clock = clock;
         }
 
@@ -71,12 +74,8 @@
             {
                 return new ArticleNotFoundResult();
             }
-            
-            comment.Article = this.Article;
-            comment.Submitted = this.clock.GetCurrentInstant();
 
-            this.context.Comments.Add(comment);
-            await this.context.SaveChangesAsync();
+            await this.commentService.SetCommentToArticleAsync(comment, this.Article);
             
             await this.articleService.CanAuthorBeNotified(this.Article.AuthorId, this.Request.GetEncodedUrl());
             
