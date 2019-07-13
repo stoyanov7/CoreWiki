@@ -3,7 +3,7 @@
     using System;
     using System.Threading.Tasks;
     using Application.Commands;
-    using Application.Queries
+    using Application.Queries;
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Http.Extensions;

@@ -1,6 +1,5 @@
 ﻿namespace CoreWiki.Web.Test
 {
-    using System;
     using System.Collections.Generic;
     using System.Security.Claims;
     using Microsoft.AspNetCore.Http;
@@ -14,7 +13,7 @@
     {
         public static void AddPageContext(this PageModel pageModel, string userName, string userId, IEnumerable<Claim> additionalClaims = null)
         {
-            var claims = new List<Claim>()
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, userName),
                 new Claim(ClaimTypes.NameIdentifier, userId),
@@ -43,6 +42,5 @@
             };
 
         }
-
     }
 }

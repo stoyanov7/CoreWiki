@@ -49,7 +49,6 @@ namespace CoreWiki.Web.Test
         {
             var topic = "test topic";
             var content = "test content";
-            var slug = "test-topic";
             var authorId = Guid.NewGuid().ToString();
             
             this.mockArticleService
@@ -74,6 +73,5 @@ namespace CoreWiki.Web.Test
             Assert.IsType<RedirectResult>(result);
             Assert.Equal("./Index", ((RedirectResult)result).Url);
         }
-
     }
 }
