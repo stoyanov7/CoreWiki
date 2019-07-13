@@ -41,7 +41,7 @@
 
         public async Task<IActionResult> OnGetAsync(string slug)
         {
-            if (slug == null)
+            if (string.IsNullOrEmpty(slug))
             {
                 return new ArticleNotFoundResult();
             }
