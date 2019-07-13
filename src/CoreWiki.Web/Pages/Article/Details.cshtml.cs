@@ -3,38 +3,30 @@
     using System;
     using System.Threading.Tasks;
     using Application.Commands;
-    using Application.Queries;
-    using Data;
+    using Application.Queries
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Http.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Models;
-    using NodaTime;
     using Services.Contracts;
     using Utilities;
 
     public class DetailsModel : PageModel
     {
-        private readonly CoreWikiContext context;
         private readonly IMediator mediator;
         private readonly IArticleService articleService;
         private readonly ICommentService commentService;
-        private readonly IClock clock;
-
+        
         public DetailsModel(
-            CoreWikiContext context,
             IMediator mediator,
             IArticleService articleService,
-            ICommentService commentService,
-            IClock clock)
+            ICommentService commentService)
         {
-            this.context = context;
             this.mediator = mediator;
             this.articleService = articleService;
             this.commentService = commentService;
-            this.clock = clock;
         }
 
         public Article Article { get; set; }
