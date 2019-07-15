@@ -2,23 +2,20 @@
 {
     using System.Threading.Tasks;
     using Application.Commands;
-    using Dto;
+    using Application.Queries;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Services.Contracts;
     using Utilities.Constants;
 
     [Authorize(PolicyConstants.CanDeleteArticle)]
     public class DeleteModel : PageModel
     {
-        private readonly IArticleService articleService;
         private readonly IMediator mediator;
 
-        public DeleteModel(IArticleService articleService, IMediator mediator)
+        public DeleteModel(IMediator mediator)
         {
-            this.articleService = articleService;
             this.mediator = mediator;
         }
 
@@ -32,7 +29,7 @@
                 return this.NotFound();
             }
 
-            this.Article = await this.articleService.FindBySlugAsync<DeleteArticleDto>(slug);
+            this.Article = await this.mediator.Send(new DeleteArticleQuery(slug));
 
             if (this.Article == null)
             {
