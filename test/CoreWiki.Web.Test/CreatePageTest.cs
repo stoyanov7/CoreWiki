@@ -9,6 +9,7 @@ namespace CoreWiki.Web.Test
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.Internal;
     using Moq;
     using Pages.Article;
     using Services.Contracts;
@@ -57,7 +58,7 @@ namespace CoreWiki.Web.Test
             this.mockMediator
                 .Setup(m => m.Send(It.IsAny<CreateNewArticleCommand>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.FromResult(default(Unit)));
-
+            
             var createModel = new CreateModel(this.mockMediator.Object, this.mockArticleService.Object, this.mockLogger.Object)
             {
                 Article = new CreateArticleDto
@@ -72,6 +73,9 @@ namespace CoreWiki.Web.Test
 
             Assert.IsType<RedirectResult>(result);
             Assert.Equal("./Index", ((RedirectResult)result).Url);
+
+            this.mockLogger.Verify(x => x.Log(LogLevel.Information, 0, It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()));
         }
+
     }
 }
