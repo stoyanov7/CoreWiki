@@ -1,7 +1,9 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
     using System.Threading.Tasks;
+    using Application.Commands;
     using Dto;
+    using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,10 +14,12 @@
     public class DeleteModel : PageModel
     {
         private readonly IArticleService articleService;
+        private readonly IMediator mediator;
 
-        public DeleteModel(IArticleService articleService)
+        public DeleteModel(IArticleService articleService, IMediator mediator)
         {
             this.articleService = articleService;
+            this.mediator = mediator;
         }
 
         [BindProperty]
@@ -45,7 +49,7 @@
                 return this.NotFound();
             }
 
-            await this.articleService.Delete(slug);
+            await this.mediator.Send(new DeleteArticleCommand(slug));
             
             return this.RedirectToPage("./Index");
         }
