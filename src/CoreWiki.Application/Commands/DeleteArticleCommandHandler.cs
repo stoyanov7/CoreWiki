@@ -1,11 +1,12 @@
 ﻿namespace CoreWiki.Application.Commands
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using MediatR;
     using Services.Contracts;
 
-    public class DeleteArticleCommandHandler : AsyncRequestHandler<DeleteArticleCommand>
+    public class DeleteArticleCommandHandler : IRequestHandler<DeleteArticleCommand, CommandResult>
     {
         private readonly IArticleService articleService;
 
@@ -14,11 +15,20 @@
             this.articleService = articleService;
         }
 
-        protected override async Task Handle(
+        public async Task<CommandResult> Handle(
             DeleteArticleCommand request,
             CancellationToken cancellationToken)
         {
-            await this.articleService.Delete(request.Slug);
+            try
+            {
+                await this.articleService.Delete(request.Slug);
+
+                return CommandResult.Success();
+            }
+            catch (Exception ex)
+            {
+                return CommandResult.Error(new DeleteArticleException("There was an error deleting the article", ex));
+            }
         }
     }
 }

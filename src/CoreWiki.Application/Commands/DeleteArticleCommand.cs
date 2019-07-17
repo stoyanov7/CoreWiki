@@ -2,7 +2,7 @@
 {
     using MediatR;
 
-    public class DeleteArticleCommand : IRequest
+    public class DeleteArticleCommand : IRequest<CommandResult>
     {
         public DeleteArticleCommand(string slug)
         {
@@ -10,6 +10,5 @@
         }
 
         public string Slug { get; set; }
-
     }
 }
