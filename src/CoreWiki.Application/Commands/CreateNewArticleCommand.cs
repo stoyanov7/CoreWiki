@@ -2,7 +2,7 @@
 {
     using MediatR;
 
-    public class CreateNewArticleCommand : IRequest
+    public class CreateNewArticleCommand : IRequest<CommandResult>
     {
         public CreateNewArticleCommand(string topic, string content, string authorId)
         {

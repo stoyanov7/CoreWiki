@@ -8,7 +8,7 @@
     using Microsoft.Extensions.Logging;
     using Services.Contracts;
 
-    public class CreateNewArticleCommandHandler : AsyncRequestHandler<CreateNewArticleCommand>
+    public class CreateNewArticleCommandHandler : IRequestHandler<CreateNewArticleCommand, CommandResult>
     {
         private readonly IArticleService articleService;
         private readonly ILogger<CreateNewArticleCommand> logger;
@@ -21,19 +21,22 @@
             this.logger = logger;
         }
 
-        protected override async Task Handle(
+        public async Task<CommandResult> Handle(
             CreateNewArticleCommand request,
             CancellationToken cancellationToken)
         {
             try
             {
-                await this.articleService.Create(request.Topic, request.Content, request.AuthorId);
+                await this.articleService
+                    .Create(request.Topic, request.Content, request.AuthorId);
+
+                return CommandResult.Success();
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex.Message);
 
-                throw new CreateNewArticleException();
+                return CommandResult.Error(new CreateNewArticleException("There was an error creating the article", ex));
             }
         }
     }
