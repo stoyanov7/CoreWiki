@@ -3,28 +3,25 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Application.Commands;
+    using Application.Queries;
     using Dto;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
-    using Services.Contracts;
 
     [Authorize]
     public class CreateModel : PageModel
     {
         private readonly IMediator mediator;
-        private readonly IArticleService articleService;
         private readonly ILogger<CreateModel> logger;
 
         public CreateModel(
             IMediator mediator,
-            IArticleService articleService,
             ILogger<CreateModel> logger)
         {
             this.mediator = mediator;
-            this.articleService = articleService;
             this.logger = logger;
         }
 
@@ -40,7 +37,7 @@
                 return this.Page();
             }
 
-            var isTopicExist = this.articleService.IsArticleExist(this.Article.Topic);
+            var isTopicExist = await this.mediator.Send(new IsArticleExistQuery(this.Article.Topic));
 
             if (isTopicExist)
             {
