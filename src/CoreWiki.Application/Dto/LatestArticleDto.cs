@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Application
+﻿namespace CoreWiki.Application.Dto
 {
     using System.Collections.Generic;
     using Models;

@@ -1,6 +1,7 @@
 ﻿namespace CoreWiki.Application.Queries
 {
     using System.Collections.Generic;
+    using Dto;
     using MediatR;
 
     public class GetArticlesForIndexPageQuery : IRequest<IList<IndexArticleDto>>

@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Application;
+    using Application.Dto;
     using Application.Queries;
     using MediatR;
     using Microsoft.AspNetCore.Mvc.RazorPages;
