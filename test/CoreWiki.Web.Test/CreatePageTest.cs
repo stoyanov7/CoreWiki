@@ -3,6 +3,7 @@ namespace CoreWiki.Web.Test
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Application;
     using Application.Commands;
     using Dto;
     using MediatR;
@@ -57,7 +58,7 @@ namespace CoreWiki.Web.Test
 
             this.mockMediator
                 .Setup(m => m.Send(It.IsAny<CreateNewArticleCommand>(), It.IsAny<CancellationToken>()))
-                .Returns(() => Task.FromResult(default(Unit)));
+                .Returns(() => Task.FromResult(default(CommandResult)));
             
             var createModel = new CreateModel(this.mockMediator.Object, this.mockArticleService.Object, this.mockLogger.Object)
             {
