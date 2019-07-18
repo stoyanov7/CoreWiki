@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Web.Dto
+﻿namespace CoreWiki.Application
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
