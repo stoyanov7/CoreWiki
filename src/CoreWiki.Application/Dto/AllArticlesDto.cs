@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Web.Dto
+﻿namespace CoreWiki.Application.Dto
 {
     using Models;
     using NodaTime;
