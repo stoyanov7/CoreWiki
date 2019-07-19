@@ -10,15 +10,18 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using Services.Contracts;
     using Utilities;
 
     public class HistoryModel : PageModel
     {
         private readonly CoreWikiContext context;
+        private readonly IArticleService articleService;
 
-        public HistoryModel(CoreWikiContext context)
+        public HistoryModel(CoreWikiContext context, IArticleService articleService)
         {
             this.context = context;
+            this.articleService = articleService;
         }
 
         public Article Article { get; private set; }
@@ -35,12 +38,8 @@
                 return this.NotFound();
             }
 
-            this.Article = await this.context
-                .Articles
-                .Include(h => h.History)
-                .ThenInclude(h => h.Author)
-                .Include(a => a.Author)
-                .SingleOrDefaultAsync(s => s.Slug == slug);
+            this.Article = await this.articleService
+                .GetArticleWithHistoryDetails<Article>(slug);
 
             if (this.Article is null)
             {
@@ -52,17 +51,11 @@
 
         public async Task<IActionResult> OnPost(string slug)
         {
-            this.Article = await this.context
-                .Articles
-                .Include(h => h.History)
-                .Include(a => a.Author)
-                .SingleOrDefaultAsync(s => s.Slug == slug);
+            this.Article = await this.articleService
+                .GetArticleHistoryAndAuthor<Article>(slug);
 
-            var histories = this.Article
-                .History
-                .Where(h => this.Compare.Any(c => c == h.Version.ToString()))
-                .OrderBy(h => h.Version)
-                .ToArray();
+            var histories = await this.articleService
+                .GetHistory<ArticleHistory>(this.Compare);
 
             this.DiffModel = new SideBySideDiffBuilder(new Differ())
                 .BuildDiffModel(histories[0].Content, histories[1].Content);

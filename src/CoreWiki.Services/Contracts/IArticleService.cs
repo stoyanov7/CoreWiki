@@ -22,6 +22,12 @@
 
         Task<IEnumerable<TModel>> GetLatestArticle<TModel>();
 
+        Task<TModel> GetArticleWithHistoryDetails<TModel>(string slug);
+
+        Task<TModel> GetArticleHistoryAndAuthor<TModel>(string slug);
+
+        Task<TModel[]> GetHistory<TModel>(string[] compare);
+
         int GetCount();
 
         Task Delete(string slug);

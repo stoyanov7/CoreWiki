@@ -121,6 +121,46 @@
             return model;
         }
 
+        public async Task<TModel> GetArticleWithHistoryDetails<TModel>(string slug)
+        {
+            var article =  await this.articleRepository
+                .Details()
+                .Include(h => h.History)
+                .ThenInclude(h => h.Author)
+                .Include(a => a.Author)
+                .SingleOrDefaultAsync(s => s.Slug == slug);
+
+            var model = this.mapper.Map<TModel>(article);
+
+            return model;
+        }
+
+        public async Task<TModel> GetArticleHistoryAndAuthor<TModel>(string slug)
+        {
+            var article = await this.articleRepository
+                .Details()
+                .Include(h => h.History)
+                .Include(a => a.Author)
+                .SingleOrDefaultAsync(s => s.Slug == slug);
+
+            var model = this.mapper.Map<TModel>(article);
+
+            return model;
+        }
+
+        public async Task<TModel[]> GetHistory<TModel>(string[] compare)
+        {
+            var history = await this.articleRepository
+                .Details()
+                .Where(h => compare.Any(c => c == h.Version.ToString()))
+                .OrderBy(h => h.Version)
+                .ToArrayAsync();
+
+            var model = this.mapper.Map<TModel[]>(history);
+
+            return model;
+        } 
+
         public int GetCount() => this.articleRepository.Count();
         
         public async Task Delete(string slug)
