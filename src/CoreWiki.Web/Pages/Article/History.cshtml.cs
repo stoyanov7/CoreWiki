@@ -1,26 +1,21 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
-    using System.Linq;
     using System.Threading.Tasks;
-    using Data;
     using DiffPlex;
     using DiffPlex.DiffBuilder;
     using DiffPlex.DiffBuilder.Model;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
     using Models;
     using Services.Contracts;
     using Utilities;
 
     public class HistoryModel : PageModel
     {
-        private readonly CoreWikiContext context;
         private readonly IArticleService articleService;
 
-        public HistoryModel(CoreWikiContext context, IArticleService articleService)
+        public HistoryModel(IArticleService articleService)
         {
-            this.context = context;
             this.articleService = articleService;
         }
 
