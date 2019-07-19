@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Application
+﻿namespace CoreWiki.Application.Exceptions
 {
     using System;
 

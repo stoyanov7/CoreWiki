@@ -134,7 +134,7 @@
             {
                 if (!this.IsArticleExistByTopic(article.Topic))
                 {
-                    throw new ArticleNotFoundException();
+                    throw new ArticleNotFoundException(ex.Message);
                 }
                 else
                 {
