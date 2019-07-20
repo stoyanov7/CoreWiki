@@ -2,24 +2,26 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Dto;
+    using Application.Dto;
+    using Application.Queries;
+    using MediatR;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Services.Contracts;
 
     public class LatestChangesModel : PageModel
     {
-        private readonly IArticleService articleService;
+        private readonly IMediator mediator;
 
-        public LatestChangesModel(IArticleService articleService)
+        public LatestChangesModel(IMediator mediator)
         {
-            this.articleService = articleService;
+            this.mediator = mediator;
         }
 
-        public IList<LatestArticleDto> Articles { get; set; }
+        public IEnumerable<LatestArticleDto> Articles { get; set; }
 
         public async Task OnGetAsync()
         {
-            this.Articles = await this.articleService.GetAllArticlesAsync<LatestArticleDto>();
+            var query = new GetLatestArticlesQuery(this.Articles);
+            this.Articles = await this.mediator.Send(query);
         }
     }
 }

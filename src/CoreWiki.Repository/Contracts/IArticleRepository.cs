@@ -2,12 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Models;
 
     public interface IArticleRepository : IRepository<Article>
     {
+        IQueryable<Article> Details();
+
         bool IsArticleExistByTopic(string topic);
 
         IEnumerable<Article> Get(Expression<Func<Article, bool>> predicate);
@@ -25,5 +28,7 @@
         Task UpdateAsync(Article article);
 
         void Delete(string slug);
+
+        Task IncrementViewCount(string topic);
     }
 }

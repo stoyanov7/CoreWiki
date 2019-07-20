@@ -36,7 +36,11 @@
                 .Context
                 .Set<ArticleHistory>()
                 .Add(ArticleHistory.FromArticle(article));
+        }
 
+        public IQueryable<Article> Details()
+        {
+            return this.UnitOfWork.Context.Set<Article>();
         }
 
         public bool IsArticleExistByTopic(string topic)
@@ -130,7 +134,7 @@
             {
                 if (!this.IsArticleExistByTopic(article.Topic))
                 {
-                    throw new ArticleNotFoundException();
+                    throw new ArticleNotFoundException(ex.Message);
                 }
                 else
                 {
@@ -153,6 +157,18 @@
                     .Set<Article>()
                     .Remove(existing);
             }
+        }
+
+        public async Task IncrementViewCount(string slug)
+        {
+            var article = this.UnitOfWork
+                .Context
+                .Set<Article>()
+                .Single(a => a.Slug == slug);
+
+            article.ViewCount++;
+
+            await this.UnitOfWork.Context.SaveChangesAsync();
         }
     }
 }

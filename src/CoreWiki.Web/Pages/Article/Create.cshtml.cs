@@ -2,24 +2,26 @@
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Application.Commands;
+    using Application.Queries;
     using Dto;
+    using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
-    using Services.Contracts;
 
     [Authorize]
     public class CreateModel : PageModel
     {
-        private readonly IArticleService articleService;
+        private readonly IMediator mediator;
         private readonly ILogger<CreateModel> logger;
 
         public CreateModel(
-            IArticleService articleService,
+            IMediator mediator,
             ILogger<CreateModel> logger)
         {
-            this.articleService = articleService;
+            this.mediator = mediator;
             this.logger = logger;
         }
 
@@ -35,7 +37,7 @@
                 return this.Page();
             }
 
-            var isTopicExist = this.articleService.IsArticleExist(this.Article.Topic);
+            var isTopicExist = await this.mediator.Send(new IsArticleExistQuery(this.Article.Topic));
 
             if (isTopicExist)
             {
@@ -47,11 +49,16 @@
                 return this.Page();
             }
 
-            await this.articleService.Create(this.Article.Topic, this.Article.Content, this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var command = new CreateNewArticleCommand(
+                this.Article.Topic,
+                this.Article.Content,
+                this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
+            await this.mediator.Send(command);
+            
             this.logger.LogInformation($"Create new article with topic name - {this.Article.Topic}");
 
-            return this.RedirectToPage("./Index");
+            return this.Redirect("./Index");
         }
     }
 }

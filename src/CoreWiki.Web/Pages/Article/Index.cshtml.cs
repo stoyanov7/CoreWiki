@@ -2,24 +2,27 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Dto;
+    using Application.Dto;
+    using Application.Queries;
+    using MediatR;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Services.Contracts;
 
     public class IndexModel : PageModel
     {
-        private readonly IArticleService articleService;
+        private readonly IMediator mediator;
 
-        public IndexModel(IArticleService articleService)
+        public IndexModel(IMediator mediator)
         {
-            this.articleService = articleService;
+            this.mediator = mediator;
         }
 
         public IList<IndexArticleDto> Article { get; set; }
 
         public async Task OnGetAsync()
         {
-            this.Article = await this.articleService.GetAllArticlesAsync<IndexArticleDto>();
+            var query = new GetArticlesForIndexPageQuery(this.Article);
+
+            this.Article = await this.mediator.Send(query);
         }
     }
 }

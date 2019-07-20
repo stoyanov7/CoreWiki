@@ -43,6 +43,8 @@ namespace CoreWiki.Web
 
             services.AddAutoMapper(cfg => cfg.ValidateInlineMaps = false);
 
+            services.ConfigureMediatR();
+
             services
                 .AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

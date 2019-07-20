@@ -1,25 +1,39 @@
 ﻿namespace CoreWiki.Services
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using Contracts;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.EntityFrameworkCore;
     using Models;
+    using Models.Identity;
     using NodaTime;
     using Repository.Contracts;
     using Utilities;
 
     public class ArticleService : IArticleService
     {
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly IArticleRepository articleRepository;
         private readonly IMapper mapper;
         private readonly IClock clock;
+        private readonly IEmailSender emailSender;
 
-        public ArticleService(IArticleRepository articleRepository, IMapper mapper, IClock clock)
+        public ArticleService(
+            UserManager<ApplicationUser> userManager,
+            IArticleRepository articleRepository,
+            IMapper mapper,
+            IClock clock,
+            IEmailSender emailSender)
         {
+            this.userManager = userManager;
             this.articleRepository = articleRepository;
             this.mapper = mapper;
             this.clock = clock;
+            this.emailSender = emailSender;
         }
 
         public bool IsArticleExist(string topic)
@@ -40,6 +54,30 @@
                 .AddAsync(article);
 
             await this.articleRepository.SaveChangesAsync();
+        }
+
+        public async Task<TModel> DetailsAsync<TModel>(string slug)
+        {
+            var article = await this.articleRepository
+                .Details()
+                .Include(c => c.Comments)
+                .FirstOrDefaultAsync(m => m.Slug == slug);
+
+            var model = this.mapper.Map<TModel>(article);
+
+            return model;
+        }
+
+        public async Task<TModel> DetailsAsync<TModel>(Comment comment)
+        {
+            var article = await this.articleRepository
+                .Details()
+                .Include(x => x.Comments)
+                .SingleOrDefaultAsync(m => m.Id == comment.ArticleId);
+
+            var model = this.mapper.Map<TModel>(article);
+
+            return model;
         }
 
         public async Task<TModel> FindBySlugAsync<TModel>(string slug)
@@ -83,12 +121,66 @@
             return model;
         }
 
+        public async Task<TModel> GetArticleWithHistoryDetails<TModel>(string slug)
+        {
+            var article =  await this.articleRepository
+                .Details()
+                .Include(h => h.History)
+                .ThenInclude(h => h.Author)
+                .Include(a => a.Author)
+                .SingleOrDefaultAsync(s => s.Slug == slug);
+
+            var model = this.mapper.Map<TModel>(article);
+
+            return model;
+        }
+
+        public async Task<TModel> GetArticleHistoryAndAuthor<TModel>(string slug)
+        {
+            var article = await this.articleRepository
+                .Details()
+                .Include(h => h.History)
+                .Include(a => a.Author)
+                .SingleOrDefaultAsync(s => s.Slug == slug);
+
+            var model = this.mapper.Map<TModel>(article);
+
+            return model;
+        }
+
+        public async Task<TModel[]> GetHistory<TModel>(string[] compare)
+        {
+            var history = await this.articleRepository
+                .Details()
+                .Where(h => compare.Any(c => c == h.Version.ToString()))
+                .OrderBy(h => h.Version)
+                .ToArrayAsync();
+
+            var model = this.mapper.Map<TModel[]>(history);
+
+            return model;
+        } 
+
         public int GetCount() => this.articleRepository.Count();
         
         public async Task Delete(string slug)
         {
             this.articleRepository.Delete(slug);
             await this.articleRepository.SaveChangesAsync();
+        }
+
+        public async Task CanAuthorBeNotified(string authorId, string encodedUrl)
+        {
+            var author = await this.userManager.FindByIdAsync(authorId);
+
+            if (author.CanNotify)
+            {
+                var authorEmail = (await this.userManager.FindByIdAsync(authorId)).Email;
+                var thisUrl = encodedUrl;
+
+                await this.emailSender
+                    .SendEmailAsync(authorEmail, "You have a new comment!", $"Someone said something about your article at {thisUrl}");
+            }
         }
     }
 }

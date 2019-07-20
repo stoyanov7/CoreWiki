@@ -2,107 +2,93 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Data;
+    using Application.Commands;
+    using Application.Queries;
+    using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Http.Extensions;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
     using Models;
-    using Models.Identity;
-    using NodaTime;
+    using Services.Contracts;
     using Utilities;
 
     public class DetailsModel : PageModel
     {
-        private readonly CoreWikiContext context;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly IClock clock;
-        private readonly IEmailSender emailSender;
-
+        private readonly IMediator mediator;
+        private readonly IArticleService articleService;
+        
         public DetailsModel(
-            CoreWikiContext context,
-            UserManager<ApplicationUser> userManager,
-            IClock clock,
-            IEmailSender emailSender)
+            IMediator mediator,
+            IArticleService articleService)
         {
-            this.context = context;
-            this.userManager = userManager;
-            this.clock = clock;
-            this.emailSender = emailSender;
+            this.mediator = mediator;
+            this.articleService = articleService;
         }
 
         public Article Article { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string slug)
         {
-            if (slug == null)
+            if (string.IsNullOrEmpty(slug))
             {
                 return new ArticleNotFoundResult();
             }
 
-            this.Article = await this.context
-                .Articles
-                .Include(c => c.Comments)
-                .FirstOrDefaultAsync(m => m.Slug == slug);
+            this.Article = await this.mediator
+                .Send(new GetArticleDetailsQuery(slug));
 
             if (this.Article == null)
             {
                 return new ArticleNotFoundResult();
             }
 
-            if (this.Request.Cookies[this.Article.Topic] == null)
-            {
-                this.Article.ViewCount++;
-
-                this.Response.Cookies.Append(this.Article.Topic, "foo", new CookieOptions
-                {
-                    Expires = DateTime.UtcNow.AddDays(1)
-                });
-            }
+            await this.ManageArticleIncrementCount(slug);
 
             return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync(Comment comment)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.Page();
+            }
+
             this.TryValidateModel(comment);
 
-            this.Article = await this.context
-                .Articles
-                .Include(x => x.Comments)
-                .SingleOrDefaultAsync(m => m.Id == comment.ArticleId);
+            this.Article = await this.articleService.DetailsAsync<Article>(comment);
 
             if (this.Article == null)
             {
                 return new ArticleNotFoundResult();
             }
 
-            if (!this.ModelState.IsValid)
-            {
-                return this.Page();
-            }
+            await this.mediator
+                .Send(new SetCommentToArticleCommand(comment, this.Article));
 
-            comment.Article = this.Article;
-            comment.Submitted = this.clock.GetCurrentInstant();
-
-            this.context.Comments.Add(comment);
-            await this.context.SaveChangesAsync();
-
-            var author = await this.userManager.FindByIdAsync(this.Article.AuthorId);
-
-            if (author.CanNotify)
-            {
-                var authorEmail = (await this.userManager.FindByIdAsync(this.Article.AuthorId)).Email;
-                var thisUrl = this.Request.GetEncodedUrl();
-
-                await this.emailSender
-                    .SendEmailAsync(authorEmail, "You have a new comment!", $"Someone said something about your article at {thisUrl}");
-            }
-
+            await this.mediator
+                .Send(new CanAuthorBeNotifiedCommand(this.Article.AuthorId, this.Request.GetEncodedUrl()));
+            
             return this.Redirect($"/Article/Details/{this.Article.Slug}");
+        }
+
+        private async Task ManageArticleIncrementCount(string slug)
+        {
+            var incrementViewCount = (this.Request.Cookies[slug] == null);
+
+            if (!incrementViewCount)
+            {
+                return;
+            }
+
+            this.Article.ViewCount++;
+            this.Response.Cookies.Append(slug, "foo", new CookieOptions
+            {
+                Expires = DateTime.UtcNow.AddMinutes(5)
+            });
+
+            await this.mediator.Send(new IncrementArticleViewCountCommand(slug));
         }
     }
 }
