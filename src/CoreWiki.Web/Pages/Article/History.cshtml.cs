@@ -1,22 +1,23 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
     using System.Threading.Tasks;
+    using Application.Queries;
     using DiffPlex;
     using DiffPlex.DiffBuilder;
     using DiffPlex.DiffBuilder.Model;
+    using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Models;
-    using Services.Contracts;
     using Utilities;
 
     public class HistoryModel : PageModel
     {
-        private readonly IArticleService articleService;
+        private readonly IMediator mediator;
 
-        public HistoryModel(IArticleService articleService)
+        public HistoryModel(IMediator mediator)
         {
-            this.articleService = articleService;
+            this.mediator = mediator;
         }
 
         public Article Article { get; private set; }
@@ -33,8 +34,7 @@
                 return this.NotFound();
             }
 
-            this.Article = await this.articleService
-                .GetArticleWithHistoryDetails<Article>(slug);
+            this.Article = await this.mediator.Send(new GetArticleWithHistoryDetailsQuery(slug));
 
             if (this.Article is null)
             {
@@ -46,11 +46,9 @@
 
         public async Task<IActionResult> OnPost(string slug)
         {
-            this.Article = await this.articleService
-                .GetArticleHistoryAndAuthor<Article>(slug);
+            this.Article = await this.mediator.Send(new GetArticleHistoryAndAuthorQuery(slug));
 
-            var histories = await this.articleService
-                .GetHistory<ArticleHistory>(this.Compare);
+            var histories = await this.mediator.Send(new GetArticleHistoryQuery(this.Compare));
 
             this.DiffModel = new SideBySideDiffBuilder(new Differ())
                 .BuildDiffModel(histories[0].Content, histories[1].Content);
