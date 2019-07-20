@@ -17,16 +17,13 @@
     {
         private readonly IMediator mediator;
         private readonly IArticleService articleService;
-        private readonly ICommentService commentService;
         
         public DetailsModel(
             IMediator mediator,
-            IArticleService articleService,
-            ICommentService commentService)
+            IArticleService articleService)
         {
             this.mediator = mediator;
             this.articleService = articleService;
-            this.commentService = commentService;
         }
 
         public Article Article { get; set; }
@@ -38,8 +35,8 @@
                 return new ArticleNotFoundResult();
             }
 
-            var query = new GetArticleDetailsQuery(slug);
-            this.Article = await this.mediator.Send(query);
+            this.Article = await this.mediator
+                .Send(new GetArticleDetailsQuery(slug));
 
             if (this.Article == null)
             {
@@ -67,10 +64,11 @@
                 return new ArticleNotFoundResult();
             }
 
-            var command = new SetCommentToArticleCommand(comment, this.Article);
-            await this.mediator.Send(command);
-            
-            await this.articleService.CanAuthorBeNotified(this.Article.AuthorId, this.Request.GetEncodedUrl());
+            await this.mediator
+                .Send(new SetCommentToArticleCommand(comment, this.Article));
+
+            await this.mediator
+                .Send(new CanAuthorBeNotifiedCommand(this.Article.AuthorId, this.Request.GetEncodedUrl()));
             
             return this.Redirect($"/Article/Details/{this.Article.Slug}");
         }
