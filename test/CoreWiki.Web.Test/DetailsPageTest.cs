@@ -27,7 +27,7 @@
         [Fact]
         public async Task OnGet_WithNullSlug_ShouldReturnArticleNotFoundResult()
         {
-            this.model = new DetailsModel(null, null, null);
+            this.model = new DetailsModel(null, null);
             
             Assert.IsType<ArticleNotFoundResult>(await this.model.OnGetAsync(null));
         }
@@ -35,7 +35,7 @@
         [Fact]
         public async Task OnGet_WithEmptySlug_ShouldReturnArticleNotFoundResult()
         {
-            this.model = new DetailsModel(null, null, null);
+            this.model = new DetailsModel(null, null);
 
             Assert.IsType<ArticleNotFoundResult>(await this.model.OnGetAsync(string.Empty));
         }
@@ -57,7 +57,7 @@
                 .Setup(m => m.Send(It.IsAny<GetArticleDetailsQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(article);
 
-            var detaisModel = new DetailsModel(this.mockMediator.Object, null, null);
+            var detaisModel = new DetailsModel(this.mockMediator.Object, null);
             detaisModel.AddPageContext("", Guid.Empty.ToString());
             await detaisModel.OnGetAsync(article.Slug);
 
@@ -72,7 +72,7 @@
                 .Setup(m => m.Send(It.IsAny<GetArticleDetailsQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(default(Article)));
 
-            var detaisModel = new DetailsModel(this.mockMediator.Object, null, null);
+            var detaisModel = new DetailsModel(this.mockMediator.Object, null);
             
             Assert.Null(detaisModel.Article);
             Assert.IsType<ArticleNotFoundResult>(await detaisModel.OnGetAsync("test-slug"));

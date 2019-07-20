@@ -25,7 +25,7 @@ namespace CoreWiki.Web.Test
 
         public CreatePageTest()
         {
-            this.model = new CreateModel(null, null, null);
+            this.model = new CreateModel(null, null);
             this.mockArticleService = new Mock<IArticleService>();
             this.mockMediator = new Mock<IMediator>();
             this.mockLogger = new Mock<ILogger<CreateModel>>();
@@ -60,7 +60,7 @@ namespace CoreWiki.Web.Test
                 .Setup(m => m.Send(It.IsAny<CreateNewArticleCommand>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.FromResult(default(CommandResult)));
             
-            var createModel = new CreateModel(this.mockMediator.Object, this.mockArticleService.Object, this.mockLogger.Object)
+            var createModel = new CreateModel(this.mockMediator.Object, this.mockLogger.Object)
             {
                 Article = new CreateArticleDto
                 {
