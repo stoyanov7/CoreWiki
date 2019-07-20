@@ -67,7 +67,8 @@
                 return new ArticleNotFoundResult();
             }
 
-            await this.commentService.SetCommentToArticleAsync(comment, this.Article);
+            var command = new SetCommentToArticleCommand(comment, this.Article);
+            await this.mediator.Send(command);
             
             await this.articleService.CanAuthorBeNotified(this.Article.AuthorId, this.Request.GetEncodedUrl());
             
