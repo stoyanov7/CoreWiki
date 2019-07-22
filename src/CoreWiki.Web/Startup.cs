@@ -1,16 +1,14 @@
 namespace CoreWiki.Web
 {
     using System;
+    using AutoMapper;
     using Configurations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Net.Http.Headers;
-    using NodaTime;
-    using Services;
     using Snickler.RSSCore.Extensions;
     using Snickler.RSSCore.Models;
     using Utilities;
@@ -39,12 +37,17 @@ namespace CoreWiki.Web
             services.AddMarkdown();
             services.AddRSSFeed<RssProvider>();
 
-            services.AddSingleton<IClock>(SystemClock.Instance);
-            services.AddSingleton<IEmailSender, EmailNotifier>();
+            services.ConfigureServices();
 
             services.ConfigureIdentity();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAutoMapper(cfg => cfg.ValidateInlineMaps = false);
+
+            services.ConfigureMediatR();
+
+            services
+                .AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -59,10 +62,10 @@ namespace CoreWiki.Web
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseNWebSec();
             app.UseResponseCompression();
             app.UseStaticFiles(new StaticFileOptions
             {

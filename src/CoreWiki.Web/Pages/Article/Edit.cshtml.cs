@@ -1,24 +1,21 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
-    using System.Linq;
     using System.Threading.Tasks;
-    using Data;
+    using Application.Commands;
+    using Application.Queries;
+    using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
     using Models;
-    using NodaTime;
     using Utilities;
 
     public class EditModel : PageModel
     {
-        private readonly CoreWikiContext context;
-        private readonly IClock clock;
+        private readonly IMediator mediator;
 
-        public EditModel(CoreWikiContext context, IClock clock)
+        public EditModel(IMediator mediator)
         {
-            this.context = context;
-            this.clock = clock;
+            this.mediator = mediator;
         }
 
         [BindProperty]
@@ -31,9 +28,7 @@
                 return new ArticleNotFoundResult();
             }
 
-            this.Article = await this.context
-                .Articles
-                .FirstOrDefaultAsync(m => m.Slug == slug);
+            this.Article = await this.mediator.Send(new GetArticleForEditQuery(slug));
 
             if (this.Article == null)
             {
@@ -50,35 +45,9 @@
                 return this.Page();
             }
 
-            this.context
-                .Attach(this.Article)
-                .State = EntityState.Modified;
-
-            this.Article.Published = this.clock.GetCurrentInstant();
-            this.Article.Slug = UrlHelpers.UrlFriendly(this.Article.Topic.ToLower());
-
-            try
-            {
-                await this.context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!this.ArticleExists(this.Article.Topic))
-                {
-                    return new ArticleNotFoundResult();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await this.mediator.Send(new EditArticleCommand(this.Article));
+            
             return this.RedirectToPage("/Article/Details", new { slug = this.Article.Slug });
         }
-
-        private bool ArticleExists(string slug)
-             => this.context
-                 .Articles
-                 .Any(e => e.Slug == slug);
     }
 }

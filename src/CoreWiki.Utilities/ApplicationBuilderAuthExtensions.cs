@@ -49,7 +49,8 @@
                     user = new ApplicationUser
                     {
                         UserName = AdminUsername,
-                        Email = AdminEmail
+                        Email = AdminEmail,
+                        CanNotify = false
                     };
 
                     await userManager.CreateAsync(user, DefaultAdminPassword);

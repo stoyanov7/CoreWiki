@@ -15,7 +15,7 @@ namespace CoreWiki.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -37,6 +37,8 @@ namespace CoreWiki.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
+                    b.Property<int>("Version");
+
                     b.Property<long>("ViewCount");
 
                     b.HasKey("Id");
@@ -48,6 +50,38 @@ namespace CoreWiki.Data.Migrations
                         .HasFilter("[Slug] IS NOT NULL");
 
                     b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("CoreWiki.Models.ArticleHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ArticleId");
+
+                    b.Property<string>("AuthorId");
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("PublisheOn")
+                        .HasColumnName("Published");
+
+                    b.Property<string>("Slug");
+
+                    b.Property<string>("Topic")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<int>("Version");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.ToTable("ArticleHistories");
                 });
 
             modelBuilder.Entity("CoreWiki.Models.Comment", b =>
@@ -245,6 +279,18 @@ namespace CoreWiki.Data.Migrations
                 {
                     b.HasOne("CoreWiki.Models.Identity.ApplicationUser", "Author")
                         .WithMany("Articles")
+                        .HasForeignKey("AuthorId");
+                });
+
+            modelBuilder.Entity("CoreWiki.Models.ArticleHistory", b =>
+                {
+                    b.HasOne("CoreWiki.Models.Article", "Article")
+                        .WithMany("History")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("CoreWiki.Models.Identity.ApplicationUser", "Author")
+                        .WithMany()
                         .HasForeignKey("AuthorId");
                 });
 

@@ -1,36 +1,35 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
     using System.Threading.Tasks;
-    using Data;
+    using Application.Commands;
+    using Application.Queries;
+    using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
-    using Models;
+    using Utilities.Constants;
 
-    [Authorize("CanDeleteArticle")]
+    [Authorize(PolicyConstants.CanDeleteArticle)]
     public class DeleteModel : PageModel
     {
-        private readonly CoreWikiContext context;
+        private readonly IMediator mediator;
 
-        public DeleteModel(CoreWikiContext context)
+        public DeleteModel(IMediator mediator)
         {
-            this.context = context;
+            this.mediator = mediator;
         }
 
         [BindProperty]
-        public Article Article { get; set; }
+        public DeleteArticleDto Article { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string slug)
+        public async Task<IActionResult> OnGet(string slug)
         {
             if (slug == null)
             {
                 return this.NotFound();
             }
 
-            this.Article = await this.context
-                .Articles
-                .FirstOrDefaultAsync(m => m.Slug == slug);
+            this.Article = await this.mediator.Send(new DeleteArticleQuery(slug));
 
             if (this.Article == null)
             {
@@ -47,19 +46,8 @@
                 return this.NotFound();
             }
 
-            this.Article = await this.context
-                .Articles
-                .FindAsync(slug);
-
-            if (this.Article != null)
-            {
-                this.context
-                    .Articles
-                    .Remove(this.Article);
-
-                await this.context.SaveChangesAsync();
-            }
-
+            await this.mediator.Send(new DeleteArticleCommand(slug));
+            
             return this.RedirectToPage("./Index");
         }
     }
