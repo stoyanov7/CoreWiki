@@ -68,3 +68,5 @@ jobs:
   steps:
   - task: Docker@1
     displayName: 'Build image'
+    inputs:
+      dockerFile: '**/Dockerfile'
