@@ -58,3 +58,13 @@ jobs:
       command: test
       projects: '**/*Tests/*.csproj'
       arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+
+- job: Docker
+  displayName: Build Docker Image
+
+  pool:
+    vmImage: 'Ubuntu 16.04'
+
+  steps:
+  - task: Docker@1
+    displayName: 'Build image'
