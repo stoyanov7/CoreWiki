@@ -1,13 +1,18 @@
 ﻿namespace CoreWiki.Web.Configurations
 {
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
 
     public static partial class ConfigurationExtensions
     {
-        public static IApplicationBuilder UseNWebSec(this IApplicationBuilder app)
+        public static IApplicationBuilder UseNWebSec(this IApplicationBuilder app, IHostingEnvironment env)
         {
-            // HTTP Strict Transport Security Header
-            app.UseHsts(options => options.MaxAge(days: 365).IncludeSubdomains());
+            if (!env.IsDevelopment())
+            {
+                // HTTP Strict Transport Security Header
+                app.UseHsts(options => options.MaxAge(days: 365)
+                    .IncludeSubdomains());
+            }
 
             // This response header prevents pages from loading in modern browsers
             // when reflected cross-site scription is detected.
