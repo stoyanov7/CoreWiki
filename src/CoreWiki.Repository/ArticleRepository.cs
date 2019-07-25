@@ -1,7 +1,9 @@
 ﻿namespace CoreWiki.Repository
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Contracts;
@@ -17,13 +19,28 @@
         private readonly IClock clock;
 
         public ArticleRepository(
-            IUnitOfWork unitOfWork, 
+            IUnitOfWork unitOfWork,
             IHttpContextAccessor httpContextAccessor,
             IClock clock)
             : base(unitOfWork)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.clock = clock;
+        }
+
+        public override async Task AddAsync(Article article)
+        {
+            await base.AddAsync(article);
+
+            this.UnitOfWork
+                .Context
+                .Set<ArticleHistory>()
+                .Add(ArticleHistory.FromArticle(article));
+        }
+
+        public IQueryable<Article> Details()
+        {
+            return this.UnitOfWork.Context.Set<Article>();
         }
 
         public bool IsArticleExistByTopic(string topic)
@@ -34,7 +51,14 @@
                 .Any(x => x.Topic == topic);
         }
 
-        public async Task<Article> FindBySlugAsync(string slug)
+        public IEnumerable<Article> Get(Expression<Func<Article, bool>> predicate)
+            => this.UnitOfWork
+                .Context
+                .Set<Article>()
+                .Where(predicate)
+                .AsEnumerable();
+
+        public async Task<Article> FindByAsync(string slug)
         {
             return await this.UnitOfWork
                 .Context
@@ -50,6 +74,31 @@
                 .Include(c => c.Comments)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Article>> All(int pageNumber, int pageSize)
+        {
+            return await this.UnitOfWork
+                .Context
+                .Set<Article>()
+                .AsNoTracking()
+                .OrderBy(a => a.Topic)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToArrayAsync();
+        }
+
+        public async Task<IEnumerable<Article>> LatestArticle()
+        {
+            return await this.UnitOfWork
+                .Context
+                .Set<Article>()
+                .Include(a => a.Comments)
+                .OrderByDescending(x => x.Published)
+                .Take(5)
+                .ToListAsync(); ;
+        }
+
+        public int Count() => this.UnitOfWork.Context.Set<Article>().Count();
 
         public async Task UpdateAsync(Article article)
         {
@@ -85,7 +134,7 @@
             {
                 if (!this.IsArticleExistByTopic(article.Topic))
                 {
-                    throw new ArticleNotFoundException();
+                    throw new ArticleNotFoundException(ex.Message);
                 }
                 else
                 {
@@ -108,6 +157,18 @@
                     .Set<Article>()
                     .Remove(existing);
             }
+        }
+
+        public async Task IncrementViewCount(string slug)
+        {
+            var article = this.UnitOfWork
+                .Context
+                .Set<Article>()
+                .Single(a => a.Slug == slug);
+
+            article.ViewCount++;
+
+            await this.UnitOfWork.Context.SaveChangesAsync();
         }
     }
 }

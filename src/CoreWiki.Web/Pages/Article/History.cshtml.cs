@@ -1,24 +1,23 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
-    using System.Linq;
     using System.Threading.Tasks;
-    using Data;
+    using Application.Queries;
     using DiffPlex;
     using DiffPlex.DiffBuilder;
     using DiffPlex.DiffBuilder.Model;
+    using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
     using Models;
     using Utilities;
 
     public class HistoryModel : PageModel
     {
-        private readonly CoreWikiContext context;
+        private readonly IMediator mediator;
 
-        public HistoryModel(CoreWikiContext context)
+        public HistoryModel(IMediator mediator)
         {
-            this.context = context;
+            this.mediator = mediator;
         }
 
         public Article Article { get; private set; }
@@ -35,11 +34,7 @@
                 return this.NotFound();
             }
 
-            this.Article = await this.context
-                .Articles
-                .Include(h => h.History)
-                .Include(a => a.Author)
-                .SingleOrDefaultAsync(s => s.Slug == slug);
+            this.Article = await this.mediator.Send(new GetArticleWithHistoryDetailsQuery(slug));
 
             if (this.Article is null)
             {
@@ -51,17 +46,9 @@
 
         public async Task<IActionResult> OnPost(string slug)
         {
-            this.Article = await this.context
-                .Articles
-                .Include(h => h.History)
-                .Include(a => a.Author)
-                .SingleOrDefaultAsync(s => s.Slug == slug);
+            this.Article = await this.mediator.Send(new GetArticleHistoryAndAuthorQuery(slug));
 
-            var histories = this.Article
-                .History
-                .Where(h => this.Compare.Any(c => c == h.Version.ToString()))
-                .OrderBy(h => h.Version)
-                .ToArray();
+            var histories = await this.mediator.Send(new GetArticleHistoryQuery(this.Compare));
 
             this.DiffModel = new SideBySideDiffBuilder(new Differ())
                 .BuildDiffModel(histories[0].Content, histories[1].Content);

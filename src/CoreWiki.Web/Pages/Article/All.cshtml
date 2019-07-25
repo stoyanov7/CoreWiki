@@ -1,5 +1,9 @@
 ﻿@page "{pageNumber?}"
-@model CoreWiki.Web.Pages.Article.AllModel
+
+@using CoreWiki.Utilities.Constants
+@using CoreWiki.Web.Pages.Article
+@model AllModel
+
 @{
     ViewData["Title"] = "All";
 }
@@ -20,7 +24,7 @@
                 <span data-value="@item.Published" class="timeStampValue"> @item.Published</span>
             </h6>
             <a class="card-link" asp-page="./Edit" asp-route-slug="@item.Slug">Edit</a>
-            <a class="card-link" asp-page="./Delete" asp-route-slug="@item.Slug" asp-policy="CanDeleteArticle">Delete</a>
+            <a class="card-link" asp-page="./Delete" asp-route-slug="@item.Slug" asp-policy=@PolicyConstants.CanDeleteArticle>Delete</a>
         </div>
     </div>
 }

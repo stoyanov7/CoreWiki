@@ -1,5 +1,7 @@
 ﻿@page
-@model CoreWiki.Web.Pages.Article.LatestChangesModel
+
+@using CoreWiki.Utilities.Constants
+@model LatestChangesModel
 
 @{
     ViewData["Title"] = "Latest Changes";
@@ -26,7 +28,7 @@
                 <span>Comments: @item.Comments.Count</span>
             </h6>
             <a class="btn btn-warning" asp-page="./Edit" asp-route-slug="@item.Slug">Edit</a>
-            <a class="btn btn-danger" asp-page="./Delete" asp-route-slug="@item.Slug" asp-policy="CanDeleteArticle">Delete</a>
+            <a class="btn btn-danger" asp-page="./Delete" asp-route-slug="@item.Slug" asp-policy=@PolicyConstants.CanDeleteArticle>Delete</a>
         </div>
     </div>
 }

@@ -1,6 +1,7 @@
 namespace CoreWiki.Web
 {
     using System;
+    using AutoMapper;
     using Configurations;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -40,6 +41,10 @@ namespace CoreWiki.Web
 
             services.ConfigureIdentity();
 
+            services.AddAutoMapper(cfg => cfg.ValidateInlineMaps = false);
+
+            services.ConfigureMediatR();
+
             services
                 .AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -57,10 +62,10 @@ namespace CoreWiki.Web
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseNWebSec(env);
             app.UseResponseCompression();
             app.UseStaticFiles(new StaticFileOptions
             {

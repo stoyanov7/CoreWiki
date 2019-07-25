@@ -1,36 +1,35 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
     using System.Threading.Tasks;
-    using Data;
+    using Application.Commands;
+    using Application.Queries;
+    using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Models;
-    using Repository.Contracts;
+    using Utilities.Constants;
 
-    [Authorize("CanDeleteArticle")]
+    [Authorize(PolicyConstants.CanDeleteArticle)]
     public class DeleteModel : PageModel
     {
-        private readonly CoreWikiContext context;
-        private readonly IArticleRepository articleRepository;
+        private readonly IMediator mediator;
 
-        public DeleteModel(CoreWikiContext context, IArticleRepository articleRepository)
+        public DeleteModel(IMediator mediator)
         {
-            this.context = context;
-            this.articleRepository = articleRepository;
+            this.mediator = mediator;
         }
 
         [BindProperty]
-        public Article Article { get; set; }
+        public DeleteArticleDto Article { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string slug)
+        public async Task<IActionResult> OnGet(string slug)
         {
             if (slug == null)
             {
                 return this.NotFound();
             }
 
-            this.Article = await this.articleRepository.FindBySlugAsync(slug);
+            this.Article = await this.mediator.Send(new DeleteArticleQuery(slug));
 
             if (this.Article == null)
             {
@@ -47,8 +46,7 @@
                 return this.NotFound();
             }
 
-            this.articleRepository.Delete(slug);
-            await this.articleRepository.SaveChangesAsync();
+            await this.mediator.Send(new DeleteArticleCommand(slug));
             
             return this.RedirectToPage("./Index");
         }

@@ -2,36 +2,33 @@
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using Application.Commands;
+    using Application.Queries;
+    using Dto;
+    using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
-    using Models;
-    using NodaTime;
-    using Repository.Contracts;
-    using Utilities;
 
     [Authorize]
     public class CreateModel : PageModel
     {
-        private readonly IArticleRepository articleRepository;
-        private readonly IClock clock;
+        private readonly IMediator mediator;
         private readonly ILogger<CreateModel> logger;
 
         public CreateModel(
-            IArticleRepository articleRepository,
-            IClock clock,
+            IMediator mediator,
             ILogger<CreateModel> logger)
         {
-            this.articleRepository = articleRepository;
-            this.clock = clock;
+            this.mediator = mediator;
             this.logger = logger;
         }
 
         public IActionResult OnGet() => this.Page();
 
         [BindProperty]
-        public Article Article { get; set; }
+        public CreateArticleDto Article { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -40,8 +37,7 @@
                 return this.Page();
             }
 
-            var isTopicExist = this.articleRepository
-                .IsArticleExistByTopic(this.Article.Topic);
+            var isTopicExist = await this.mediator.Send(new IsArticleExistQuery(this.Article.Topic));
 
             if (isTopicExist)
             {
@@ -53,22 +49,16 @@
                 return this.Page();
             }
 
-            this.Article.Published = this.clock.GetCurrentInstant();
-            this.Article.Slug = UrlHelpers.UrlFriendly(this.Article.Topic.ToLower());
-            this.Article.AuthorId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var command = new CreateNewArticleCommand(
+                this.Article.Topic,
+                this.Article.Content,
+                this.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            await this.articleRepository
-                .AddAsync(this.Article);
-
-            //this.context
-                //.ArticleHistories
-                //.Add(ArticleHistory.FromArticle(this.Article));
-
-            await this.articleRepository.SaveChangesAsync();
-
+            await this.mediator.Send(command);
+            
             this.logger.LogInformation($"Create new article with topic name - {this.Article.Topic}");
 
-            return this.RedirectToPage("./Index");
+            return this.Redirect("./Index");
         }
     }
 }

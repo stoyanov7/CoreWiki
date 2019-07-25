@@ -1,32 +1,27 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    using Data;
+    using Application.Dto;
+    using Application.Queries;
+    using MediatR;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Microsoft.EntityFrameworkCore;
-    using Models;
 
     public class LatestChangesModel : PageModel
     {
-        private readonly CoreWikiContext context;
+        private readonly IMediator mediator;
 
-        public LatestChangesModel(CoreWikiContext context)
+        public LatestChangesModel(IMediator mediator)
         {
-            this.context = context;
+            this.mediator = mediator;
         }
 
-        public IList<Article> Articles { get; set; }
+        public IEnumerable<LatestArticleDto> Articles { get; set; }
 
         public async Task OnGetAsync()
         {
-            this.Articles = await this.context
-                .Articles
-                .Include(a => a.Comments)
-                .OrderByDescending(x => x.PublishedOn)
-                .Take(5)
-                .ToListAsync();
+            var query = new GetLatestArticlesQuery(this.Articles);
+            this.Articles = await this.mediator.Send(query);
         }
     }
 }
