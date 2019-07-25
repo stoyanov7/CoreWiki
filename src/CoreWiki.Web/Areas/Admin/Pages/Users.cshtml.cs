@@ -11,7 +11,6 @@ namespace CoreWiki.Web.Areas.Admin.Pages
     public class UsersModel : PageModel
     {
         private readonly IUserService userService;
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
         public IEnumerable<ApplicationUser> UsersList { get; private set; }
@@ -25,13 +24,10 @@ namespace CoreWiki.Web.Areas.Admin.Pages
 
         public UsersModel(
             IUserService userService,
-            UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager)
         {
             this.userService = userService;
-            this.userManager = userManager;
             this.roleManager = roleManager;
-            
         }
 
         public IActionResult OnGet()
