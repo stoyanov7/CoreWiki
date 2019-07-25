@@ -65,7 +65,7 @@ namespace CoreWiki.Web
             }
 
             app.UseHttpsRedirection();
-            app.UseNWebSec();
+            app.UseNWebSec(env);
             app.UseResponseCompression();
             app.UseStaticFiles(new StaticFileOptions
             {
