@@ -3,10 +3,12 @@ namespace CoreWiki.Web.Areas.Admin.Pages
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Services.Contracts;
 
+    [Authorize("RequireAdministratorRole")]
     public class AddModel : PageModel
     {
         private readonly IRoleService roleService;

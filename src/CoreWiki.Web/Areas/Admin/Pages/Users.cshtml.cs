@@ -2,11 +2,13 @@ namespace CoreWiki.Web.Areas.Admin.Pages
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Models.Identity;
     using Services.Contracts;
 
+    [Authorize("RequireAdministratorRole")]
     public class UsersModel : PageModel
     {
         private readonly IUserService userService;
