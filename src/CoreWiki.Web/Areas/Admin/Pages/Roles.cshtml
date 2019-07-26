@@ -1,4 +1,37 @@
 ﻿@page
-@model CoreWiki.Web.Areas.Admin.Pages.RolesModel
-@{
-}
+@model RolesModel
+
+<h2>Current Roles:</h2>
+<table class="table table-striped table-hover table-bordered">
+    <tr>
+        <th>Role Name (Normalized)</th>
+        <th>Role Name</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var role in Model.RolesList)
+    {
+        <tr>
+            <td> @role.NormalizedName </td>
+            <td> @role.Name </td>
+            <td>
+                <form method="post">
+                    <input type="hidden"
+                           asp-for="@Model.RoleToRemove"
+                           value="@role.NormalizedName" />
+                    <input type="submit"
+                           class="btn btn-danger mb-1"
+                           value="Delete Role"
+                           asp-page-handler="DeleteRole" />
+                </form>
+                <a class="btn btn-warning disabled">Amend Role</a>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="4" class="text-center">
+            <a asp-page="./Roles" class="btn btn-sm btn-success">
+                <i class="fa fa-plus"></i> Create role
+            </a>
+        </td>
+    </tr>
+</table>
