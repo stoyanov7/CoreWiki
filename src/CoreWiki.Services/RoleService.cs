@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Contracts;
     using Microsoft.AspNetCore.Identity;
 
@@ -22,5 +23,10 @@
                 .Roles
                 .Select(x => x.Name)
                 .ToList();
+
+        public async Task<IdentityResult> CreateNewRole(string roleName)
+        {
+            return await this.roleManager.CreateAsync(new IdentityRole(roleName));
+        }
     }
 }
