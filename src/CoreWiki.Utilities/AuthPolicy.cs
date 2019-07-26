@@ -12,6 +12,11 @@
                 policy.RequireAuthenticatedUser();
                 policy.RequireRole("Administrator");
             });
+
+            options.AddPolicy("RequireAdministratorRole", policy =>
+            {
+                policy.RequireRole("Administrator").RequireAuthenticatedUser();
+            });
         }
     }
 }
