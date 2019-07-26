@@ -2,25 +2,38 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using AutoMapper;
     using Contracts;
     using Microsoft.AspNetCore.Identity;
+    using Models.Identity;
     using Repository.Contracts;
 
     public class UserService : IUserService
     {
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserRepository usersRepository;
         private readonly IMapper mapper;
-        private readonly RoleManager<IdentityRole> roleManager;
 
         public UserService(
+            UserManager<ApplicationUser> userManager,
             IUserRepository usersRepository,
-            IMapper mapper,
-            RoleManager<IdentityRole> roleManager)
+            IMapper mapper)
         {
+            this.userManager = userManager;
             this.usersRepository = usersRepository;
             this.mapper = mapper;
-            this.roleManager = roleManager;
+        }
+
+        public TModel FindByEmail<TModel>(string email)
+        {
+            var user = this.usersRepository
+                .Get()
+                .FirstOrDefault(x => x.Email == email);
+
+            var model = this.mapper.Map<TModel>(user);
+
+            return model;
         }
 
         public IEnumerable<TModel> GetAllUsers<TModel>()
@@ -31,10 +44,30 @@
             return model;
         }
 
-        public ICollection<string> GetAllRoleNames() =>
-            this.roleManager
-                .Roles
-                .Select(x => x.Name)
-                .ToList();
+        public async Task<bool> UpdateUserRolesAsync(string email, ICollection<string> roleNames, IEnumerable<string> updatedRoles)
+        {
+            var user = await this.userManager.FindByEmailAsync(email);
+
+            if (user is null)
+            {
+                return false;
+            }
+            else
+            {
+                foreach (var role in roleNames)
+                {
+                    if (updatedRoles.Contains(role))
+                    {
+                        await this.userManager.AddToRoleAsync(user, role);
+                    }
+                    else
+                    {
+                        await this.userManager.RemoveFromRoleAsync(user, role);
+                    }
+                }
+
+                return true;
+            }
+        }
     }
 }
