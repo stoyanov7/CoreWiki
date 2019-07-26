@@ -27,6 +27,7 @@
             services.AddTransient<IArticleSearchService, ArticleSearchService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
 
             services.AddSingleton<IClock>(SystemClock.Instance);
             services.AddSingleton<IEmailSender, EmailNotifier>();
