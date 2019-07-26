@@ -1,8 +1,6 @@
 namespace CoreWiki.Web.Areas.Admin.Pages
 {
     using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Models.Identity;
@@ -11,33 +9,23 @@ namespace CoreWiki.Web.Areas.Admin.Pages
     public class UsersModel : PageModel
     {
         private readonly IUserService userService;
-        private readonly RoleManager<IdentityRole> roleManager;
+
+        public UsersModel(IUserService userService)
+        {
+            this.userService = userService;
+        }
 
         public IEnumerable<ApplicationUser> UsersList { get; private set; }
 
-        public List<IdentityRole> RolesList { get; private set; }
-
-        public List<string> RoleNames { get; private set; }
+        public ICollection<string> RoleNames { get; private set; }
 
         [BindProperty]
         public string UsernameToAddRoleTo { get; set; }
 
-        public UsersModel(
-            IUserService userService,
-            RoleManager<IdentityRole> roleManager)
-        {
-            this.userService = userService;
-            this.roleManager = roleManager;
-        }
-
         public IActionResult OnGet()
         {
-            var currentRoles = this.roleManager.Roles.ToList();
-
-            this.RolesList = currentRoles;
             this.UsersList = this.userService.GetAllUsers<ApplicationUser>();
-
-            this.RoleNames = currentRoles.Select(r => r.Name).ToList();
+            this.RoleNames = this.userService.GetAllRoleNames();
 
             return this.Page();
         }

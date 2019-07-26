@@ -5,5 +5,7 @@
     public interface IUserService
     {
         IEnumerable<TModel> GetAllUsers<TModel>();
+
+        ICollection<string> GetAllRoleNames();
     }
 }
