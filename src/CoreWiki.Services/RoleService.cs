@@ -15,6 +15,11 @@
             this.roleManager = roleManager;
         }
 
+        public async Task<IdentityRole> FindByNameAsync(string roleToRemove)
+        {
+            return await this.roleManager.FindByNameAsync(roleToRemove);
+        }
+
         public IEnumerable<IdentityRole> GetAllRoles() =>
             this.roleManager.Roles.ToList();
 
@@ -27,6 +32,11 @@
         public async Task<IdentityResult> CreateNewRole(string roleName)
         {
             return await this.roleManager.CreateAsync(new IdentityRole(roleName));
+        }
+
+        public async Task<IdentityResult> DeleteRoleAsync(IdentityRole role)
+        {
+            return await this.roleManager.DeleteAsync(role);
         }
     }
 }

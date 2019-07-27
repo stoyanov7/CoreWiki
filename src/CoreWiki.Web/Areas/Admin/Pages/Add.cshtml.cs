@@ -16,7 +16,7 @@ namespace CoreWiki.Web.Areas.Admin.Pages
         [Required]
         public string RoleName { get; set; }
 
-        public void OnGet() => this.Page();
+        public IActionResult OnGet() => this.Page();
 
         public async Task<IActionResult> OnPostAsync()
         {

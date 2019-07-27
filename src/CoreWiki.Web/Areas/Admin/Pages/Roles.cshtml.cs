@@ -8,12 +8,10 @@ namespace CoreWiki.Web.Areas.Admin.Pages
 
     public class RolesModel : BaseModel
     {
-        private readonly RoleManager<IdentityRole> roleManager;
         private readonly IRoleService roleService;
 
-        public RolesModel(RoleManager<IdentityRole> roleManager, IRoleService roleService)
+        public RolesModel(IRoleService roleService)
         {
-            this.roleManager = roleManager;
             this.roleService = roleService;
         }
 
@@ -31,9 +29,8 @@ namespace CoreWiki.Web.Areas.Admin.Pages
 
         public async Task<IActionResult> OnPostDeleteRoleAsync()
         {
-            
-            var role = await this.roleManager.FindByNameAsync(this.RoleToRemove);
-            var result = await this.roleManager.DeleteAsync(role);
+            var role = await this.roleService.FindByNameAsync(this.RoleToRemove);
+            var result = await this.roleService.DeleteRoleAsync(role);
 
             if (result.Succeeded)
             {
