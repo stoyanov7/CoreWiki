@@ -2,14 +2,11 @@ namespace CoreWiki.Web.Areas.Admin.Pages
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
     using Services.Contracts;
 
-    [Authorize("RequireAdministratorRole")]
-    public class RolesModel : PageModel
+    public class RolesModel : BaseModel
     {
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IRoleService roleService;
@@ -25,11 +22,11 @@ namespace CoreWiki.Web.Areas.Admin.Pages
 
         public IEnumerable<IdentityRole> RolesList { get; private set; }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
             this.RolesList = this.roleService.GetAllRoles();
 
-            this.Page();
+            return this.Page();
         }
 
         public async Task<IActionResult> OnPostDeleteRoleAsync()
