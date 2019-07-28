@@ -3,53 +3,53 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Web", "CoreWiki.Web\CoreWiki.Web.csproj", "{13A46A77-5D4C-4F82-B1D8-B22636EABD24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Web", "src\CoreWiki.Web\CoreWiki.Web.csproj", "{13A46A77-5D4C-4F82-B1D8-B22636EABD24}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Models", "CoreWiki.Models\CoreWiki.Models.csproj", "{B4C4A3F9-501A-4911-8FC2-AD3707113E8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Models", "src\CoreWiki.Models\CoreWiki.Models.csproj", "{B4C4A3F9-501A-4911-8FC2-AD3707113E8D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Data", "CoreWiki.Data\CoreWiki.Data.csproj", "{1E5228D2-6EAD-46E0-ABC0-51C66E678D85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Data", "src\CoreWiki.Data\CoreWiki.Data.csproj", "{1E5228D2-6EAD-46E0-ABC0-51C66E678D85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Utilities", "CoreWiki.Utilities\CoreWiki.Utilities.csproj", "{95B734D8-2EE9-4BEC-9332-E6D93392810A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Utilities", "src\CoreWiki.Utilities\CoreWiki.Utilities.csproj", "{95B734D8-2EE9-4BEC-9332-E6D93392810A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Services", "CoreWiki.Services\CoreWiki.Services.csproj", "{0C60B229-BFD1-4B4D-AF3C-32A3D6F7F4B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Services", "src\CoreWiki.Services\CoreWiki.Services.csproj", "{0C60B229-BFD1-4B4D-AF3C-32A3D6F7F4B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Utilities.Test", "..\test\CoreWiki.Utilities.Test\CoreWiki.Utilities.Test.csproj", "{9BE83C9B-897A-435D-8090-849C4EF82700}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Utilities.Test", "test\CoreWiki.Utilities.Test\CoreWiki.Utilities.Test.csproj", "{9BE83C9B-897A-435D-8090-849C4EF82700}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D09B9EA5-D77C-4C8D-9621-32B5F0EAEFA0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{D224AB49-F9E2-432F-9D9A-6FDF551625D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Models.Test", "..\test\CoreWiki.Models.Test\CoreWiki.Models.Test.csproj", "{56D71FAA-7A57-4A9C-B9EC-9659FE2C5562}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Models.Test", "test\CoreWiki.Models.Test\CoreWiki.Models.Test.csproj", "{56D71FAA-7A57-4A9C-B9EC-9659FE2C5562}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Repository", "CoreWiki.Repository\CoreWiki.Repository.csproj", "{C9B3683F-1AD4-4D80-89C9-3C4D57575098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Repository", "src\CoreWiki.Repository\CoreWiki.Repository.csproj", "{C9B3683F-1AD4-4D80-89C9-3C4D57575098}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Web.Test", "..\test\CoreWiki.Web.Test\CoreWiki.Web.Test.csproj", "{2A2AA286-0B1D-4428-9F58-52D2EFD61104}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Web.Test", "test\CoreWiki.Web.Test\CoreWiki.Web.Test.csproj", "{2A2AA286-0B1D-4428-9F58-52D2EFD61104}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Application", "CoreWiki.Application\CoreWiki.Application.csproj", "{FCFEE61C-2CC0-46C9-8612-17F4EE8135DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Application", "src\CoreWiki.Application\CoreWiki.Application.csproj", "{FCFEE61C-2CC0-46C9-8612-17F4EE8135DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2282B75C-2603-49AE-BA9D-8A4EE447F2E9}"
 	ProjectSection(SolutionItems) = preProject
-		..\.editorconfig = ..\.editorconfig
-		..\.gitattributes = ..\.gitattributes
-		..\.gitignore = ..\.gitignore
-		..\CODE_OF_CONDUCT.md = ..\CODE_OF_CONDUCT.md
-		..\database-update.cmd = ..\database-update.cmd
-		..\global.json = ..\global.json
-		..\LICENSE = ..\LICENSE
-		..\NuGet.Config = ..\NuGet.Config
-		..\README.md = ..\README.md
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		database-update.cmd = database-update.cmd
+		global.json = global.json
+		LICENSE = LICENSE
+		NuGet.Config = NuGet.Config
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build Items", "Build Items", "{7178E8E6-5424-446A-938D-41C720411A6B}"
 	ProjectSection(SolutionItems) = preProject
-		..\.travis.yml = ..\.travis.yml
-		..\azure-pipelines.yml = ..\azure-pipelines.yml
-		..\Dockerfile = ..\Dockerfile
+		.travis.yml = .travis.yml
+		azure-pipelines.yml = azure-pipelines.yml
+		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWiki.Application.Test", "..\test\CoreWiki.Application.Test\CoreWiki.Application.Test.csproj", "{85F5DF29-83E1-4A65-9ED1-B46D2391A942}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Application.Test", "test\CoreWiki.Application.Test\CoreWiki.Application.Test.csproj", "{85F5DF29-83E1-4A65-9ED1-B46D2391A942}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWiki.FirstStart", "CoreWiki.FirstStart\CoreWiki.FirstStart.csproj", "{1B33F165-2949-4918-9191-78A32D17DA08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.FirstStart", "src\CoreWiki.FirstStart\CoreWiki.FirstStart.csproj", "{1B33F165-2949-4918-9191-78A32D17DA08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

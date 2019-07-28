@@ -1,0 +1,143 @@
+﻿@using System.IO
+
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor Context
+@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment env
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="alternate" type="application/rss+xml" href="http://localhost:55314/feed" />
+    <title>@ViewData["Title"] - Core Wiki</title>
+
+    @{
+        var themeFileName = string.Empty;
+
+        if (Context.HttpContext.Request.Cookies.TryGetValue("CoreWiki.Theme", out var themeName))
+        {
+            var path = string.Empty;
+
+            switch (themeName)
+            {
+                case "light":
+                    path = System.IO.Path.Combine(env.WebRootPath, "lib\\bootstrap\\css", "bootstrap.min.css");
+
+                    if (File.Exists(path))
+                    {
+                        themeFileName = "\\lib\\bootstrap\\css\\bootstrap.min.css";
+                    }
+                    break;
+                case "dark":
+                    path = System.IO.Path.Combine(env.WebRootPath, "lib\\bootswatch\\cyborg", "bootstrap.min.css");
+
+                    if (File.Exists(path))
+                    {
+                        themeFileName = "\\lib\\bootswatch\\cyborg\\bootstrap.min.css";
+                    }
+                    break;
+            }
+        }
+    }
+
+    <environment include="Development">
+        <link rel="stylesheet" href="@themeFileName" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only"
+              asp-fallback-test-property="position"
+              asp-fallback-test-value="absolute" />
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+              asp-fallback-href="~/lib/font-awesome/css/font-awesome.min.css"
+              asp-fallback-test-class="sr-only"
+              asp-fallback-test-property="position"
+              asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+        <a asp-area="" asp-page="/Index" class="navbar-brand">Core Wiki</a>
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarCollapse"
+                aria-controls="navbarCollapse"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a asp-area="Admin" asp-page="/Index" class="nav-link">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-page="/Users" class="nav-link">Users <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-page="/Roles" class="nav-link">Roles <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <partial name="_LoginPartial" />
+        </div>
+    </nav>
+
+    <partial name="_CookieConsentPartial" />
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <div class="row justify-content-between">
+                <div class="col-sm-12 col-md-auto">
+                    <partial name="_ThemePartial" />
+                </div>
+            </div>
+            <p>&copy; @DateTime.Now.Year - Core Wiki</p>
+        </footer>
+    </div>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/jquery.min.js"></script>
+        <script src="~/lib/popper/umd/popper.min.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="~/lib/moment/moment.min.js"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"
+                asp-fallback-src="~/lib/popper/umd/popper.min.js"
+                asp-fallback-test="Popper"
+                crossorigin="anonymous"
+                integrity="sha256-fTuUgtT7O2rqoImwjrhDgbXTKUwyxxujIMRIK7TbuNU="></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"
+                asp-fallback-src="~/lib/moment/moment.min.js"
+                integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ="
+                crossorigin="anonymous">
+        </script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
