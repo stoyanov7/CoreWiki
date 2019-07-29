@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Data", "CoreWiki.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Utilities", "CoreWiki.Utilities\CoreWiki.Utilities.csproj", "{95B734D8-2EE9-4BEC-9332-E6D93392810A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Services", "CoreWiki.Services\CoreWiki.Services.csproj", "{0C60B229-BFD1-4B4D-AF3C-32A3D6F7F4B7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Utilities.Test", "..\test\CoreWiki.Utilities.Test\CoreWiki.Utilities.Test.csproj", "{9BE83C9B-897A-435D-8090-849C4EF82700}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D09B9EA5-D77C-4C8D-9621-32B5F0EAEFA0}"
@@ -21,7 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{D224AB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Models.Test", "..\test\CoreWiki.Models.Test\CoreWiki.Models.Test.csproj", "{56D71FAA-7A57-4A9C-B9EC-9659FE2C5562}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Repository", "CoreWiki.Repository\CoreWiki.Repository.csproj", "{C9B3683F-1AD4-4D80-89C9-3C4D57575098}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWiki.Web.Test", "..\test\CoreWiki.Web.Test\CoreWiki.Web.Test.csproj", "{2A2AA286-0B1D-4428-9F58-52D2EFD61104}"
 EndProject
