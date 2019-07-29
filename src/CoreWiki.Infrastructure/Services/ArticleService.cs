@@ -1,17 +1,17 @@
-﻿namespace CoreWiki.Services
+﻿namespace CoreWiki.Infrastructure.Services
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
-    using Contracts;
+    using Domain.Repository;
+    using Domain.Services;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Models.Identity;
     using NodaTime;
-    using Repository.Contracts;
     using Utilities;
 
     public class ArticleService : IArticleService

@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CoreWiki.Models\CoreWiki.Models.csproj" />
-    <ProjectReference Include="..\CoreWiki.Utilities\CoreWiki.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

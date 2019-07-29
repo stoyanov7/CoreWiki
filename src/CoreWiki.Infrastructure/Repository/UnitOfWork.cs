@@ -1,7 +1,7 @@
-﻿namespace CoreWiki.Repository
+﻿namespace CoreWiki.Infrastructure.Repository
 {
     using System;
-    using Contracts;
+    using Domain.Repository;
     using Microsoft.EntityFrameworkCore;
 
     public class UnitOfWork : IUnitOfWork

@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Repository
+﻿namespace CoreWiki.Infrastructure.Repository
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
     using System.Linq.Expressions;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using Contracts;
+    using Domain.Repository;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using Models;

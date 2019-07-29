@@ -1,9 +1,9 @@
 ﻿namespace CoreWiki.Application.Dto
 {
     using System.Collections.Generic;
+    using Domain.Mapping;
     using Models;
     using NodaTime;
-    using Utilities.Infrastructure.Contracts;
 
     public class LatestArticleDto : IMapFrom<Article>
     {

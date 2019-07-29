@@ -3,9 +3,8 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.Repository;
     using MediatR;
-    using Repository.Contracts;
-    using Utilities;
 
     public class EditArticleCommandHandler : IRequestHandler<EditArticleCommand, CommandResult>
     {

@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Repository
+﻿namespace CoreWiki.Infrastructure.Repository
 {
     public class ArticleHistoryRepository
     {

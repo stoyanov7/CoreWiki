@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Repository.Contracts
+﻿namespace CoreWiki.Domain.Repository
 {
     using System;
     using Microsoft.EntityFrameworkCore;

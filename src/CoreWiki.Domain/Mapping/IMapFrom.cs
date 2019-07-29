@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Utilities.Infrastructure.Contracts
+﻿namespace CoreWiki.Domain.Mapping
 {
     public interface IMapFrom<TModel>
     {

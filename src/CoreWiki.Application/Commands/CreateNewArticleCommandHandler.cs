@@ -3,10 +3,10 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.Services;
     using Exceptions;
     using MediatR;
     using Microsoft.Extensions.Logging;
-    using Services.Contracts;
 
     public class CreateNewArticleCommandHandler : IRequestHandler<CreateNewArticleCommand, CommandResult>
     {

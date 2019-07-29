@@ -1,9 +1,9 @@
-﻿namespace CoreWiki.Utilities.Infrastructure
+﻿namespace CoreWiki.Infrastructure.Mapping
 {
     using System;
     using System.Linq;
     using AutoMapper;
-    using Contracts;
+    using Domain.Mapping;
 
     public class MappingProfile : Profile
     {

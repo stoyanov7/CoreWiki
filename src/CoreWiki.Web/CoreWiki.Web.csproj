@@ -24,10 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoreWiki.Application\CoreWiki.Application.csproj" />
-    <ProjectReference Include="..\CoreWiki.Data\CoreWiki.Data.csproj" />
-    <ProjectReference Include="..\CoreWiki.Repository\CoreWiki.Repository.csproj" />
-    <ProjectReference Include="..\CoreWiki.Services\CoreWiki.Services.csproj" />
-    <ProjectReference Include="..\CoreWiki.Utilities\CoreWiki.Utilities.csproj" />
+    <ProjectReference Include="..\CoreWiki.Infrastructure\CoreWiki.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

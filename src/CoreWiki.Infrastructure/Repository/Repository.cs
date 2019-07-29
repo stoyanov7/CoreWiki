@@ -1,7 +1,7 @@
-﻿namespace CoreWiki.Repository
+﻿namespace CoreWiki.Infrastructure.Repository
 {
     using System.Threading.Tasks;
-    using Contracts;
+    using Domain.Repository;
 
     public class Repository<T> : IRepository<T>
         where T : class

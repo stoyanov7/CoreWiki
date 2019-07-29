@@ -1,10 +1,10 @@
-﻿namespace CoreWiki.Services
+﻿namespace CoreWiki.Infrastructure.Services
 {
     using System.Threading.Tasks;
-    using Contracts;
+    using Domain.Repository;
+    using Domain.Services;
     using Models;
     using NodaTime;
-    using Repository.Contracts;
 
     public class CommentService : ICommentService
     {

@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Services.Contracts
+﻿namespace CoreWiki.Domain.Services
 {
     using System.Threading.Tasks;
     using Models;

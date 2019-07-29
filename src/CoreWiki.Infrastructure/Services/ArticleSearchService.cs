@@ -1,8 +1,8 @@
-﻿namespace CoreWiki.Services
+﻿namespace CoreWiki.Infrastructure.Services
 {
-    using Contracts;
-    using Repository.Contracts;
-    using Utilities;
+    using Domain.Repository;
+    using Domain.Services;
+    using Repository;
 
     public class ArticleSearchService : IArticleSearchService
     {
@@ -13,7 +13,7 @@
             this.articleRepository = articleRepository;
         }
 
-        public SearchResult Search(string query)
+        public ISearchResult Search(string query)
         {
             var trimmedQuery = query.Trim();
 

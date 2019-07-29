@@ -5,6 +5,7 @@ namespace CoreWiki.Web.Test
     using System.Threading.Tasks;
     using Application;
     using Application.Commands;
+    using Domain.Services;
     using Dto;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,6 @@ namespace CoreWiki.Web.Test
     using Microsoft.Extensions.Logging.Internal;
     using Moq;
     using Pages.Article;
-    using Services.Contracts;
     using Xunit;
 
     public class CreatePageTest

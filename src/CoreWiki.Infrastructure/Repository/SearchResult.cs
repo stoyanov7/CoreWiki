@@ -1,10 +1,11 @@
-﻿namespace CoreWiki.Utilities
+﻿namespace CoreWiki.Infrastructure.Repository
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Domain.Repository;
     using Models;
 
-    public class SearchResult
+    public class SearchResult : ISearchResult
     {
         public string Query { get; set; }
 
