@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
     using Application.Queries;
+    using Common;
     using DiffPlex;
     using DiffPlex.DiffBuilder;
     using DiffPlex.DiffBuilder.Model;
@@ -9,7 +10,6 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Models;
-    using Utilities;
 
     public class HistoryModel : PageModel
     {

@@ -1,15 +1,17 @@
 ﻿namespace CoreWiki.Web.Configurations
 {
     using Data;
+    using Domain.Logger;
+    using Domain.Repository;
+    using Domain.Services;
+    using Infrastructure.Logger;
+    using Infrastructure.Repository;
+    using Infrastructure.Services;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using NodaTime;
-    using Repository;
-    using Repository.Contracts;
-    using Services;
-    using Services.Contracts;
 
     public static partial class ConfigurationExtensions
     {
@@ -28,6 +30,7 @@
 
             services.AddSingleton<IClock>(SystemClock.Instance);
             services.AddSingleton<IEmailSender, EmailNotifier>();
+            services.AddScoped(typeof(IMyLogger<>), typeof(MyLogger<>));
 
             return services;
         }

@@ -1,8 +1,8 @@
 ﻿namespace CoreWiki.Application.Dto
 {
+    using Domain.Mapping;
     using Models;
     using NodaTime;
-    using Utilities.Infrastructure.Contracts;
 
     public class AllArticlesDto : IMapFrom<Article>
     {

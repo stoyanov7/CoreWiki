@@ -3,9 +3,9 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.Services;
     using Exceptions;
     using MediatR;
-    using Services.Contracts;
 
     public class DeleteArticleCommandHandler : IRequestHandler<DeleteArticleCommand, CommandResult>
     {

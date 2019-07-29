@@ -5,6 +5,5 @@ mono: none
 dotnet: 2.1.505
 solution: CoreWiki.sln
 script:
-  - cd src
   - dotnet restore
   - dotnet build

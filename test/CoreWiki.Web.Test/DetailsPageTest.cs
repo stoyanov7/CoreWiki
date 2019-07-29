@@ -4,12 +4,12 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Application.Queries;
+    using Common;
     using Data;
     using MediatR;
     using Models;
     using Moq;
     using Pages.Article;
-    using Utilities;
     using Xunit;
 
     public class DetailsPageTest

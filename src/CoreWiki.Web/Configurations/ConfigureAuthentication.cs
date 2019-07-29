@@ -1,8 +1,8 @@
 ﻿namespace CoreWiki.Web.Configurations
 {
+    using Common;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Utilities;
 
     public static partial class ConfigurationExtensions
     {

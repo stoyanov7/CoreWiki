@@ -4,14 +4,14 @@
     using System.Threading.Tasks;
     using Application.Commands;
     using Application.Queries;
+    using Common;
+    using Domain.Services;
     using MediatR;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Http.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Models;
-    using Services.Contracts;
-    using Utilities;
 
     public class DetailsModel : PageModel
     {

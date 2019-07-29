@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CoreWiki.Services\CoreWiki.Services.csproj" />
     <ProjectReference Include="..\..\src\CoreWiki.Web\CoreWiki.Web.csproj" />
   </ItemGroup>
 
