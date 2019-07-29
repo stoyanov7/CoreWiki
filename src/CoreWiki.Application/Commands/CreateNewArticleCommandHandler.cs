@@ -3,19 +3,19 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.Logger;
     using Domain.Services;
     using Exceptions;
     using MediatR;
-    using Microsoft.Extensions.Logging;
 
     public class CreateNewArticleCommandHandler : IRequestHandler<CreateNewArticleCommand, CommandResult>
     {
         private readonly IArticleService articleService;
-        private readonly ILogger<CreateNewArticleCommand> logger;
+        private readonly IMyLogger<CreateNewArticleCommand> logger;
 
         public CreateNewArticleCommandHandler(
             IArticleService articleService,
-            ILogger<CreateNewArticleCommand> logger)
+            IMyLogger<CreateNewArticleCommand> logger)
         {
             this.articleService = articleService;
             this.logger = logger;
@@ -34,7 +34,7 @@
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex.Message);
+                this.logger.Error(ex.Message);
 
                 return CommandResult.Error(new CreateNewArticleException("There was an error creating the article", ex));
             }

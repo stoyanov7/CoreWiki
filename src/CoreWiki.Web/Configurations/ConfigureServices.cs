@@ -1,8 +1,10 @@
 ﻿namespace CoreWiki.Web.Configurations
 {
     using Data;
+    using Domain.Logger;
     using Domain.Repository;
     using Domain.Services;
+    using Infrastructure.Logger;
     using Infrastructure.Repository;
     using Infrastructure.Services;
     using Microsoft.AspNetCore.Http;
@@ -28,6 +30,7 @@
 
             services.AddSingleton<IClock>(SystemClock.Instance);
             services.AddSingleton<IEmailSender, EmailNotifier>();
+            services.AddScoped(typeof(IMyLogger<>), typeof(MyLogger<>));
 
             return services;
         }
