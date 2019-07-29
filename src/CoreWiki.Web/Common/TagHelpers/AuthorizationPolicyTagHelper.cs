@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Utilities.TagHelpers
+﻿namespace CoreWiki.Web.Common.TagHelpers
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;

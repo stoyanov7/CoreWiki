@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Utilities.TagHelpers
+﻿namespace CoreWiki.Web.Common.TagHelpers
 {
     using Microsoft.AspNetCore.Http.Extensions;
     using Microsoft.AspNetCore.Razor.TagHelpers;

@@ -1,10 +1,10 @@
-﻿namespace CoreWiki.Utilities.RssFeed
+﻿namespace CoreWiki.Infrastructure.RssFeed
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Data;
+    using Domain.Repository;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Snickler.RSSCore.Models;
@@ -12,9 +12,9 @@
 
     public class RssProvider : IRSSProvider
     {
-        private readonly CoreWikiContext context;
+        private readonly IArticleRepository context;
 
-        public RssProvider(CoreWikiContext context, IConfiguration configuration)
+        public RssProvider(IArticleRepository context, IConfiguration configuration)
         {
             this.context = context;
             this.Configuration = configuration;
@@ -25,7 +25,7 @@
         public async Task<IList<RSSItem>> RetrieveSyndicationItems()
         {
             var articles = await this.context
-                .Articles
+                .Details()
                 .OrderByDescending(a => a.Published)
                 .Take(10)
                 .ToListAsync();

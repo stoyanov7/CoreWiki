@@ -1,4 +1,4 @@
-﻿namespace CoreWiki.Utilities
+﻿namespace CoreWiki.Web.Common
 {
     using Microsoft.AspNetCore.Mvc;
 

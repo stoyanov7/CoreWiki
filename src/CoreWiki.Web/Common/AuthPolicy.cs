@@ -1,7 +1,7 @@
-﻿namespace CoreWiki.Utilities
+﻿namespace CoreWiki.Web.Common
 {
-    using Constants;
     using Microsoft.AspNetCore.Authorization;
+    using Utilities.Constants;
 
     public class AuthPolicy
     {
