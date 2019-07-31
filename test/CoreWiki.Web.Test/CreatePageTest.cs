@@ -5,6 +5,7 @@ namespace CoreWiki.Web.Test
     using System.Threading.Tasks;
     using Application;
     using Application.Commands;
+    using Domain.Services;
     using Dto;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,6 @@ namespace CoreWiki.Web.Test
     using Microsoft.Extensions.Logging.Internal;
     using Moq;
     using Pages.Article;
-    using Services.Contracts;
     using Xunit;
 
     public class CreatePageTest
@@ -52,14 +52,14 @@ namespace CoreWiki.Web.Test
             var topic = "test topic";
             var content = "test content";
             var authorId = Guid.NewGuid().ToString();
-            
+
             this.mockArticleService
                 .Setup(x => x.IsArticleExist(topic));
 
             this.mockMediator
                 .Setup(m => m.Send(It.IsAny<CreateNewArticleCommand>(), It.IsAny<CancellationToken>()))
                 .Returns(() => Task.FromResult(default(CommandResult)));
-            
+
             var createModel = new CreateModel(this.mockMediator.Object, this.mockLogger.Object)
             {
                 Article = new CreateArticleDto
@@ -73,10 +73,10 @@ namespace CoreWiki.Web.Test
             var result = await createModel.OnPostAsync();
 
             Assert.IsType<RedirectResult>(result);
-            Assert.Equal("./Index", ((RedirectResult)result).Url);
+            Assert.Equal("./Index", ((RedirectResult) result).Url);
 
-            this.mockLogger.Verify(x => x.Log(LogLevel.Information, 0, It.IsAny<FormattedLogValues>(), It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()));
+            this.mockLogger.Verify(x => x.Log(LogLevel.Information, 0, It.IsAny<FormattedLogValues>(),
+                It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()));
         }
-
     }
 }

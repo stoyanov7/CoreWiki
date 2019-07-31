@@ -1,10 +1,10 @@
 ﻿namespace CoreWiki.Web.Pages
 {
     using System.Linq;
+    using Domain.Repository;
+    using Domain.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Services.Contracts;
-    using Utilities;
 
     public class SearchModel : PageModel
     {
@@ -15,7 +15,7 @@
             this.articleSearchService = articleSearchService;
         }
 
-        public SearchResult SearchResult { get; private set; }
+        public ISearchResult SearchResult { get; private set; }
 
         public IActionResult OnGet()
         {

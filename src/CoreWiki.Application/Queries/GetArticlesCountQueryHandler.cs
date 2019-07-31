@@ -2,8 +2,8 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.Services;
     using MediatR;
-    using Services.Contracts;
 
     public class GetArticlesCountQueryHandler : IRequestHandler<GetArticlesCountQuery, int>
     {

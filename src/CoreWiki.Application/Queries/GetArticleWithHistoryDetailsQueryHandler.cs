@@ -2,9 +2,9 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.Services;
     using MediatR;
     using Models;
-    using Services.Contracts;
 
     public class GetArticleWithHistoryDetailsQueryHandler : IRequestHandler<GetArticleWithHistoryDetailsQuery, Article>
     {

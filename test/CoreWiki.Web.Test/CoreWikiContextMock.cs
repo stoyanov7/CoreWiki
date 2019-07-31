@@ -4,7 +4,7 @@
     using Data;
     using Microsoft.EntityFrameworkCore;
 
-    public static class CoreWikiContextMock
+    public class CoreWikiContextMock
     {
         public static CoreWikiContext GetContext()
         {

@@ -4,12 +4,12 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Application.Queries;
+    using Common;
     using Data;
     using MediatR;
     using Models;
     using Moq;
     using Pages.Article;
-    using Utilities;
     using Xunit;
 
     public class DetailsPageTest
@@ -28,7 +28,7 @@
         public async Task OnGet_WithNullSlug_ShouldReturnArticleNotFoundResult()
         {
             this.model = new DetailsModel(null, null);
-            
+
             Assert.IsType<ArticleNotFoundResult>(await this.model.OnGetAsync(null));
         }
 
@@ -73,7 +73,7 @@
                 .Returns(Task.FromResult(default(Article)));
 
             var detaisModel = new DetailsModel(this.mockMediator.Object, null);
-            
+
             Assert.Null(detaisModel.Article);
             Assert.IsType<ArticleNotFoundResult>(await detaisModel.OnGetAsync("test-slug"));
         }

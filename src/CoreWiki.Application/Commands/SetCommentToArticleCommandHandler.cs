@@ -3,18 +3,18 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.Logger;
+    using Domain.Services;
     using MediatR;
-    using Microsoft.Extensions.Logging;
-    using Services.Contracts;
 
     public class SetCommentToArticleCommandHandler : IRequestHandler<SetCommentToArticleCommand, CommandResult>
     {
         private readonly ICommentService commentService;
-        private readonly ILogger<SetCommentToArticleCommandHandler> logger;
+        private readonly IMyLogger<SetCommentToArticleCommandHandler> logger;
 
         public SetCommentToArticleCommandHandler(
             ICommentService commentService,
-            ILogger<SetCommentToArticleCommandHandler> logger)
+            IMyLogger<SetCommentToArticleCommandHandler> logger)
         {
             this.commentService = commentService;
             this.logger = logger;
@@ -32,7 +32,7 @@
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex.Message);
+                this.logger.Error(ex.Message);
                 throw;
             }
         }

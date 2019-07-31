@@ -3,9 +3,9 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.Services;
     using Dto;
     using MediatR;
-    using Services.Contracts;
 
     public class GetLatestArticlesQueryHandler : IRequestHandler<GetLatestArticlesQuery, IEnumerable<LatestArticleDto>>
     {

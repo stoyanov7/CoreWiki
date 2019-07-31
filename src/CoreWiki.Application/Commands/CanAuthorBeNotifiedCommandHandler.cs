@@ -3,8 +3,8 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.Services;
     using MediatR;
-    using Services.Contracts;
 
     public class CanAuthorBeNotifiedCommandHandler : IRequestHandler<CanAuthorBeNotifiedCommand, CommandResult>
     {

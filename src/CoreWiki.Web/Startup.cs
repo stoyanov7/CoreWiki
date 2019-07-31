@@ -2,7 +2,9 @@ namespace CoreWiki.Web
 {
     using System;
     using AutoMapper;
+    using Common;
     using Configurations;
+    using Infrastructure.RssFeed;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
@@ -11,8 +13,6 @@ namespace CoreWiki.Web
     using Microsoft.Net.Http.Headers;
     using Snickler.RSSCore.Extensions;
     using Snickler.RSSCore.Models;
-    using Utilities;
-    using Utilities.RssFeed;
     using Westwind.AspNetCore.Markdown;
 
     public class Startup

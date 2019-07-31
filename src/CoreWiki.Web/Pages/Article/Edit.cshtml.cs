@@ -3,11 +3,11 @@
     using System.Threading.Tasks;
     using Application.Commands;
     using Application.Queries;
+    using Common;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Models;
-    using Utilities;
 
     public class EditModel : PageModel
     {

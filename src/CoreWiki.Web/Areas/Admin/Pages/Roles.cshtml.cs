@@ -2,9 +2,9 @@ namespace CoreWiki.Web.Areas.Admin.Pages
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Domain.Services;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Services.Contracts;
 
     public class RolesModel : BaseModel
     {

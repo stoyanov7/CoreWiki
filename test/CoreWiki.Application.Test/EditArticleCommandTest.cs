@@ -4,9 +4,9 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Commands;
+    using Domain.Repository;
     using Models;
     using Moq;
-    using Repository.Contracts;
     using Xunit;
 
     public class EditArticleCommandTest

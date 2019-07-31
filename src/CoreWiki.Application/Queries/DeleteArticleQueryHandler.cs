@@ -3,10 +3,10 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.Mapping;
+    using Domain.Services;
     using MediatR;
     using Models;
-    using Services.Contracts;
-    using Utilities.Infrastructure.Contracts;
 
     public class DeleteArticleQueryHandler
         : IRequestHandler<DeleteArticleQuery, DeleteArticleDto>

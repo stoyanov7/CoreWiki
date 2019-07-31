@@ -2,8 +2,8 @@
 {
     using System.Threading;
     using System.Threading.Tasks;
+    using Domain.Repository;
     using MediatR;
-    using Repository.Contracts;
 
     public class IncrementArticleViewCountCommandHandler : IRequestHandler<IncrementArticleViewCountCommand>
     {

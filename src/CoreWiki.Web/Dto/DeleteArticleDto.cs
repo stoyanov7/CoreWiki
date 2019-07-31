@@ -1,8 +1,8 @@
 ﻿namespace CoreWiki.Web.Dto
 {
     using System;
+    using Domain.Mapping;
     using Models;
-    using Utilities.Infrastructure.Contracts;
 
     public class DeleteArticleDto : IMapFrom<Article>
     {

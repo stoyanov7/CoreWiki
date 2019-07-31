@@ -4,8 +4,8 @@ namespace CoreWiki.Application.Test
     using System.Threading;
     using System.Threading.Tasks;
     using Commands;
+    using Domain.Services;
     using Moq;
-    using Services.Contracts;
     using Xunit;
 
     public class CreateNewArticleCommandTest

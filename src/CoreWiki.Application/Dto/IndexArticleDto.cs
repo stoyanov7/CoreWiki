@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Domain.Mapping;
     using Models;
     using NodaTime;
-    using Utilities.Infrastructure.Contracts;
 
     public class IndexArticleDto : IMapFrom<Article>
     {

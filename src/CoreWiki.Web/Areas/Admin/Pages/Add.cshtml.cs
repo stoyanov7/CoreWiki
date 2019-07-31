@@ -3,8 +3,8 @@ namespace CoreWiki.Web.Areas.Admin.Pages
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
+    using Domain.Services;
     using Microsoft.AspNetCore.Mvc;
-    using Services.Contracts;
 
     public class AddModel : BaseModel
     {
