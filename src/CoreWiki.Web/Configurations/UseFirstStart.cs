@@ -27,7 +27,7 @@
 
         private static bool IsFirstStartIncomplete(HttpContext context)
         {
-            return true;
+            return false;
         }
     }
 }
