@@ -79,6 +79,8 @@ namespace CoreWiki.Web
             });
             app.UseCookiePolicy();
 
+            app.UseFirstStart();
+
             app.UseMarkdown();
 
             app.UseRSSFeed("/feed", new RSSFeedOptions
