@@ -11,9 +11,15 @@
         public CoreWikiContext CreateDbContext(string[] args)
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var appsettingsPath = Path.Combine(Directory.GetCurrentDirectory(), "../CoreWiki.Web");
+
+            if (!File.Exists(appsettingsPath))
+            {
+                throw new DirectoryNotFoundException("The appsettings.json file was not found.");
+            }
 
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../CoreWiki.Web"))
+                .SetBasePath(appsettingsPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{environment}.json", optional: true)
                 .AddEnvironmentVariables()
