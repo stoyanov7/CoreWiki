@@ -7,6 +7,7 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Domain.Repository;
+    using Exceptions;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using Models;
