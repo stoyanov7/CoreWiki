@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="2.1.1" />
     <PackageReference Include="Sendgrid" Version="9.11.0" />
+    <PackageReference Include="Snickler.RSSCore" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
