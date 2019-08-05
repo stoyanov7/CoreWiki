@@ -1,6 +1,8 @@
 ﻿@page
 @model CoreWiki.Web.Areas.FirstStart.Pages.IndexModel
+
 @{
+    ViewData["Title"] = "First start";
 }
 
 <div>
@@ -13,22 +15,26 @@
         <div class="card-body">
             <form>
                 <div class="form-group">
-                    <label for="inputWikiName">Name your Wiki</label>
-                    <input type="text" class="form-control" id="WikiName" aria-describedby="help" placeholder="Choose a name for your wiki">
-                    <small id="nameHelp" class="form-text text-muted">Something more creative than myWiki or CoreWiki</small>
+                    <label asp-for="FirstStartConfiguration.AdminUsername"></label>
+                    <input asp-for="FirstStartConfiguration.AdminUsername"
+                           class="form-control"
+                           placeholder="Enter admin username">
+                    <span asp-validation-for="FirstStartConfiguration.AdminUsername" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="inputAdminUsername">Administrator Username</label>
-                    <input type="text" class="form-control" id="AdminUsername" aria-describedby="help" placeholder="Enter admin username">
-                    <small id="usernameHelp" class="form-text text-muted">Let's make it unique. </small>
+                    <label asp-for="FirstStartConfiguration.AdminEmail"></label>
+                    <input asp-for="FirstStartConfiguration.AdminEmail"
+                           class="form-control"
+                           placeholder="Enter admin email address">
+                    <span asp-validation-for="FirstStartConfiguration.AdminEmail" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="inputAdminPassword">Password</label>
-                    <input type="password" class="form-control" id="AdminPassword" placeholder="Password">
-                    <small id="passwordHelp" class="form-text text-muted">Long and random.</small>
+                    <label asp-for="FirstStartConfiguration.AdminPassword"></label>
+                    <input asp-for="FirstStartConfiguration.AdminPassword" class="form-control" placeholder="Password">
+                    <span asp-validation-for="FirstStartConfiguration.AdminPassword" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label for="inputDatabase">Database</label>
+                    <label asp-for="FirstStartConfiguration.Database"></label>
                     <select id="inputDatabase" class="form-control">
                         <option selected>Choose...</option>
                         <option>Postgres</option>
@@ -37,8 +43,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="inputConnectionString">ConnectionString</label>
-                    <input type="text" class="form-control" id="ConnectionString" placeholder="ConnectionString">
+                    <label asp-for="@Model.FirstStartConfiguration.ConnectionString"></label>
+                    <input asp-for="FirstStartConfiguration.ConnectionString"
+                           class="form-control"
+                           placeholder="Connection String">
                     <small id="databaseHelp" class="form-text text-muted">Enter your connection string here.</small>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -46,3 +54,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
