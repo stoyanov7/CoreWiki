@@ -1,7 +1,7 @@
 ﻿namespace CoreWiki.Web.Common
 {
+    using Constants;
     using Microsoft.AspNetCore.Authorization;
-    using Utilities.Constants;
 
     public class AuthPolicy
     {
@@ -10,12 +10,12 @@
             options.AddPolicy(PolicyConstants.CanDeleteArticle, policy =>
             {
                 policy.RequireAuthenticatedUser();
-                policy.RequireRole("Administrator");
+                policy.RequireRole(PolicyConstants.Administrator);
             });
 
-            options.AddPolicy("RequireAdministratorRole", policy =>
+            options.AddPolicy(PolicyConstants.RequireAdministratorRole, policy =>
             {
-                policy.RequireRole("Administrator").RequireAuthenticatedUser();
+                policy.RequireRole(PolicyConstants.Administrator).RequireAuthenticatedUser();
             });
         }
     }

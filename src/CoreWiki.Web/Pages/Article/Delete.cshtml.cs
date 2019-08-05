@@ -3,11 +3,11 @@
     using System.Threading.Tasks;
     using Application.Commands;
     using Application.Queries;
+    using Common.Constants;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
-    using Utilities.Constants;
 
     [Authorize(PolicyConstants.CanDeleteArticle)]
     public class DeleteModel : PageModel
