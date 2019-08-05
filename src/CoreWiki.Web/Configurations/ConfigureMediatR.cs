@@ -7,7 +7,7 @@
 
     public static partial class ConfigureExtensions
     {
-        public static IServiceCollection ConfigureMediatR(this IServiceCollection services)
+        public static IServiceCollection AddMediatorConfiguration(this IServiceCollection services)
         {
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestPreProcessorBehavior<,>));
 

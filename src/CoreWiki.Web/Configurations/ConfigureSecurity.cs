@@ -5,7 +5,7 @@
 
     public static partial class ConfigurationExtensions
     {
-        public static IApplicationBuilder UseNWebSec(this IApplicationBuilder app, IHostingEnvironment env)
+        public static IApplicationBuilder UseSecurityConfiguration(this IApplicationBuilder app, IHostingEnvironment env)
         {
             if (!env.IsDevelopment())
             {
@@ -28,6 +28,7 @@
             app.UseXContentTypeOptions();
 
             app.UseReferrerPolicy(opts => opts.NoReferrer());
+            app.UseHttpsRedirection();
 
             return app;
         }

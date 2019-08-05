@@ -15,7 +15,7 @@
 
     public static partial class ConfigurationExtensions
     {
-        public static IServiceCollection ConfigureServices(this IServiceCollection services)
+        public static IServiceCollection AddServicesConfiguration(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

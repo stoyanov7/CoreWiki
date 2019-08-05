@@ -1,19 +1,11 @@
 namespace CoreWiki.Web
 {
-    using System;
     using AutoMapper;
-    using Common;
     using Configurations;
-    using Infrastructure.RssFeed;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Net.Http.Headers;
-    using Snickler.RSSCore.Extensions;
-    using Snickler.RSSCore.Models;
-    using Westwind.AspNetCore.Markdown;
 
     public class Startup
     {
@@ -26,75 +18,38 @@ namespace CoreWiki.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureDatabase(this.Configuration);
-            services.ConfigureCookiePolicy();
+            services.AddDatabaseConfiguration(this.Configuration);
+            services.AddCookiePolicyConfiguration();
+            services.AddAuthenticationConfiguration(this.Configuration);
+            services.AddResponseCompressionConfiguration();
 
-            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddMarkdownConfiguration();
+            services.AddRssConfiguration();
 
-            services.ConfigureAuthentication(this.Configuration);
-            services.ConfigureResponseCompression();
-
-            services.AddMarkdown();
-            services.AddRSSFeed<RssProvider>();
-
-            services.ConfigureServices();
-
-            services.ConfigureIdentity();
+            services.AddServicesConfiguration();
+            services.AdddentityConfiguration();
 
             services.AddAutoMapper(cfg => cfg.ValidateInlineMaps = false);
 
-            services.ConfigureMediatR();
-
-            services
-                .AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()))
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMediatorConfiguration();
+            services.AddRoutingConfiguration();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.SeedDatabase();
+            app.UseExceptionsConfiguration(env);
+            
+            app.UseSecurityConfiguration(env);
+            app.UseResponseCompressionConfiguration();
+            app.UseStaticFilesConfiguration();
+            app.UseCookiePolicyConfiguration();
 
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-            }
-
-            app.UseHttpsRedirection();
-            app.UseNWebSec(env);
-            app.UseResponseCompression();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                OnPrepareResponse = ctx =>
-                {
-                    const int durationInSeconds = 60 * 60 * 24;
-                    ctx.Context
-                        .Response
-                        .Headers[HeaderNames.CacheControl] = $"public,max-age={durationInSeconds}";
-                }
-            });
-            app.UseCookiePolicy();
-
-            app.UseFirstStart();
-
-            app.UseMarkdown();
-
-            app.UseRSSFeed("/feed", new RSSFeedOptions
-            {
-                Title = "CoreWiki RSS Feed",
-                Copyright = DateTime.UtcNow.Year.ToString(),
-                Description = "RSS Feed for CoreWiki",
-                Url = new Uri(this.Configuration["Url"], UriKind.Absolute)
-            });
-
-            app.UseAuthentication();
-
-            app.UseStatusCodePages();
-            app.UseStatusCodePagesWithReExecute("/{0}");
+            app.UseFirstStartConfiguration();
+            app.UseMarkdownConfiguration();
+            app.UseRssConfiguration(this.Configuration);
+            
+            app.UseAuthenticationConfiguration();
+            app.UseStatusCodePagesConfiguration();
 
             app.UseMvc();
         }

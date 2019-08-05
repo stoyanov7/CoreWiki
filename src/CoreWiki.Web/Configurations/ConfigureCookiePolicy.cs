@@ -6,7 +6,7 @@
 
     public static partial class ConfigurationExtensions
     {
-        public static IServiceCollection ConfigureCookiePolicy(this IServiceCollection service)
+        public static IServiceCollection AddCookiePolicyConfiguration(this IServiceCollection service)
         {
             service.Configure<CookiePolicyOptions>(options =>
             {
@@ -15,6 +15,13 @@
             });
 
             return service;
+        }
+
+        public static IApplicationBuilder UseCookiePolicyConfiguration(this IApplicationBuilder app)
+        {
+            app.UseCookiePolicy();
+
+            return app;
         }
     }
 }

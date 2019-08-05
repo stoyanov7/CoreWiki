@@ -7,7 +7,7 @@
 
     public static partial class ConfigurationExtensions
     {
-        public static IServiceCollection ConfigureIdentity(this IServiceCollection service)
+        public static IServiceCollection AdddentityConfiguration(this IServiceCollection service)
         {
             service.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {

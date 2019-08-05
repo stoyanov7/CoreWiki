@@ -7,7 +7,7 @@
 
     public static partial class ConfigurationExtensions
     {
-        public static IServiceCollection ConfigureResponseCompression(this IServiceCollection service)
+        public static IServiceCollection AddResponseCompressionConfiguration(this IServiceCollection service)
         {
             service.Configure<GzipCompressionProviderOptions>(options =>
             {
@@ -21,6 +21,13 @@
             });
 
             return service;
+        }
+
+        public static IApplicationBuilder UseResponseCompressionConfiguration(this IApplicationBuilder app)
+        {
+            app.UseResponseCompression();
+
+            return app;
         }
     }
 }

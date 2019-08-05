@@ -1,12 +1,13 @@
 ﻿namespace CoreWiki.Web.Configurations
 {
     using Common;
+    using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     public static partial class ConfigurationExtensions
     {
-        public static IServiceCollection ConfigureAuthentication(this IServiceCollection service, IConfiguration configuration)
+        public static IServiceCollection AddAuthenticationConfiguration(this IServiceCollection service, IConfiguration configuration)
         {
             if (!string.IsNullOrEmpty(configuration["Authentication:Microsoft:ClientId"]))
             {
@@ -20,6 +21,13 @@
             service.AddAuthorization(AuthPolicy.Execute);
 
             return service;
+        }
+
+        public static IApplicationBuilder UseAuthenticationConfiguration(this IApplicationBuilder app)
+        {
+            app.UseAuthentication();
+
+            return app;
         }
     }
 }

@@ -6,7 +6,7 @@
 
     public static partial class ConfigurationExtensions
     {
-        public static IApplicationBuilder UseFirstStart(this IApplicationBuilder app)
+        public static IApplicationBuilder UseFirstStartConfiguration(this IApplicationBuilder app)
         {
             app.UseWhen(IsFirstStartIncomplete, thisApp =>
             {

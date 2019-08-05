@@ -7,7 +7,7 @@
 
     public static partial class ConfigurationExtensions
     {
-        public static IServiceCollection ConfigureDatabase(this IServiceCollection service, IConfiguration configuration)
+        public static IServiceCollection AddDatabaseConfiguration(this IServiceCollection service, IConfiguration configuration)
         {
             service.AddDbContextPool<CoreWikiContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
