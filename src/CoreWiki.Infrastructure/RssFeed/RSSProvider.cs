@@ -38,8 +38,8 @@
                     Content = rssItem.Content,  
                     PermaLink = new Uri($"{this.Configuration["UrlDetails"]}{rssItem.Slug}", UriKind.Absolute),
                     LinkUri = new Uri($"{this.Configuration["UrlDetails"]}{rssItem.Slug}", UriKind.Absolute),
-                    PublishDate = rssItem.PublishedOn,
-                    LastUpdated = rssItem.PublishedOn
+                    PublishDate = rssItem.Published.ToDateTimeUtc(),
+                    LastUpdated = rssItem.Published.ToDateTimeUtc()
                 };
                 
                 return wikiItem;
