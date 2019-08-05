@@ -20,5 +20,11 @@
     "inputFiles": [
       "gulpfile.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/diff.min.css",
+    "inputFiles": [
+        "wwwroot/css/diff.css"
+    ]
   }
 ]
