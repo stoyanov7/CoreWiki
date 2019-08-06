@@ -5,7 +5,9 @@
         for (let timeStamp of timeStamps) {
             let currentTimeStamp = timeStamp.getAttribute("data-value");
             let date = new Date(currentTimeStamp);
-            timeStamp.textContent = moment(date).format('"MMM Do YY"');
+
+            moment.locale(window.navigator.userLanguage || window.navigator.language);
+            timeStamp.textContent = moment(date).format('LLL');
         }
     };
 
