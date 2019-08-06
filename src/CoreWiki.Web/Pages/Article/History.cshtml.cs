@@ -1,5 +1,6 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using Application.Queries;
     using Common;
@@ -48,7 +49,11 @@
         {
             this.Article = await this.mediator.Send(new GetArticleHistoryAndAuthorQuery(slug));
 
-            var histories = await this.mediator.Send(new GetArticleHistoryQuery(this.Compare));
+            var histories = this.Article
+                .History
+                .Where(h => this.Compare.Any(c => c == h.Version.ToString()))
+                .OrderBy(h => h.Version)
+                .ToArray();
 
             this.DiffModel = new SideBySideDiffBuilder(new Differ())
                 .BuildDiffModel(histories[0].Content, histories[1].Content);

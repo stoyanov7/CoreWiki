@@ -75,7 +75,7 @@ namespace CoreWiki.Web.Areas.FirstStart.Pages
 			var fileContents = System.IO.File.ReadAllText(settingsFileLocation);
 
 			var jsonFile = JsonConvert.DeserializeObject<JObject>(fileContents);
-            jsonFile["foo"] = "bar";
+            //jsonFile["foo"] = "bar";
 
 			System.IO.File.WriteAllText(settingsFileLocation, JsonConvert.SerializeObject(jsonFile, Formatting.Indented));
 		}

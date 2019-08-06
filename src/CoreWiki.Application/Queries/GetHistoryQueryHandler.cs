@@ -6,7 +6,7 @@
     using MediatR;
     using Models;
 
-    public class GetHistoryQueryHandler : IRequestHandler<GetArticleHistoryQuery, ArticleHistory[]>
+    public class GetHistoryQueryHandler : IRequestHandler<GetArticleHistoryQuery, Article[]>
     {
         private readonly IArticleService articleService;
 
@@ -15,12 +15,12 @@
             this.articleService = articleService;
         }
 
-        public async Task<ArticleHistory[]> Handle(
+        public async Task<Article[]> Handle(
             GetArticleHistoryQuery request,
             CancellationToken cancellationToken)
         {
             return await this.articleService
-                .GetHistory<ArticleHistory>(request.Compare);
+                .GetHistory<Article>(request.Compare);
         }
     }
 }

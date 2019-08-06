@@ -3,7 +3,7 @@
     using MediatR;
     using Models;
 
-    public class GetArticleHistoryQuery : IRequest<ArticleHistory[]>
+    public class GetArticleHistoryQuery : IRequest<Article[]>
     {
         public GetArticleHistoryQuery(string[] compare)
         {
