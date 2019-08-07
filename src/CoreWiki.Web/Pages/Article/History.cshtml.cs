@@ -1,5 +1,6 @@
 ﻿namespace CoreWiki.Web.Pages.Article
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Application.Queries;
@@ -24,7 +25,7 @@
         public Article Article { get; private set; }
 
         [BindProperty]
-        public string[] Compare { get; set; }
+        public IEnumerable<string> Compare { get; set; }
 
         public SideBySideDiffModel DiffModel { get; set; }
 
