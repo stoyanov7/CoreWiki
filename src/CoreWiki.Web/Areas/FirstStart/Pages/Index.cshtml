@@ -43,11 +43,11 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.FirstStartConfiguration.ConnectionString"></label>
+                    <label asp-for="FirstStartConfiguration.ConnectionString"></label>
                     <input asp-for="FirstStartConfiguration.ConnectionString"
                            class="form-control"
                            placeholder="Connection String">
-                    <small id="databaseHelp" class="form-text text-muted">Enter your connection string here.</small>
+                    <small id="databaseHelp" class="form-text text-muted">Enter your connection string here - leave blank for default.</small>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
