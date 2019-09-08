@@ -27,12 +27,7 @@ namespace CoreWiki.Web.Areas.FirstStart.Pages
         [BindProperty]
         public FirstStartConfiguration FirstStartConfiguration { get; set; }
 
-        public IActionResult OnGet()
-        {
-            this.TestWritingFileToDisk();
-
-            return this.Page();
-        }
+        public IActionResult OnGet() => this.Page();
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -56,10 +51,12 @@ namespace CoreWiki.Web.Areas.FirstStart.Pages
                     .AddToRoleAsync(newAdminUser, "Administrator");
             }
 
+            this.WritingConfigFileToDisk(this.FirstStartConfiguration.Database, this.FirstStartConfiguration.ConnectionString);
+
             return this.RedirectToPage("./Index", new { Area = "" });
         }
 
-        private void TestWritingFileToDisk()
+        private void WritingConfigFileToDisk(string provider, string connectionString)
 		{
 			var settingsFileLocation = Path.Combine(this.hostingEnvironment.ContentRootPath, "appsettings.json");
 
@@ -76,8 +73,10 @@ namespace CoreWiki.Web.Areas.FirstStart.Pages
 
 			var jsonFile = JsonConvert.DeserializeObject<JObject>(fileContents);
             //jsonFile["foo"] = "bar";
+            //jsonFile["DatabaseProvider"] = provider;
+            //jsonFile["ConnectionString"] = connectionString;
 
-			System.IO.File.WriteAllText(settingsFileLocation, JsonConvert.SerializeObject(jsonFile, Formatting.Indented));
+            System.IO.File.WriteAllText(settingsFileLocation, JsonConvert.SerializeObject(jsonFile, Formatting.Indented));
 		}
     }
 }

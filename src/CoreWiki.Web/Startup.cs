@@ -44,7 +44,7 @@ namespace CoreWiki.Web
             app.UseStaticFilesConfiguration();
             app.UseCookiePolicyConfiguration();
 
-            app.UseFirstStartConfiguration();
+            app.UseFirstStartConfiguration(env);
             app.UseMarkdownConfiguration();
             app.UseRssConfiguration(this.Configuration);
             
