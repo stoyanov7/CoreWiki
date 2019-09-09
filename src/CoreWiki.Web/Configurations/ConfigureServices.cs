@@ -18,6 +18,7 @@
         public static IServiceCollection ConfigureServices(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpClient<IHaveIBeenPawnedClient, HaveIBeenPawnedClient>();
 
             services.AddScoped<DbContext, CoreWikiContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
