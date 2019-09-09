@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-
-namespace CoreWiki.Web.Areas.Identity.Pages.Account
+﻿namespace CoreWiki.Web.Areas.Identity.Pages.Account
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
+    using Domain.Services;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Logging;
     using Models.Identity;
 
     [AllowAnonymous]
@@ -21,17 +19,20 @@ namespace CoreWiki.Web.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
+        private readonly IHaveIBeenPawnedClient haveIBeenPawned;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IHaveIBeenPawnedClient haveIBeenPawned)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.emailSender = emailSender;
+            this.haveIBeenPawned = haveIBeenPawned;
         }
 
         [BindProperty]
@@ -72,6 +73,15 @@ namespace CoreWiki.Web.Areas.Identity.Pages.Account
 
             if (this.ModelState.IsValid)
             {
+                var passwordCheck = await this.haveIBeenPawned.GetHitsPlainAsync(this.Input.Password);
+
+                if (passwordCheck > 0)
+                {
+                    this.ModelState.AddModelError(nameof(this.Input.Password), "This password is known to hackers, and can lead to your account being compromised, please try another password.");
+
+                    return this.Page();
+                }
+
                 var user = new ApplicationUser
                     {
                         UserName = this.Input.Email,

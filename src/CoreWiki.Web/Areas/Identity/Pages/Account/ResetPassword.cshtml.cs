@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,16 +7,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CoreWiki.Web.Areas.Identity.Pages.Account
 {
+    using Domain.Services;
     using Models.Identity;
 
     [AllowAnonymous]
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHaveIBeenPawnedClient haveIBeenPawned;
 
-        public ResetPasswordModel(UserManager<ApplicationUser> userManager)
+        public ResetPasswordModel(
+            UserManager<ApplicationUser> userManager,
+            IHaveIBeenPawnedClient haveIBeenPawned)
         {
             _userManager = userManager;
+            this.haveIBeenPawned = haveIBeenPawned;
         }
 
         [BindProperty]
@@ -72,6 +74,14 @@ namespace CoreWiki.Web.Areas.Identity.Pages.Account
             {
                 // Don't reveal that the user does not exist
                 return RedirectToPage("./ResetPasswordConfirmation");
+            }
+
+            var passwordCheck = await this.haveIBeenPawned.GetHitsPlainAsync(this.Input.Password);
+            if (passwordCheck > 0)
+            {
+                this.ModelState.AddModelError(nameof(this.Input.Password), "This password is known to hackers, and can lead to your account being compromised, please try another password.");
+
+                return this.RedirectToPage("./ResetPasswordConfirmation");
             }
 
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
