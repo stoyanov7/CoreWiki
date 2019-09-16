@@ -31,6 +31,8 @@ namespace CoreWiki.Web
 
             services.AddAutoMapper(cfg => cfg.ValidateInlineMaps = false);
 
+            services.AddFirstStartConfiguration(this.Configuration);
+
             services.AddMediatorConfiguration();
             services.AddRoutingConfiguration();
         }
