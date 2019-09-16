@@ -13,7 +13,7 @@
     <p>Thanks for installing CoreWiki, Let's complete the install: </p>
     <div class="card">
         <div class="card-body">
-            <form>
+            <form method="post">
                 <div class="form-group">
                     <label asp-for="FirstStartConfiguration.AdminUsername"></label>
                     <input asp-for="FirstStartConfiguration.AdminUsername"
@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="FirstStartConfiguration.Database"></label>
-                    <select id="inputDatabase" class="form-control">
+                    <select asp-for="FirstStartConfiguration.Database" class="form-control">
                         <option selected>Choose...</option>
                         <option>Postgres</option>
                         <option>SQL Server</option>

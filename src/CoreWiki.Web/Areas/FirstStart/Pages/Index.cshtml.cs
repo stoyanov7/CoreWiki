@@ -72,8 +72,8 @@ namespace CoreWiki.Web.Areas.FirstStart.Pages
 			var fileContents = System.IO.File.ReadAllText(settingsFileLocation);
 
 			var jsonFile = JsonConvert.DeserializeObject<JObject>(fileContents);
-            //jsonFile["foo"] = "bar";
-            //jsonFile["DatabaseProvider"] = provider;
+
+            jsonFile["DatabaseProvider"] = provider;
             //jsonFile["ConnectionString"] = connectionString;
 
             System.IO.File.WriteAllText(settingsFileLocation, JsonConvert.SerializeObject(jsonFile, Formatting.Indented));
