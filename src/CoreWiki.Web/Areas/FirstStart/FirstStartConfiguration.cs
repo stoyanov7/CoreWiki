@@ -23,7 +23,6 @@
         [Required]
         public string Database { get; set; }
 
-        [Required]
         [Display(Name = "Connection String")]
         public string ConnectionString { get; set; }
     }
