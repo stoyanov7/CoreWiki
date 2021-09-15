@@ -36,6 +36,14 @@
                         themeFileName = "\\lib\\bootswatch\\cyborg\\bootstrap.min.css";
                     }
                     break;
+                default:
+                    path = System.IO.Path.Combine(env.WebRootPath, "lib\\bootstrap\\css", "bootstrap.min.css");
+
+                    if (File.Exists(path))
+                    {
+                        themeFileName = "\\lib\\bootstrap\\css\\bootstrap.min.css";
+                    }
+                    break;
             }
         }
     }

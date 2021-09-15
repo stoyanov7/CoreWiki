@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+   data:
+      container_name: sqlserver
+      image: mcr.microsoft.com/mssql/server:2019-latest
+      ports: 
+         - "1433:1433"
+      environment:
+         - ACCEPT_EULA=Y
+         - SA_PASSWORD=yourStrongPassword12!@
+      volumes: 
+         - sqldata:/var/opt/mssql 
+      networks: 
+         - corewiki-network
+   corewiki:
+      container_name: corewiki
+      build:
+         context: ./src
+         dockerfile: ./CoreWiki.Web/Dockerfile
+      ports: 
+         - "5001:80"
+      environment:
+         - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=CoreWikiDatabase;User Id=sa; Password=yourStrongPassword12!@;MultipleActiveResultSets=true
+      restart: on-failure
+      depends_on:
+         - data
+      networks:
+         - corewiki-network
+networks:
+   corewiki-network:
+volumes:
+   sqldata:

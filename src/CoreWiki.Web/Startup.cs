@@ -52,10 +52,10 @@ namespace CoreWiki.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.SeedDatabase();
+
             if (env.IsDevelopment())
             {
-                app.SeedDatabase();
-
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }

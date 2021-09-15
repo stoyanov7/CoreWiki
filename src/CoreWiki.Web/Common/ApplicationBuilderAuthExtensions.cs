@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Models.Identity;
 
@@ -23,6 +24,10 @@
                 .GetRequiredService<IServiceScopeFactory>();
 
             var scope = serviceFactory.CreateScope();
+            var serviceProvider = scope.ServiceProvider;
+            var db = serviceProvider.GetRequiredService<DbContext>();
+
+            db.Database.Migrate();
 
             using (scope)
             {
